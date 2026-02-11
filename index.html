@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haggly — Negotiate in Any Language</title>
+<meta name="description" content="Free marketplace negotiation translator. Bargain on Facebook Marketplace, Craigslist, and more in any language. Instant phrase translation for buyers and sellers.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FF6B35">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --orange: #FF6B35;
+    --orange-dark: #e55a25;
+    --bg: #FAFAFA;
+    --card: #FFFFFF;
+    --text: #1a1a1a;
+    --muted: #666;
+    --border: #e0e0e0;
+    --green: #00C853;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: var(--orange);
+    color: white;
+    text-align: center;
+    padding: 40px 20px 30px;
+  }
+  .header h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+  .header p {
+    font-size: 20px;
+    opacity: 0.9;
+    margin-top: 8px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Main Container */
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Language Selector */
+  .lang-section {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .lang-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .lang-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 80px;
+  }
+  select {
+    flex: 1;
+    padding: 14px 16px;
+    font-size: 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    color: var(--text);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+  }
+  select:focus { border-color: var(--orange); outline: none; }
+
+  .swap-btn {
+    background: var(--orange);
+    color: white;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: transform 0.2s;
+  }
+  .swap-btn:hover { transform: rotate(180deg); }
+
+  /* Role Selector */
+  .role-row {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .role-btn {
+    flex: 1;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: 600;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .role-btn.active {
+    border-color: var(--orange);
+    background: #FFF3EE;
+    color: var(--orange);
+  }
+  .role-btn:hover { border-color: var(--orange); }
+
+  /* Phrases */
+  .category-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 24px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #FFF3EE;
+  }
+
+  .phrase-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 8px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 4px solid transparent;
+  }
+  .phrase-card:hover {
+    border-left-color: var(--orange);
+    transform: translateX(4px);
+  }
+  .phrase-card:active { background: #FFF3EE; }
+
+  .phrase-original {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .phrase-translated {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .phrase-phonetic {
+    font-size: 14px;
+    color: var(--orange);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .copied-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+    z-index: 100;
+  }
+  .copied-toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Custom phrase input */
+  .custom-input {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .custom-input textarea {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    resize: vertical;
+    min-height: 60px;
+    font-family: inherit;
+  }
+  .custom-input textarea:focus { border-color: var(--orange); outline: none; }
+  .translate-btn {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 12px;
+    width: 100%;
+    transition: background 0.2s;
+  }
+  .translate-btn:hover { background: var(--orange-dark); }
+  .custom-result {
+    margin-top: 16px;
+    padding: 16px;
+    background: #FFF3EE;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    display: none;
+    cursor: pointer;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .footer a { color: var(--orange); text-decoration: none; }
+
+  /* Ad placeholder */
+  .ad-space {
+    background: #f0f0f0;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    margin: 20px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🤝 Haggly</h1>
+  <p>Negotiate in any language. Tap a phrase, copy it, close the deal.</p>
+</div>
+
+<div class="container">
+
+  <!-- Language Selection -->
+  <div class="lang-section">
+    <div class="lang-row">
+      <span class="lang-label">I speak</span>
+      <select id="fromLang">
+        <option value="en">🇺🇸 English</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="hi">🇮🇳 हिन्दी</option>
+        <option value="pt">🇧🇷 Português</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="ko">🇰🇷 한국어</option>
+        <option value="vi">🇻🇳 Tiếng Việt</option>
+        <option value="tl">🇵🇭 Tagalog</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="pl">🇵🇱 Polski</option>
+        <option value="uk">🇺🇦 Українська</option>
+        <option value="sw">🇰🇪 Kiswahili</option>
+        <option value="ha">🇳🇬 Hausa</option>
+        <option value="am">🇪🇹 አማርኛ</option>
+      </select>
+    </div>
+
+    <button class="swap-btn" onclick="swapLangs()" title="Swap languages">⇅</button>
+
+    <div class="lang-row" style="margin-top:12px">
+      <span class="lang-label">They speak</span>
+      <select id="toLang">
+        <option value="es">🇪🇸 Español</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="hi">🇮🇳 हिन्दी</option>
+        <option value="pt">🇧🇷 Português</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="ko">🇰🇷 한국어</option>
+        <option value="vi">🇻🇳 Tiếng Việt</option>
+        <option value="tl">🇵🇭 Tagalog</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="pl">🇵🇱 Polski</option>
+        <option value="uk">🇺🇦 Українська</option>
+        <option value="sw">🇰🇪 Kiswahili</option>
+        <option value="ha">🇳🇬 Hausa</option>
+        <option value="am">🇪🇹 አማርኛ</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Role -->
+  <div class="role-row">
+    <button class="role-btn active" data-role="buyer" onclick="setRole('buyer')">🛒 I'm Buying</button>
+    <button class="role-btn" data-role="seller" onclick="setRole('seller')">💰 I'm Selling</button>
+  </div>
+
+  <!-- Ad Space (top) -->
+  <div class="ad-space" id="ad-top">
+    📢 Ad Space — Google AdSense will go here
+  </div>
+
+  <!-- Phrases -->
+  <div id="phrases"></div>
+
+  <!-- Custom Phrase -->
+  <div class="custom-input">
+    <textarea id="customPhrase" placeholder="Type your own phrase to translate..."></textarea>
+    <button class="translate-btn" onclick="translateCustom()">Translate →</button>
+    <div class="custom-result" id="customResult" onclick="copyText(this.textContent)"></div>
+  </div>
+
+  <!-- Ad Space (bottom) -->
+  <div class="ad-space" id="ad-bottom">
+    📢 Ad Space — Google AdSense will go here
+  </div>
+
+  <div class="footer">
+    <p>🤝 <strong>Haggly</strong> — Free marketplace negotiation translator</p>
+    <p>Works offline • No account needed • <a href="https://haggly.io">haggly.io</a></p>
+    <p style="margin-top:10px">© 2026 Haggly. Built with ❤️ for the global marketplace.</p>
+  </div>
+</div>
+
+<div class="copied-toast" id="toast">✅ Copied! Paste it in your chat</div>
+
+<script>
+// Phrase database — all translations
+const PHRASES = {
+  buyer: {
+    "Opening & Greeting": [
+      "Hi, is this still available?",
+      "I'm interested in this item.",
+      "Can you tell me more about the condition?",
+      "How old is this?",
+      "Does it work properly?",
+      "Are there any scratches or damage?"
+    ],
+    "Negotiating Price": [
+      "What's your best price?",
+      "Would you take $__?",
+      "That's a bit high for me. Can you do lower?",
+      "I've seen similar items for less.",
+      "I can pay cash right now.",
+      "If I buy two, can you give me a deal?",
+      "Can you meet me in the middle?",
+      "Is the price firm or negotiable?"
+    ],
+    "Logistics": [
+      "Can you deliver it?",
+      "Where can we meet?",
+      "Can I pick it up today?",
+      "What time works for you?",
+      "Can I see it first before buying?",
+      "I'll meet you at a public place.",
+      "Can you hold it for me until tomorrow?"
+    ],
+    "Closing the Deal": [
+      "Deal! I'll take it.",
+      "I'll send you my location.",
+      "Cash or digital payment?",
+      "Do you accept Zelle / Venmo / Cash App?",
+      "Thank you! Great doing business with you.",
+      "I changed my mind, sorry."
+    ]
+  },
+  seller: {
+    "Listing & Greeting": [
+      "Yes, it's still available!",
+      "Thanks for your interest.",
+      "It's in great condition.",
+      "It's like new, barely used.",
+      "Here are more photos.",
+      "I bought it __ months ago."
+    ],
+    "Negotiating Price": [
+      "My asking price is $__.",
+      "The price is firm.",
+      "I can do $__ if you pick up today.",
+      "Sorry, that's too low.",
+      "I already have other buyers interested.",
+      "I'll give you a small discount for cash.",
+      "Best I can do is $__.",
+      "The price already includes __."
+    ],
+    "Logistics": [
+      "You can pick it up at __.",
+      "I can meet at a public location.",
+      "I'm available today after __.",
+      "Let me know when you're on the way.",
+      "Please be on time.",
+      "I can hold it until __ for you.",
+      "No delivery, pickup only."
+    ],
+    "Closing the Deal": [
+      "Great, it's yours!",
+      "I accept cash, Zelle, or Venmo.",
+      "No refunds or returns.",
+      "Thanks for buying! Enjoy it.",
+      "I'll mark it as sold.",
+      "Sorry, it's already been sold."
+    ]
+  }
+};
+
+// Translation dictionary (subset — full app would use API)
+// Format: { "en": { "es": { "phrase": "translation" }, ... } }
+const TRANSLATIONS = {
+  "en": {
+    "es": {
+      "Hi, is this still available?": "Hola, ¿esto todavía está disponible?",
+      "I'm interested in this item.": "Estoy interesado/a en este artículo.",
+      "Can you tell me more about the condition?": "¿Puede decirme más sobre el estado?",
+      "How old is this?": "¿Cuánto tiempo tiene esto?",
+      "Does it work properly?": "¿Funciona correctamente?",
+      "Are there any scratches or damage?": "¿Tiene algún rasguño o daño?",
+      "What's your best price?": "¿Cuál es su mejor precio?",
+      "Would you take $__?": "¿Aceptaría $__?",
+      "That's a bit high for me. Can you do lower?": "Es un poco alto para mí. ¿Puede bajar el precio?",
+      "I've seen similar items for less.": "He visto artículos similares por menos.",
+      "I can pay cash right now.": "Puedo pagar en efectivo ahora mismo.",
+      "If I buy two, can you give me a deal?": "Si compro dos, ¿me puede hacer un descuento?",
+      "Can you meet me in the middle?": "¿Podemos llegar a un punto medio?",
+      "Is the price firm or negotiable?": "¿El precio es fijo o negociable?",
+      "Can you deliver it?": "¿Puede entregarlo?",
+      "Where can we meet?": "¿Dónde nos podemos encontrar?",
+      "Can I pick it up today?": "¿Puedo recogerlo hoy?",
+      "What time works for you?": "¿A qué hora le conviene?",
+      "Can I see it first before buying?": "¿Puedo verlo primero antes de comprar?",
+      "I'll meet you at a public place.": "Nos vemos en un lugar público.",
+      "Can you hold it for me until tomorrow?": "¿Puede guardármelo hasta mañana?",
+      "Deal! I'll take it.": "¡Trato hecho! Me lo llevo.",
+      "I'll send you my location.": "Le envío mi ubicación.",
+      "Cash or digital payment?": "¿Efectivo o pago digital?",
+      "Do you accept Zelle / Venmo / Cash App?": "¿Acepta Zelle / Venmo / Cash App?",
+      "Thank you! Great doing business with you.": "¡Gracias! Un placer hacer negocios con usted.",
+      "I changed my mind, sorry.": "Cambié de opinión, lo siento.",
+      "Yes, it's still available!": "¡Sí, todavía está disponible!",
+      "Thanks for your interest.": "Gracias por su interés.",
+      "It's in great condition.": "Está en excelentes condiciones.",
+      "It's like new, barely used.": "Está como nuevo, casi sin uso.",
+      "Here are more photos.": "Aquí hay más fotos.",
+      "I bought it __ months ago.": "Lo compré hace __ meses.",
+      "My asking price is $__.": "Mi precio es $__.",
+      "The price is firm.": "El precio es firme.",
+      "I can do $__ if you pick up today.": "Puedo dejarlo en $__ si lo recoge hoy.",
+      "Sorry, that's too low.": "Lo siento, eso es muy bajo.",
+      "I already have other buyers interested.": "Ya tengo otros compradores interesados.",
+      "I'll give you a small discount for cash.": "Le hago un pequeño descuento si paga en efectivo.",
+      "Best I can do is $__.": "Lo mejor que puedo hacer es $__.",
+      "The price already includes __.": "El precio ya incluye __.",
+      "You can pick it up at __.": "Puede recogerlo en __.",
+      "I can meet at a public location.": "Puedo encontrarnos en un lugar público.",
+      "I'm available today after __.": "Estoy disponible hoy después de las __.",
+      "Let me know when you're on the way.": "Avíseme cuando esté en camino.",
+      "Please be on time.": "Por favor, sea puntual.",
+      "I can hold it until __ for you.": "Puedo guardárselo hasta __.",
+      "No delivery, pickup only.": "No hago entregas, solo recogida.",
+      "Great, it's yours!": "¡Genial, es suyo!",
+      "I accept cash, Zelle, or Venmo.": "Acepto efectivo, Zelle o Venmo.",
+      "No refunds or returns.": "No se aceptan devoluciones.",
+      "Thanks for buying! Enjoy it.": "¡Gracias por comprar! Disfrútelo.",
+      "I'll mark it as sold.": "Lo marcaré como vendido.",
+      "Sorry, it's already been sold.": "Lo siento, ya se vendió."
+    }
+  }
+};
+
+let currentRole = 'buyer';
+
+function setRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-role="${role}"]`).classList.add('active');
+  renderPhrases();
+}
+
+function swapLangs() {
+  const from = document.getElementById('fromLang');
+  const to = document.getElementById('toLang');
+  const tmp = from.value;
+  from.value = to.value;
+  to.value = tmp;
+  renderPhrases();
+}
+
+function getTranslation(phrase) {
+  const from = document.getElementById('fromLang').value;
+  const to = document.getElementById('toLang').value;
+
+  if (from === to) return phrase;
+
+  // Try direct translation
+  if (TRANSLATIONS[from] && TRANSLATIONS[from][to] && TRANSLATIONS[from][to][phrase]) {
+    return TRANSLATIONS[from][to][phrase];
+  }
+
+  // For languages we don't have yet, show a message
+  return `[${to.toUpperCase()}] ${phrase} — (full translation coming soon!)`;
+}
+
+function renderPhrases() {
+  const container = document.getElementById('phrases');
+  const phrases = PHRASES[currentRole];
+  let html = '';
+
+  for (const [category, items] of Object.entries(phrases)) {
+    html += `<div class="category-title">${category}</div>`;
+    for (const phrase of items) {
+      const translated = getTranslation(phrase);
+      html += `
+        <div class="phrase-card" onclick="copyText('${translated.replace(/'/g, "\\'")}')">
+          <div class="phrase-original">${phrase}</div>
+          <div class="phrase-translated">${translated}</div>
+        </div>`;
+    }
+  }
+
+  container.innerHTML = html;
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  });
+}
+
+function translateCustom() {
+  const text = document.getElementById('customPhrase').value.trim();
+  if (!text) return;
+  const result = document.getElementById('customResult');
+  const to = document.getElementById('toLang').value;
+  // For MVP, show placeholder — real app would call translation API
+  result.textContent = `[Translation to ${to.toUpperCase()} coming soon — for now, use the preset phrases above!]`;
+  result.style.display = 'block';
+}
+
+// Listen for language changes
+document.getElementById('fromLang').addEventListener('change', renderPhrases);
+document.getElementById('toLang').addEventListener('change', renderPhrases);
+
+// Initial render
+renderPhrases();
+
+// Register service worker for offline PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+
+</body>
+</html>
