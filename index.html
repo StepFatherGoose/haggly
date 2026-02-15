@@ -6,15 +6,15 @@
 <title>Haggly — Negotiate in Any Language</title>
 <meta name="description" content="Free marketplace negotiation translator. Bargain on Facebook Marketplace, Craigslist, and more in any language. Instant phrase translation for buyers and sellers.">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#FF6B35">
+<meta name="theme-color" content="#5865F2">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632867015737384" crossorigin="anonymous"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --orange: #FF6B35;
-    --orange-dark: #e55a25;
+    --primary: #5865F2;
+    --primary-dark: #4752C4;
     --bg: #FAFAFA;
     --card: #FFFFFF;
     --text: #1a1a1a;
@@ -33,7 +33,7 @@
 
   /* Header */
   .header {
-    background: var(--orange);
+    background: var(--primary);
     color: white;
     text-align: center;
     padding: 40px 20px 30px;
@@ -95,10 +95,10 @@
     background-repeat: no-repeat;
     background-position: right 16px center;
   }
-  select:focus { border-color: var(--orange); outline: none; }
+  select:focus { border-color: var(--primary); outline: none; }
 
   .swap-btn {
-    background: var(--orange);
+    background: var(--primary);
     color: white;
     border: none;
     width: 44px;
@@ -133,22 +133,22 @@
     transition: all 0.2s;
   }
   .role-btn.active {
-    border-color: var(--orange);
-    background: #FFF3EE;
-    color: var(--orange);
+    border-color: var(--primary);
+    background: #EEF0FE;
+    color: var(--primary);
   }
-  .role-btn:hover { border-color: var(--orange); }
+  .role-btn:hover { border-color: var(--primary); }
 
   /* Phrases */
   .category-title {
     font-size: 16px;
     font-weight: 700;
-    color: var(--orange);
+    color: var(--primary);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin: 24px 0 12px;
     padding-bottom: 8px;
-    border-bottom: 2px solid #FFF3EE;
+    border-bottom: 2px solid #EEF0FE;
   }
 
   .phrase-card {
@@ -162,10 +162,10 @@
     border-left: 4px solid transparent;
   }
   .phrase-card:hover {
-    border-left-color: var(--orange);
+    border-left-color: var(--primary);
     transform: translateX(4px);
   }
-  .phrase-card:active { background: #FFF3EE; }
+  .phrase-card:active { background: #EEF0FE; }
 
   .phrase-original {
     font-size: 15px;
@@ -180,7 +180,7 @@
   }
   .phrase-phonetic {
     font-size: 14px;
-    color: var(--orange);
+    color: var(--primary);
     font-style: italic;
     margin-top: 2px;
   }
@@ -219,9 +219,9 @@
     min-height: 60px;
     font-family: inherit;
   }
-  .custom-input textarea:focus { border-color: var(--orange); outline: none; }
+  .custom-input textarea:focus { border-color: var(--primary); outline: none; }
   .translate-btn {
-    background: var(--orange);
+    background: var(--primary);
     color: white;
     border: none;
     padding: 14px 28px;
@@ -233,11 +233,11 @@
     width: 100%;
     transition: background 0.2s;
   }
-  .translate-btn:hover { background: var(--orange-dark); }
+  .translate-btn:hover { background: var(--primary-dark); }
   .custom-result {
     margin-top: 16px;
     padding: 16px;
-    background: #FFF3EE;
+    background: #EEF0FE;
     border-radius: 12px;
     font-size: 20px;
     font-weight: 600;
@@ -246,7 +246,7 @@
   }
 
   /* Nav */
-  nav { background: var(--orange); padding: 14px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  nav { background: var(--primary); padding: 14px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
   nav a { color: white; text-decoration: none; font-weight: 600; font-size: 15px; padding: 6px 12px; border-radius: 8px; transition: background 0.2s; }
   nav a:hover { background: rgba(255,255,255,0.2); }
   nav .brand { font-size: 20px; font-weight: 800; margin-right: 0; }
@@ -260,7 +260,7 @@
     border-top: 1px solid var(--border);
     margin-top: 20px;
   }
-  .footer a { color: var(--orange); text-decoration: none; }
+  .footer a { color: var(--primary); text-decoration: none; }
   .footer-links { margin-bottom: 12px; }
   .footer-links a { margin: 0 10px; }
 
@@ -274,7 +274,7 @@
     text-align: center;
   }
   .guide-cta a {
-    color: var(--orange);
+    color: var(--primary);
     font-weight: 700;
     font-size: 18px;
     text-decoration: none;
@@ -295,7 +295,7 @@
     opacity: 0.6;
     transition: opacity 0.2s;
   }
-  .tts-btn:hover { opacity: 1; background: #FFF3EE; }
+  .tts-btn:hover { opacity: 1; background: #EEF0FE; }
 
   @media (max-width: 600px) {
     nav { justify-content: center; }
@@ -572,13 +572,34 @@ function copyText(text) {
   });
 }
 
-function translateCustom() {
+async function translateCustom() {
   const text = document.getElementById('customPhrase').value.trim();
   if (!text) return;
   const result = document.getElementById('customResult');
-  const t = window.hagglyI18n ? window.hagglyI18n.t : function(k) { return k; };
-  result.textContent = t('custom_no_translation');
+  const sl = document.getElementById('fromLang').value;
+  const tl = document.getElementById('toLang').value;
   result.style.display = 'block';
+  result.innerHTML = '⏳ Translating...';
+  try {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(sl)}&tl=${encodeURIComponent(tl)}&dt=t&q=${encodeURIComponent(text)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Translation failed');
+    const data = await res.json();
+    const translated = data[0].map(s => s[0]).join('');
+    result.innerHTML = `<span class="phrase-translated" style="cursor:pointer" onclick="copyText('${translated.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">${escapeHtml(translated)}</span>` +
+      `<button class="tts-btn" onclick="event.stopPropagation(); speakText('${translated.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}', '${tl}')" title="Listen">🔊</button>`;
+  } catch (e) {
+    result.innerHTML = '❌ Translation error. Please try again.';
+  }
+}
+
+function speakText(text, lang) {
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }
 }
 
 // Listen for language changes
