@@ -1,4 +1,4 @@
-// Haggly Phrase Translation Database — All 19 languages
+// Haggly Phrase Translation Database — All 22 languages
 // Compact format: English phrase → { langCode: translation }
 // TRANSLATIONS[from][to][phrase] is built at the bottom from PHRASE_DB
 
@@ -22,7 +22,10 @@ const PHRASE_DB = {
     sw: "Habari, hii bado inapatikana?",
     ha: "Sannu, wannan har yanzu yana samuwa?",
     am: "ሰላም፣ ይህ አሁንም አለ?",
-    ht: "Bonjou, èske sa a toujou disponib?"
+    ht: "Bonjou, èske sa a toujou disponib?",
+    th: "สวัสดีครับ/ค่ะ ยังมีอยู่ไหมครับ/คะ?",
+    tr: "Merhaba, bu hâlâ satılık mı?",
+    id: "Halo, apakah ini masih tersedia?"
   },
   "I'm interested in this item.": {
     en: "I'm interested in this item.",
@@ -43,7 +46,10 @@ const PHRASE_DB = {
     sw: "Ninapendezwa na bidhaa hii.",
     ha: "Ina sha'awar wannan abu.",
     am: "በዚህ ዕቃ ፍላጎት አለኝ።",
-    ht: "Mwen enterese nan atik sa a."
+    ht: "Mwen enterese nan atik sa a.",
+    th: "สนใจสินค้าชิ้นนี้ครับ/ค่ะ",
+    tr: "Bu ürünle ilgileniyorum.",
+    id: "Saya tertarik dengan barang ini."
   },
   "Can you tell me more about the condition?": {
     en: "Can you tell me more about the condition?",
@@ -64,7 +70,10 @@ const PHRASE_DB = {
     sw: "Unaweza kuniambia zaidi kuhusu hali yake?",
     ha: "Za ka iya gaya mini ƙarin bayani game da yanayin sa?",
     am: "ስለ ሁኔታው ተጨማሪ ሊነግሩኝ ይችላሉ?",
-    ht: "Èske ou ka di m plis sou eta a?"
+    ht: "Èske ou ka di m plis sou eta a?",
+    th: "ช่วยบอกเรื่องสภาพสินค้าเพิ่มเติมได้ไหมครับ/คะ?",
+    tr: "Durumu hakkında biraz daha bilgi verebilir misin?",
+    id: "Bisa ceritakan lebih lanjut soal kondisinya?"
   },
   "How old is this?": {
     en: "How old is this?",
@@ -85,7 +94,10 @@ const PHRASE_DB = {
     sw: "Hii ina umri gani?",
     ha: "Wannan yana da shekaru nawa?",
     am: "ይህ ምን ያህል ጊዜ ሆኖታል?",
-    ht: "Depi kilè sa a genyen?"
+    ht: "Depi kilè sa a genyen?",
+    th: "ใช้มานานแค่ไหนแล้วครับ/คะ?",
+    tr: "Bu ne kadar eski?",
+    id: "Sudah berapa lama ini?"
   },
   "Does it work properly?": {
     en: "Does it work properly?",
@@ -106,7 +118,10 @@ const PHRASE_DB = {
     sw: "Je, inafanya kazi vizuri?",
     ha: "Yana aiki daidai?",
     am: "በትክክል ይሠራል?",
-    ht: "Èske li mache byen?"
+    ht: "Èske li mache byen?",
+    th: "ใช้งานได้ปกติไหมครับ/คะ?",
+    tr: "Düzgün çalışıyor mu?",
+    id: "Apakah berfungsi dengan baik?"
   },
   "Are there any scratches or damage?": {
     en: "Are there any scratches or damage?",
@@ -127,7 +142,10 @@ const PHRASE_DB = {
     sw: "Kuna mikwaruzo au uharibifu wowote?",
     ha: "Akwai wani karce ko lalacewa?",
     am: "ጭረት ወይም ጉዳት አለበት?",
-    ht: "Èske gen egratiyè oswa domaj?"
+    ht: "Èske gen egratiyè oswa domaj?",
+    th: "มีรอยขีดข่วนหรือเสียหายตรงไหนไหมครับ/คะ?",
+    tr: "Çizik veya hasar var mı?",
+    id: "Ada goresan atau kerusakan?"
   },
   "What's your best price?": {
     en: "What's your best price?",
@@ -148,7 +166,10 @@ const PHRASE_DB = {
     sw: "Bei yako ya mwisho ni ngapi?",
     ha: "Mene ne mafi kyawun farashin ka?",
     am: "ምርጥ ዋጋዎ ምን ያህል ነው?",
-    ht: "Ki pi bon pri ou?"
+    ht: "Ki pi bon pri ou?",
+    th: "ราคาดีสุดเท่าไหร่ครับ/คะ?",
+    tr: "En iyi fiyatın ne kadar?",
+    id: "Harga terbaik berapa?"
   },
   "Would you take $__?": {
     en: "Would you take $__?",
@@ -169,7 +190,10 @@ const PHRASE_DB = {
     sw: "Utakubali $__?",
     ha: "Za ka karɓi $__?",
     am: "$__ ይቀበላሉ?",
-    ht: "Èske ou ta pran $__?"
+    ht: "Èske ou ta pran $__?",
+    th: "$__ รับได้ไหมครับ/คะ?",
+    tr: "$__ alır mısın?",
+    id: "Mau terima $__?"
   },
   "That's a bit high for me. Can you do lower?": {
     en: "That's a bit high for me. Can you do lower?",
@@ -190,7 +214,10 @@ const PHRASE_DB = {
     sw: "Ni ghali kidogo kwangu. Unaweza kupunguza?",
     ha: "Wannan ya ɗan yi tsada a gare ni. Za ka iya rage?",
     am: "ለኔ ትንሽ ውድ ነው። ዋጋውን መቀነስ ይችላሉ?",
-    ht: "Sa a yon ti jan chè pou mwen. Èske ou ka desann?"
+    ht: "Sa a yon ti jan chè pou mwen. Èske ou ka desann?",
+    th: "สำหรับผม/ดิฉันแพงไปหน่อย ลดได้ไหมครับ/คะ?",
+    tr: "Benim için biraz pahalı. Biraz indirim yapabilir misin?",
+    id: "Agak mahal buat saya. Bisa kurang?"
   },
   "I've seen similar items for less.": {
     en: "I've seen similar items for less.",
@@ -211,7 +238,10 @@ const PHRASE_DB = {
     sw: "Nimeona vitu kama hivi kwa bei nafuu zaidi.",
     ha: "Na ga irin wannan abu a araha.",
     am: "ተመሳሳይ ዕቃዎችን ርካሽ አይቻለሁ።",
-    ht: "Mwen wè bagay menm jan an pi bon mache."
+    ht: "Mwen wè bagay menm jan an pi bon mache.",
+    th: "เคยเห็นของคล้ายๆ กันราคาถูกกว่านะครับ/คะ",
+    tr: "Benzer ürünleri daha ucuza gördüm.",
+    id: "Saya pernah lihat barang serupa lebih murah."
   },
   "I can pay cash right now.": {
     en: "I can pay cash right now.",
@@ -232,7 +262,10 @@ const PHRASE_DB = {
     sw: "Naweza kulipa taslimu sasa hivi.",
     ha: "Zan iya biya tsabar kuɗi yanzu.",
     am: "አሁን በጥሬ ገንዘብ መክፈል እችላለሁ።",
-    ht: "Mwen ka peye kach kounye a."
+    ht: "Mwen ka peye kach kounye a.",
+    th: "จ่ายเงินสดได้เลยตอนนี้ครับ/ค่ะ",
+    tr: "Şu an nakit ödeyebilirim.",
+    id: "Saya bisa bayar tunai sekarang."
   },
   "If I buy two, can you give me a deal?": {
     en: "If I buy two, can you give me a deal?",
@@ -253,7 +286,10 @@ const PHRASE_DB = {
     sw: "Nikininua mbili, utanipa punguzo?",
     ha: "Idan na sayi biyu, za ka ba ni rangwame?",
     am: "ሁለት ብገዛ ቅናሽ ታደርጉልኛላችሁ?",
-    ht: "Si mwen achte de, èske ou ka fè m yon rabè?"
+    ht: "Si mwen achte de, èske ou ka fè m yon rabè?",
+    th: "ถ้าซื้อสองชิ้น ลดได้ไหมครับ/คะ?",
+    tr: "İki tane alırsam indirim yapar mısın?",
+    id: "Kalau beli dua, bisa dapat diskon?"
   },
   "Can you meet me in the middle?": {
     en: "Can you meet me in the middle?",
@@ -274,7 +310,10 @@ const PHRASE_DB = {
     sw: "Tunaweza kukutana katikati?",
     ha: "Za mu iya haɗuwa a tsakiya?",
     am: "መሃል ላይ ልንገናኝ እንችላለን?",
-    ht: "Èske nou ka rankontre nan mitan?"
+    ht: "Èske nou ka rankontre nan mitan?",
+    th: "เจอกันครึ่งทางได้ไหมครับ/คะ?",
+    tr: "Ortada buluşabilir miyiz?",
+    id: "Bisa ketemu di tengah-tengah?"
   },
   "Is the price firm or negotiable?": {
     en: "Is the price firm or negotiable?",
@@ -295,7 +334,10 @@ const PHRASE_DB = {
     sw: "Bei ni ya mwisho au inajadiliwa?",
     ha: "Farashin ya tabbata ko ana iya ciniki?",
     am: "ዋጋው የተወሰነ ነው ወይስ ለድርድር ክፍት ነው?",
-    ht: "Èske pri a fiks oswa negosyab?"
+    ht: "Èske pri a fiks oswa negosyab?",
+    th: "ราคานี้ตายตัวหรือต่อรองได้ครับ/คะ?",
+    tr: "Fiyat sabit mi yoksa pazarlık yapılır mı?",
+    id: "Harganya pas atau masih bisa nego?"
   },
   "Can you deliver it?": {
     en: "Can you deliver it?",
@@ -316,7 +358,10 @@ const PHRASE_DB = {
     sw: "Unaweza kuleta?",
     ha: "Za ka iya kawo shi?",
     am: "ማድረስ ይችላሉ?",
-    ht: "Èske ou ka livre li?"
+    ht: "Èske ou ka livre li?",
+    th: "ส่งของได้ไหมครับ/คะ?",
+    tr: "Teslim edebilir misin?",
+    id: "Bisa diantar?"
   },
   "Where can we meet?": {
     en: "Where can we meet?",
@@ -337,7 +382,10 @@ const PHRASE_DB = {
     sw: "Tunaweza kukutana wapi?",
     ha: "Ina za mu iya haɗuwa?",
     am: "የት ልንገናኝ እንችላለን?",
-    ht: "Ki kote nou ka rankontre?"
+    ht: "Ki kote nou ka rankontre?",
+    th: "เจอกันได้ที่ไหนครับ/คะ?",
+    tr: "Nerede buluşabiliriz?",
+    id: "Kita bisa ketemu di mana?"
   },
   "Can I pick it up today?": {
     en: "Can I pick it up today?",
@@ -358,7 +406,10 @@ const PHRASE_DB = {
     sw: "Naweza kuchukua leo?",
     ha: "Zan iya ɗauka yau?",
     am: "ዛሬ መውሰድ እችላለሁ?",
-    ht: "Èske mwen ka vin chèche li jodi a?"
+    ht: "Èske mwen ka vin chèche li jodi a?",
+    th: "วันนี้ไปรับได้ไหมครับ/คะ?",
+    tr: "Bugün gelip alabilir miyim?",
+    id: "Bisa saya ambil hari ini?"
   },
   "What time works for you?": {
     en: "What time works for you?",
@@ -379,7 +430,10 @@ const PHRASE_DB = {
     sw: "Saa ngapi inakufaa?",
     ha: "Wane lokaci ya dace da kai?",
     am: "ምን ሰዓት ይመቸዎታል?",
-    ht: "Ki lè ki bon pou ou?"
+    ht: "Ki lè ki bon pou ou?",
+    th: "สะดวกเวลาไหนครับ/คะ?",
+    tr: "Sana hangi saat uygun?",
+    id: "Jam berapa yang cocok buat kamu?"
   },
   "Can I see it first before buying?": {
     en: "Can I see it first before buying?",
@@ -400,7 +454,10 @@ const PHRASE_DB = {
     sw: "Naweza kuangalia kwanza kabla ya kununua?",
     ha: "Zan iya gani da farko kafin in saya?",
     am: "ከመግዛቴ በፊት ማየት እችላለሁ?",
-    ht: "Èske mwen ka wè li anvan mwen achte?"
+    ht: "Èske mwen ka wè li anvan mwen achte?",
+    th: "ขอดูก่อนซื้อได้ไหมครับ/คะ?",
+    tr: "Almadan önce görebilir miyim?",
+    id: "Boleh lihat dulu sebelum beli?"
   },
   "I'll meet you at a public place.": {
     en: "I'll meet you at a public place.",
@@ -421,7 +478,10 @@ const PHRASE_DB = {
     sw: "Tutakutana mahali pa umma.",
     ha: "Zan sadu da kai a wurin jama'a.",
     am: "በሕዝብ ቦታ እንገናኝ።",
-    ht: "M ap rankontre ou nan yon kote piblik."
+    ht: "M ap rankontre ou nan yon kote piblik.",
+    th: "เจอกันที่สาธารณะนะครับ/คะ",
+    tr: "Halka açık bir yerde buluşalım.",
+    id: "Kita ketemu di tempat umum ya."
   },
   "Can you hold it for me until tomorrow?": {
     en: "Can you hold it for me until tomorrow?",
@@ -442,7 +502,10 @@ const PHRASE_DB = {
     sw: "Unaweza kunihifadhia hadi kesho?",
     ha: "Za ka iya riƙe mini har gobe?",
     am: "እስከ ነገ ሊያስቀምጡልኝ ይችላሉ?",
-    ht: "Èske ou ka kenbe li pou mwen jiska demen?"
+    ht: "Èske ou ka kenbe li pou mwen jiska demen?",
+    th: "ช่วยเก็บไว้ให้ถึงพรุ่งนี้ได้ไหมครับ/คะ?",
+    tr: "Yarına kadar benim için saklayabilir misin?",
+    id: "Bisa ditahan sampai besok untuk saya?"
   },
   "Deal! I'll take it.": {
     en: "Deal! I'll take it.",
@@ -463,7 +526,10 @@ const PHRASE_DB = {
     sw: "Sawa! Nitaichukua.",
     ha: "An amince! Zan ɗauka.",
     am: "ተስማማን! እወስደዋለሁ።",
-    ht: "Dako! M ap pran li."
+    ht: "Dako! M ap pran li.",
+    th: "ตกลง! เอาเลยครับ/ค่ะ",
+    tr: "Anlaştık! Alıyorum.",
+    id: "Deal! Saya ambil."
   },
   "I'll send you my location.": {
     en: "I'll send you my location.",
@@ -484,7 +550,10 @@ const PHRASE_DB = {
     sw: "Nitakutumia eneo langu.",
     ha: "Zan aiko maka wurin da nake.",
     am: "ቦታዬን እልክልዎታለሁ።",
-    ht: "M ap voye ou lokalizasyon mwen."
+    ht: "M ap voye ou lokalizasyon mwen.",
+    th: "ส่งพิกัดให้นะครับ/คะ",
+    tr: "Konumumu göndereyim.",
+    id: "Saya kirim lokasi saya ya."
   },
   "Cash or digital payment?": {
     en: "Cash or digital payment?",
@@ -505,7 +574,10 @@ const PHRASE_DB = {
     sw: "Taslimu au malipo ya kidijitali?",
     ha: "Tsabar kuɗi ko biyan kuɗi ta dijital?",
     am: "በጥሬ ገንዘብ ወይስ በዲጂታል ክፍያ?",
-    ht: "Kach oswa peman dijital?"
+    ht: "Kach oswa peman dijital?",
+    th: "จ่ายเงินสดหรือโอนครับ/คะ?",
+    tr: "Nakit mi dijital ödeme mi?",
+    id: "Bayar tunai atau transfer?"
   },
   "Do you accept Zelle / Venmo / Cash App?": {
     en: "Do you accept Zelle / Venmo / Cash App?",
@@ -526,7 +598,10 @@ const PHRASE_DB = {
     sw: "Unakubali Zelle / Venmo / Cash App?",
     ha: "Kana karɓar Zelle / Venmo / Cash App?",
     am: "Zelle / Venmo / Cash App ይቀበላሉ?",
-    ht: "Èske ou aksepte Zelle / Venmo / Cash App?"
+    ht: "Èske ou aksepte Zelle / Venmo / Cash App?",
+    th: "รับ Zelle / Venmo / Cash App ไหมครับ/คะ?",
+    tr: "Zelle / Venmo / Cash App kabul ediyor musun?",
+    id: "Terima Zelle / Venmo / Cash App?"
   },
   "Thank you! Great doing business with you.": {
     en: "Thank you! Great doing business with you.",
@@ -547,7 +622,10 @@ const PHRASE_DB = {
     sw: "Asante! Nimefurahi kufanya biashara nawe.",
     ha: "Na gode! Na ji daɗin kasuwanci da kai.",
     am: "አመሰግናለሁ! ከእርስዎ ጋር ንግድ ማድረግ ጥሩ ነበር።",
-    ht: "Mèsi! Se te yon plezi fè biznis avèk ou."
+    ht: "Mèsi! Se te yon plezi fè biznis avèk ou.",
+    th: "ขอบคุณครับ/ค่ะ! ยินดีที่ได้ซื้อขายกัน",
+    tr: "Teşekkürler! Seninle iş yapmak güzeldi.",
+    id: "Terima kasih! Senang bertransaksi dengan Anda."
   },
   "I changed my mind, sorry.": {
     en: "I changed my mind, sorry.",
@@ -568,7 +646,10 @@ const PHRASE_DB = {
     sw: "Nimebadili mawazo, samahani.",
     ha: "Na canza tunani, yi haƙuri.",
     am: "ሃሳቤን ቀየርኩ፣ ይቅርታ።",
-    ht: "Mwen chanje lide, eskize m."
+    ht: "Mwen chanje lide, eskize m.",
+    th: "เปลี่ยนใจแล้วครับ/ค่ะ ขอโทษนะครับ/คะ",
+    tr: "Fikrimi değiştirdim, kusura bakma.",
+    id: "Saya berubah pikiran, maaf."
   },
   "Yes, it's still available!": {
     en: "Yes, it's still available!",
@@ -589,7 +670,10 @@ const PHRASE_DB = {
     sw: "Ndiyo, bado inapatikana!",
     ha: "Eh, har yanzu yana samuwa!",
     am: "አዎ፣ አሁንም አለ!",
-    ht: "Wi, li toujou disponib!"
+    ht: "Wi, li toujou disponib!",
+    th: "ยังมีอยู่ครับ/ค่ะ!",
+    tr: "Evet, hâlâ mevcut!",
+    id: "Ya, masih tersedia!"
   },
   "Thanks for your interest.": {
     en: "Thanks for your interest.",
@@ -610,7 +694,10 @@ const PHRASE_DB = {
     sw: "Asante kwa kupendezwa.",
     ha: "Na gode da sha'awar ka.",
     am: "ለፍላጎትዎ አመሰግናለሁ።",
-    ht: "Mèsi pou enterè ou."
+    ht: "Mèsi pou enterè ou.",
+    th: "ขอบคุณที่สนใจครับ/ค่ะ",
+    tr: "İlginiz için teşekkürler.",
+    id: "Terima kasih atas minatnya."
   },
   "It's in great condition.": {
     en: "It's in great condition.",
@@ -631,7 +718,10 @@ const PHRASE_DB = {
     sw: "Iko katika hali nzuri sana.",
     ha: "Yana cikin yanayi mai kyau.",
     am: "በጣም ጥሩ ሁኔታ ላይ ነው።",
-    ht: "Li an bon eta."
+    ht: "Li an bon eta.",
+    th: "สภาพดีมากครับ/ค่ะ",
+    tr: "Durumu çok iyi.",
+    id: "Kondisinya bagus banget."
   },
   "It's like new, barely used.": {
     en: "It's like new, barely used.",
@@ -652,7 +742,10 @@ const PHRASE_DB = {
     sw: "Kama mpya, haijatumiwa sana.",
     ha: "Kamar sabuwa, ba a taɓa amfani ba sosai.",
     am: "እንደ አዲስ ነው፣ ሊባል በሚችል ሁኔታ አልተጠቀሙበትም።",
-    ht: "Li tankou nèf, prèske pa itilize."
+    ht: "Li tankou nèf, prèske pa itilize.",
+    th: "เหมือนใหม่เลย แทบไม่ได้ใช้ครับ/ค่ะ",
+    tr: "Neredeyse sıfır, çok az kullanıldı.",
+    id: "Seperti baru, hampir tidak dipakai."
   },
   "Here are more photos.": {
     en: "Here are more photos.",
@@ -673,7 +766,10 @@ const PHRASE_DB = {
     sw: "Hapa kuna picha zaidi.",
     ha: "Ga ƙarin hotuna.",
     am: "ተጨማሪ ፎቶዎች እነሆ።",
-    ht: "Men plis foto."
+    ht: "Men plis foto.",
+    th: "นี่รูปเพิ่มเติมครับ/ค่ะ",
+    tr: "İşte daha fazla fotoğraf.",
+    id: "Ini foto tambahannya."
   },
   "I bought it __ months ago.": {
     en: "I bought it __ months ago.",
@@ -694,7 +790,10 @@ const PHRASE_DB = {
     sw: "Nilinunua miezi __ iliyopita.",
     ha: "Na saye watanni __ da suka wuce.",
     am: "ከ__ ወራት በፊት ገዛሁት።",
-    ht: "Mwen te achte li __ mwa de sa."
+    ht: "Mwen te achte li __ mwa de sa.",
+    th: "ซื้อมาเมื่อ __ เดือนที่แล้วครับ/ค่ะ",
+    tr: "__ ay önce aldım.",
+    id: "Saya beli __ bulan yang lalu."
   },
   "My asking price is $__.": {
     en: "My asking price is $__.",
@@ -715,7 +814,10 @@ const PHRASE_DB = {
     sw: "Bei yangu ni $__.",
     ha: "Farashin da nake nema shi ne $__.",
     am: "የምጠይቀው ዋጋ $__ ነው።",
-    ht: "Pri mwen mande a se $__."
+    ht: "Pri mwen mande a se $__.",
+    th: "ราคาที่ตั้งไว้คือ $__ ครับ/ค่ะ",
+    tr: "İstediğim fiyat $__.",
+    id: "Harga yang saya minta $__."
   },
   "The price is firm.": {
     en: "The price is firm.",
@@ -736,7 +838,10 @@ const PHRASE_DB = {
     sw: "Bei ni ya mwisho.",
     ha: "Farashin ya tabbata.",
     am: "ዋጋው የተወሰነ ነው።",
-    ht: "Pri a fiks."
+    ht: "Pri a fiks.",
+    th: "ราคาตายตัวครับ/ค่ะ",
+    tr: "Fiyat sabittir.",
+    id: "Harga sudah pas."
   },
   "I can do $__ if you pick up today.": {
     en: "I can do $__ if you pick up today.",
@@ -757,7 +862,10 @@ const PHRASE_DB = {
     sw: "Naweza kukupa kwa $__ ukichukua leo.",
     ha: "Zan iya ba ka a $__ idan ka ɗauka yau.",
     am: "ዛሬ ከወሰዱ $__ ማድረግ እችላለሁ።",
-    ht: "Mwen ka fè $__ si ou vin chèche li jodi a."
+    ht: "Mwen ka fè $__ si ou vin chèche li jodi a.",
+    th: "ถ้ามารับวันนี้ $__ ได้ครับ/ค่ะ",
+    tr: "Bugün gelip alırsan $__ yapabilirim.",
+    id: "Kalau ambil hari ini, bisa $__."
   },
   "Sorry, that's too low.": {
     en: "Sorry, that's too low.",
@@ -778,7 +886,10 @@ const PHRASE_DB = {
     sw: "Samahani, hiyo ni chini sana.",
     ha: "Yi haƙuri, wannan ya yi ƙasa sosai.",
     am: "ይቅርታ፣ በጣም ዝቅተኛ ነው።",
-    ht: "Eskize, sa a twò ba."
+    ht: "Eskize, sa a twò ba.",
+    th: "ขอโทษครับ/ค่ะ ราคานั้นต่ำเกินไป",
+    tr: "Kusura bakma, o çok düşük.",
+    id: "Maaf, itu terlalu rendah."
   },
   "I already have other buyers interested.": {
     en: "I already have other buyers interested.",
@@ -799,7 +910,10 @@ const PHRASE_DB = {
     sw: "Tayari nina wanunuzi wengine wanaopendezwa.",
     ha: "Riga na sami wasu masu sha'awar saye.",
     am: "ቀድሞውኑ ሌሎች ገዢዎች ፍላጎት አላቸው።",
-    ht: "Mwen gentan gen lòt achtè ki enterese."
+    ht: "Mwen gentan gen lòt achtè ki enterese.",
+    th: "มีคนอื่นสนใจอยู่แล้วครับ/ค่ะ",
+    tr: "Zaten başka ilgilenen alıcılar var.",
+    id: "Sudah ada pembeli lain yang berminat."
   },
   "I'll give you a small discount for cash.": {
     en: "I'll give you a small discount for cash.",
@@ -820,7 +934,10 @@ const PHRASE_DB = {
     sw: "Nitakupa punguzo kidogo kwa taslimu.",
     ha: "Zan ba ka ɗan rangwame idan tsabar kuɗi.",
     am: "በጥሬ ገንዘብ ከሆነ ትንሽ ቅናሽ እሰጥዎታለሁ።",
-    ht: "M ap ba ou yon ti rabè si ou peye kach."
+    ht: "M ap ba ou yon ti rabè si ou peye kach.",
+    th: "จ่ายเงินสดลดให้นิดหน่อยครับ/ค่ะ",
+    tr: "Nakit için ufak bir indirim yaparım.",
+    id: "Kalau bayar tunai, saya kasih diskon sedikit."
   },
   "Best I can do is $__.": {
     en: "Best I can do is $__.",
@@ -841,7 +958,10 @@ const PHRASE_DB = {
     sw: "Bei ya chini kabisa ni $__.",
     ha: "Mafi ƙarancin da zan iya yi shi ne $__.",
     am: "ማድረግ የምችለው ዝቅተኛ $__ ነው።",
-    ht: "Pi bon mwen ka fè se $__."
+    ht: "Pi bon mwen ka fè se $__.",
+    th: "ต่ำสุดที่ทำได้คือ $__ ครับ/ค่ะ",
+    tr: "Yapabileceğim en iyi fiyat $__.",
+    id: "Paling rendah saya bisa $__."
   },
   "The price already includes __.": {
     en: "The price already includes __.",
@@ -862,7 +982,10 @@ const PHRASE_DB = {
     sw: "Bei tayari inajumuisha __.",
     ha: "Farashin ya riga ya haɗa da __.",
     am: "ዋጋው ቀድሞውኑ __ን ያካትታል።",
-    ht: "Pri a deja enkli __."
+    ht: "Pri a deja enkli __.",
+    th: "ราคานี้รวม __ แล้วครับ/ค่ะ",
+    tr: "Fiyata zaten __ dahil.",
+    id: "Harga sudah termasuk __."
   },
   "You can pick it up at __.": {
     en: "You can pick it up at __.",
@@ -883,7 +1006,10 @@ const PHRASE_DB = {
     sw: "Unaweza kuchukua katika __.",
     ha: "Za ka iya ɗauka a __.",
     am: "ከ__ መውሰድ ይችላሉ።",
-    ht: "Ou ka vin chèche li nan __."
+    ht: "Ou ka vin chèche li nan __.",
+    th: "มารับได้ที่ __ ครับ/ค่ะ",
+    tr: "__'de gelip alabilirsin.",
+    id: "Bisa diambil di __."
   },
   "I can meet at a public location.": {
     en: "I can meet at a public location.",
@@ -904,7 +1030,10 @@ const PHRASE_DB = {
     sw: "Naweza kukutana mahali pa umma.",
     ha: "Zan iya haɗuwa a wurin jama'a.",
     am: "በሕዝብ ቦታ ልገናኝ እችላለሁ።",
-    ht: "Mwen ka rankontre nan yon kote piblik."
+    ht: "Mwen ka rankontre nan yon kote piblik.",
+    th: "เจอกันที่สาธารณะได้ครับ/ค่ะ",
+    tr: "Halka açık bir yerde buluşabilirim.",
+    id: "Saya bisa ketemu di tempat umum."
   },
   "I'm available today after __.": {
     en: "I'm available today after __.",
@@ -925,7 +1054,10 @@ const PHRASE_DB = {
     sw: "Niko huru leo baada ya saa __.",
     ha: "Ina samuwa yau bayan __.",
     am: "ዛሬ ከ__ በኋላ ነፃ ነኝ።",
-    ht: "Mwen disponib jodi a apre __."
+    ht: "Mwen disponib jodi a apre __.",
+    th: "วันนี้ว่างหลัง __ ครับ/ค่ะ",
+    tr: "Bugün __'den sonra müsaitim.",
+    id: "Saya tersedia hari ini setelah __."
   },
   "Let me know when you're on the way.": {
     en: "Let me know when you're on the way.",
@@ -946,7 +1078,10 @@ const PHRASE_DB = {
     sw: "Nijulishe unapokuwa njiani.",
     ha: "Sanar da ni idan kana zuwa.",
     am: "በመንገድ ላይ ሲሆኑ ያሳውቁኝ።",
-    ht: "Fè m konnen lè ou sou wout."
+    ht: "Fè m konnen lè ou sou wout.",
+    th: "บอกด้วยนะครับ/คะ ตอนออกมาแล้ว",
+    tr: "Yola çıkınca haber ver.",
+    id: "Kabarin ya kalau sudah di jalan."
   },
   "Please be on time.": {
     en: "Please be on time.",
@@ -967,7 +1102,10 @@ const PHRASE_DB = {
     sw: "Tafadhali fika kwa wakati.",
     ha: "Don Allah, ka zo a kan lokaci.",
     am: "እባክዎ በሰዓቱ ይምጡ።",
-    ht: "Tanpri, rive alè."
+    ht: "Tanpri, rive alè.",
+    th: "กรุณามาตรงเวลานะครับ/คะ",
+    tr: "Lütfen zamanında gel.",
+    id: "Tolong tepat waktu ya."
   },
   "I can hold it until __ for you.": {
     en: "I can hold it until __ for you.",
@@ -988,7 +1126,10 @@ const PHRASE_DB = {
     sw: "Naweza kukuhifadhia hadi __.",
     ha: "Zan iya riƙe maka har __.",
     am: "እስከ __ ልያስቀምጥልዎ እችላለሁ።",
-    ht: "Mwen ka kenbe li pou ou jiska __."
+    ht: "Mwen ka kenbe li pou ou jiska __.",
+    th: "เก็บไว้ให้ได้ถึง __ ครับ/ค่ะ",
+    tr: "Senin için __'e kadar saklayabilirim.",
+    id: "Bisa saya tahan sampai __ untuk kamu."
   },
   "No delivery, pickup only.": {
     en: "No delivery, pickup only.",
@@ -1009,7 +1150,10 @@ const PHRASE_DB = {
     sw: "Hakuna uletaji, kuchukua tu.",
     ha: "Babu isar da kaya, ɗauka kawai.",
     am: "ማድረስ የለም፣ መውሰድ ብቻ።",
-    ht: "Pa gen livrezon, vin chèche sèlman."
+    ht: "Pa gen livrezon, vin chèche sèlman.",
+    th: "ไม่ส่งครับ/ค่ะ รับเองอย่างเดียว",
+    tr: "Teslimat yok, sadece gelip alma.",
+    id: "Tidak bisa diantar, ambil sendiri saja."
   },
   "Great, it's yours!": {
     en: "Great, it's yours!",
@@ -1030,7 +1174,10 @@ const PHRASE_DB = {
     sw: "Sawa, ni yako!",
     ha: "Kyau, naka ne!",
     am: "አሪፍ፣ የእርስዎ ነው!",
-    ht: "Bon, li pou ou!"
+    ht: "Bon, li pou ou!",
+    th: "เยี่ยม! เป็นของคุณแล้วครับ/ค่ะ",
+    tr: "Harika, senin oldu!",
+    id: "Mantap, jadi milik kamu!"
   },
   "I accept cash, Zelle, or Venmo.": {
     en: "I accept cash, Zelle, or Venmo.",
@@ -1051,7 +1198,10 @@ const PHRASE_DB = {
     sw: "Nakubali taslimu, Zelle, au Venmo.",
     ha: "Ina karɓar tsabar kuɗi, Zelle, ko Venmo.",
     am: "ጥሬ ገንዘብ፣ Zelle ወይም Venmo እቀበላለሁ።",
-    ht: "Mwen aksepte kach, Zelle, oswa Venmo."
+    ht: "Mwen aksepte kach, Zelle, oswa Venmo.",
+    th: "รับเงินสด, Zelle หรือ Venmo ครับ/ค่ะ",
+    tr: "Nakit, Zelle veya Venmo kabul ediyorum.",
+    id: "Saya terima tunai, Zelle, atau Venmo."
   },
   "No refunds or returns.": {
     en: "No refunds or returns.",
@@ -1072,7 +1222,10 @@ const PHRASE_DB = {
     sw: "Hakuna kurudisha au kubadilisha.",
     ha: "Babu mayar da kuɗi ko dawo da kaya.",
     am: "ተመላሽ ወይም ምርት መመለስ የለም።",
-    ht: "Pa gen ranbousman oswa retou."
+    ht: "Pa gen ranbousman oswa retou.",
+    th: "ไม่รับคืนครับ/ค่ะ",
+    tr: "İade veya geri ödeme yok.",
+    id: "Tidak bisa refund atau retur."
   },
   "Thanks for buying! Enjoy it.": {
     en: "Thanks for buying! Enjoy it.",
@@ -1093,7 +1246,10 @@ const PHRASE_DB = {
     sw: "Asante kwa kununua! Furahia.",
     ha: "Na gode da saye! Ka ji daɗin amfani.",
     am: "ስለገዙ አመሰግናለሁ! ይደሰቱበት።",
-    ht: "Mèsi dèske ou achte! Jwi de li."
+    ht: "Mèsi dèske ou achte! Jwi de li.",
+    th: "ขอบคุณที่ซื้อครับ/ค่ะ! ใช้ให้สนุกนะ",
+    tr: "Aldığın için teşekkürler! Keyfini çıkar.",
+    id: "Terima kasih sudah beli! Semoga suka."
   },
   "I'll mark it as sold.": {
     en: "I'll mark it as sold.",
@@ -1114,7 +1270,10 @@ const PHRASE_DB = {
     sw: "Nitaiweka kama imeuzwa.",
     ha: "Zan yi alama cewa an sayar.",
     am: "ተሽጧል ብዬ ምልክት አደርጋለሁ።",
-    ht: "M ap make li kòm vann."
+    ht: "M ap make li kòm vann.",
+    th: "จะมาร์คว่าขายแล้วนะครับ/คะ",
+    tr: "Satıldı olarak işaretleyeceğim.",
+    id: "Saya tandai sebagai terjual ya."
   },
   "Sorry, it's already been sold.": {
     en: "Sorry, it's already been sold.",
@@ -1135,13 +1294,16 @@ const PHRASE_DB = {
     sw: "Samahani, tayari imeuzwa.",
     ha: "Yi haƙuri, an riga an sayar.",
     am: "ይቅርታ፣ ቀድሞ ተሽጧል።",
-    ht: "Eskize, li deja vann."
+    ht: "Eskize, li deja vann.",
+    th: "ขอโทษครับ/ค่ะ ขายไปแล้ว",
+    tr: "Kusura bakma, çoktan satıldı.",
+    id: "Maaf, sudah terjual."
   }
 };
 
 // Build the TRANSLATIONS[from][to][phrase] lookup from PHRASE_DB
 // This creates a reverse index so any source language phrase can be looked up
-const LANG_CODES = ['en','es','zh','ar','hi','pt','fr','de','ja','ko','vi','tl','ru','pl','uk','sw','ha','am','ht'];
+const LANG_CODES = ['en','es','zh','ar','hi','pt','fr','de','ja','ko','vi','tl','ru','pl','uk','sw','ha','am','ht','th','tr','id'];
 
 const TRANSLATIONS = {};
 
