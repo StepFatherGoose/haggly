@@ -305,6 +305,108 @@
   }
   .tts-btn:hover { opacity: 1; background: #EEF0FE; }
 
+  /* Negotiation Generator */
+  .nego-section {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .nego-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .nego-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .nego-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .nego-field input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .nego-field input:focus { border-color: var(--primary); outline: none; }
+  .nego-generate-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+  }
+  .nego-generate-btn:hover { background: var(--primary-dark); }
+  .nego-generate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .nego-results {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .nego-card {
+    background: #F8F8FF;
+    border-radius: 12px;
+    padding: 16px 20px;
+    border-left: 4px solid var(--primary);
+  }
+  .nego-card.friendly { border-left-color: #00C853; }
+  .nego-card.savvy { border-left-color: #FF9800; }
+  .nego-card.walkaway { border-left-color: #F44336; }
+  .nego-card-header {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .nego-card .phrase-original {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .nego-card .nego-translated {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    display: inline;
+  }
+  .nego-card-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+  }
+  .nego-action-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nego-action-btn:hover { background: #EEF0FE; }
+
   @media (max-width: 600px) {
     nav { justify-content: center; }
     nav .brand { width: 100%; text-align: center; }
@@ -389,6 +491,27 @@
   <div class="role-row">
     <button class="role-btn active" data-role="buyer" onclick="setRole('buyer')" data-i18n="btn_buying">🛒 I'm Buying</button>
     <button class="role-btn" data-role="seller" onclick="setRole('seller')" data-i18n="btn_selling">💰 I'm Selling</button>
+  </div>
+
+  <!-- Negotiation Generator -->
+  <div class="nego-section">
+    <h2 data-i18n="negotiation_tool">💬 Negotiation Generator</h2>
+    <div class="nego-inputs">
+      <div class="nego-field">
+        <label data-i18n="nego_asking_price">Asking Price</label>
+        <input type="number" id="negoAskingPrice" placeholder="100" min="0" step="any">
+      </div>
+      <div class="nego-field">
+        <label data-i18n="nego_target_price">Your Target Price</label>
+        <input type="number" id="negoTargetPrice" placeholder="75" min="0" step="any">
+      </div>
+      <div class="nego-field">
+        <label data-i18n="nego_walkaway_price">Your Walk-Away Price</label>
+        <input type="number" id="negoWalkawayPrice" placeholder="85" min="0" step="any">
+      </div>
+    </div>
+    <button class="nego-generate-btn" onclick="generateNegoPhrases()" data-i18n="nego_generate">Generate Phrases ✨</button>
+    <div class="nego-results" id="negoResults"></div>
   </div>
 
   <!-- Phrases -->
@@ -619,6 +742,88 @@ document.addEventListener('haggly-lang-change', renderPhrases);
 
 // Initial render
 renderPhrases();
+
+// Negotiation Generator
+function getNegoTemplates(role, asking, target, walkaway) {
+  if (role === 'buyer') {
+    return [
+      { tone: 'friendly', emoji: '🤝', label: 'nego_tone_friendly', labelFallback: 'Friendly', css: 'friendly',
+        text: `That's a nice item. Would you consider ${target}? I really like it and I'm ready to buy today.` },
+      { tone: 'savvy', emoji: '😏', label: 'nego_tone_savvy', labelFallback: 'Savvy', css: 'savvy',
+        text: `I know the fair price is around ${target}. I'll pay that right now, cash in hand.` },
+      { tone: 'walkaway', emoji: '🚶', label: 'nego_tone_walkaway', labelFallback: 'Walk-Away', css: 'walkaway',
+        text: `Thank you, but ${asking} is too much for me. I can only do ${walkaway}. If not, no problem. Good luck with the sale.` }
+    ];
+  } else {
+    return [
+      { tone: 'friendly', emoji: '🤝', label: 'nego_tone_friendly', labelFallback: 'Friendly', css: 'friendly',
+        text: `Thanks for your interest! I'm asking ${asking}, but I could do ${target} if you can pick it up today.` },
+      { tone: 'savvy', emoji: '😏', label: 'nego_tone_savvy', labelFallback: 'Savvy', css: 'savvy',
+        text: `This is a great deal at ${asking}. I already have other people interested, but I can do ${target} if you come today.` },
+      { tone: 'walkaway', emoji: '🚶', label: 'nego_tone_walkaway', labelFallback: 'Walk-Away', css: 'walkaway',
+        text: `The lowest I can go is ${walkaway}. That's firm. If that doesn't work for you, no worries.` }
+    ];
+  }
+}
+
+async function translateText(text, tl) {
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${encodeURIComponent(tl)}&dt=t&q=${encodeURIComponent(text)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Translation failed');
+  const data = await res.json();
+  return data[0].map(s => s[0]).join('');
+}
+
+async function generateNegoPhrases() {
+  const asking = document.getElementById('negoAskingPrice').value.trim();
+  const target = document.getElementById('negoTargetPrice').value.trim();
+  const walkaway = document.getElementById('negoWalkawayPrice').value.trim();
+  if (!asking || !target || !walkaway) { alert('Please fill in all three prices.'); return; }
+
+  const tl = document.getElementById('toLang').value;
+  const templates = getNegoTemplates(currentRole, asking, target, walkaway);
+  const container = document.getElementById('negoResults');
+  const btn = document.querySelector('.nego-generate-btn');
+  const t = window.hagglyI18n ? window.hagglyI18n.t : function(k, fb) { return fb || k; };
+
+  btn.disabled = true;
+  btn.textContent = '⏳...';
+  container.innerHTML = '';
+
+  try {
+    const results = await Promise.all(templates.map(async (tmpl) => {
+      let translated = tmpl.text;
+      if (tl !== 'en') {
+        try { translated = await translateText(tmpl.text, tl); } catch(e) { translated = tmpl.text; }
+      }
+      return { ...tmpl, translated };
+    }));
+
+    let html = '';
+    for (const r of results) {
+      const toneLabel = t(r.label, r.labelFallback);
+      const safeTranslated = escapeHtml(r.translated);
+      const safeOriginal = escapeHtml(r.text);
+      const jsTranslated = r.translated.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      html += `
+        <div class="nego-card ${r.css}">
+          <div class="nego-card-header">${r.emoji} ${escapeHtml(toneLabel)}</div>
+          <div class="phrase-original">${safeOriginal}</div>
+          <div class="nego-translated">${safeTranslated}</div>
+          <div class="nego-card-actions">
+            <button class="nego-action-btn" onclick="copyText('${jsTranslated}')" title="Copy">📋</button>
+            <button class="nego-action-btn" onclick="speakText('${jsTranslated}', '${tl}')" title="Listen">🔊</button>
+          </div>
+        </div>`;
+    }
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = '<p style="color:red">❌ Error generating phrases. Try again.</p>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = t('nego_generate', 'Generate Phrases ✨');
+  }
+}
 
 // Register service worker for offline PWA
 if ('serviceWorker' in navigator) {

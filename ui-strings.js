@@ -38,7 +38,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Last updated: February 14, 2026",
     page_contact_title: "Contact Us",
     page_contact_subtitle: "Questions, feedback, or translation suggestions? We'd love to hear from you.",
-    swap_title: "Swap languages"
+    swap_title: "Swap languages",
+    negotiation_tool: "💬 Negotiation Generator",
+    nego_asking_price: "Asking Price",
+    nego_target_price: "Your Target Price",
+    nego_walkaway_price: "Your Walk-Away Price",
+    nego_generate: "Generate Phrases ✨",
+    nego_tone_friendly: "Friendly",
+    nego_tone_savvy: "Savvy",
+    nego_tone_walkaway: "Walk-Away"
   },
   es: {
     nav_home: "Inicio",
@@ -78,7 +86,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Última actualización: 14 de febrero de 2026",
     page_contact_title: "Contáctanos",
     page_contact_subtitle: "¿Preguntas, comentarios o sugerencias de traducción? Nos encantaría saber de ti.",
-    swap_title: "Intercambiar idiomas"
+    swap_title: "Intercambiar idiomas",
+    negotiation_tool: "💬 Generador de Negociación",
+    nego_asking_price: "Precio pedido",
+    nego_target_price: "Tu precio objetivo",
+    nego_walkaway_price: "Tu precio mínimo",
+    nego_generate: "Generar frases ✨",
+    nego_tone_friendly: "Amigable",
+    nego_tone_savvy: "Astuto",
+    nego_tone_walkaway: "Retirarse"
   },
   zh: {
     nav_home: "首页",
@@ -118,7 +134,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "最后更新：2026年2月14日",
     page_contact_title: "联系我们",
     page_contact_subtitle: "有问题、反馈或翻译建议？我们很乐意听取您的意见。",
-    swap_title: "切换语言"
+    swap_title: "切换语言",
+    negotiation_tool: "💬 谈判生成器",
+    nego_asking_price: "要价",
+    nego_target_price: "目标价格",
+    nego_walkaway_price: "底线价格",
+    nego_generate: "生成短语 ✨",
+    nego_tone_friendly: "友好",
+    nego_tone_savvy: "老练",
+    nego_tone_walkaway: "走开"
   },
   ar: {
     nav_home: "الرئيسية",
@@ -158,7 +182,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "آخر تحديث: 14 فبراير 2026",
     page_contact_title: "اتصل بنا",
     page_contact_subtitle: "أسئلة أو ملاحظات أو اقتراحات ترجمة؟ يسعدنا سماعك.",
-    swap_title: "تبديل اللغات"
+    swap_title: "تبديل اللغات",
+    negotiation_tool: "💬 مولد التفاوض",
+    nego_asking_price: "السعر المطلوب",
+    nego_target_price: "السعر المستهدف",
+    nego_walkaway_price: "أقل سعر مقبول",
+    nego_generate: "إنشاء عبارات ✨",
+    nego_tone_friendly: "ودود",
+    nego_tone_savvy: "ذكي",
+    nego_tone_walkaway: "الانسحاب"
   },
   hi: {
     nav_home: "होम",
@@ -198,7 +230,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "अंतिम अपडेट: 14 फरवरी 2026",
     page_contact_title: "संपर्क करें",
     page_contact_subtitle: "सवाल, फीडबैक या अनुवाद सुझाव? हम आपसे सुनना चाहेंगे।",
-    swap_title: "भाषाएँ बदलें"
+    swap_title: "भाषाएँ बदलें",
+    negotiation_tool: "💬 मोलभाव जनरेटर",
+    nego_asking_price: "मांगा गया दाम",
+    nego_target_price: "आपका लक्ष्य दाम",
+    nego_walkaway_price: "आपका न्यूनतम दाम",
+    nego_generate: "वाक्य बनाएं ✨",
+    nego_tone_friendly: "मैत्रीपूर्ण",
+    nego_tone_savvy: "चतुर",
+    nego_tone_walkaway: "चले जाओ"
   },
   pt: {
     nav_home: "Início",
@@ -238,7 +278,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Última atualização: 14 de fevereiro de 2026",
     page_contact_title: "Fale conosco",
     page_contact_subtitle: "Dúvidas, feedback ou sugestões de tradução? Adoraríamos ouvir de você.",
-    swap_title: "Trocar idiomas"
+    swap_title: "Trocar idiomas",
+    negotiation_tool: "💬 Gerador de Negociação",
+    nego_asking_price: "Preço pedido",
+    nego_target_price: "Seu preço alvo",
+    nego_walkaway_price: "Seu preço mínimo",
+    nego_generate: "Gerar frases ✨",
+    nego_tone_friendly: "Amigável",
+    nego_tone_savvy: "Esperto",
+    nego_tone_walkaway: "Desistir"
   },
   fr: {
     nav_home: "Accueil",
@@ -278,7 +326,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Dernière mise à jour : 14 février 2026",
     page_contact_title: "Nous contacter",
     page_contact_subtitle: "Questions, commentaires ou suggestions de traduction ? On vous écoute.",
-    swap_title: "Inverser les langues"
+    swap_title: "Inverser les langues",
+    negotiation_tool: "💬 Générateur de Négociation",
+    nego_asking_price: "Prix demandé",
+    nego_target_price: "Votre prix cible",
+    nego_walkaway_price: "Votre prix minimum",
+    nego_generate: "Générer des phrases ✨",
+    nego_tone_friendly: "Amical",
+    nego_tone_savvy: "Malin",
+    nego_tone_walkaway: "Se retirer"
   },
   de: {
     nav_home: "Startseite",
@@ -318,7 +374,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Zuletzt aktualisiert: 14. Februar 2026",
     page_contact_title: "Kontakt",
     page_contact_subtitle: "Fragen, Feedback oder Übersetzungsvorschläge? Wir freuen uns von Ihnen zu hören.",
-    swap_title: "Sprachen tauschen"
+    swap_title: "Sprachen tauschen",
+    negotiation_tool: "💬 Verhandlungsgenerator",
+    nego_asking_price: "Angebotspreis",
+    nego_target_price: "Ihr Zielpreis",
+    nego_walkaway_price: "Ihr Mindestpreis",
+    nego_generate: "Phrasen generieren ✨",
+    nego_tone_friendly: "Freundlich",
+    nego_tone_savvy: "Clever",
+    nego_tone_walkaway: "Weggehen"
   },
   ja: {
     nav_home: "ホーム",
@@ -358,7 +422,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "最終更新日：2026年2月14日",
     page_contact_title: "お問い合わせ",
     page_contact_subtitle: "ご質問、フィードバック、翻訳の提案はこちらから。",
-    swap_title: "言語を入れ替え"
+    swap_title: "言語を入れ替え",
+    negotiation_tool: "💬 交渉フレーズ生成",
+    nego_asking_price: "提示価格",
+    nego_target_price: "目標価格",
+    nego_walkaway_price: "最低価格",
+    nego_generate: "フレーズ生成 ✨",
+    nego_tone_friendly: "フレンドリー",
+    nego_tone_savvy: "交渉上手",
+    nego_tone_walkaway: "立ち去り"
   },
   ko: {
     nav_home: "홈",
@@ -398,7 +470,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "마지막 업데이트: 2026년 2월 14일",
     page_contact_title: "문의하기",
     page_contact_subtitle: "질문, 피드백 또는 번역 제안이 있으신가요?",
-    swap_title: "언어 교환"
+    swap_title: "언어 교환",
+    negotiation_tool: "💬 협상 문구 생성기",
+    nego_asking_price: "제시 가격",
+    nego_target_price: "목표 가격",
+    nego_walkaway_price: "최저 가격",
+    nego_generate: "문구 생성 ✨",
+    nego_tone_friendly: "친근한",
+    nego_tone_savvy: "능숙한",
+    nego_tone_walkaway: "떠나기"
   },
   vi: {
     nav_home: "Trang chủ",
@@ -438,7 +518,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Cập nhật lần cuối: 14 tháng 2, 2026",
     page_contact_title: "Liên hệ chúng tôi",
     page_contact_subtitle: "Câu hỏi, phản hồi hoặc đề xuất dịch thuật? Chúng tôi rất muốn nghe từ bạn.",
-    swap_title: "Đổi ngôn ngữ"
+    swap_title: "Đổi ngôn ngữ",
+    negotiation_tool: "💬 Tạo câu thương lượng",
+    nego_asking_price: "Giá đề nghị",
+    nego_target_price: "Giá mục tiêu",
+    nego_walkaway_price: "Giá tối thiểu",
+    nego_generate: "Tạo câu ✨",
+    nego_tone_friendly: "Thân thiện",
+    nego_tone_savvy: "Khéo léo",
+    nego_tone_walkaway: "Bỏ đi"
   },
   tl: {
     nav_home: "Home",
@@ -478,7 +566,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Huling na-update: Pebrero 14, 2026",
     page_contact_title: "Kontakin Kami",
     page_contact_subtitle: "May tanong, feedback, o translation suggestion? Gusto naming marinig ang sayo.",
-    swap_title: "Palitan ang mga wika"
+    swap_title: "Palitan ang mga wika",
+    negotiation_tool: "💬 Tagabuo ng Negosasyon",
+    nego_asking_price: "Presyong hinihingi",
+    nego_target_price: "Target na presyo",
+    nego_walkaway_price: "Pinakamababang presyo",
+    nego_generate: "Gumawa ng mga parirala ✨",
+    nego_tone_friendly: "Magiliw",
+    nego_tone_savvy: "Matalino",
+    nego_tone_walkaway: "Umalis"
   },
   ru: {
     nav_home: "Главная",
@@ -518,7 +614,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Последнее обновление: 14 февраля 2026",
     page_contact_title: "Свяжитесь с нами",
     page_contact_subtitle: "Вопросы, отзывы или предложения по переводу? Мы будем рады вас услышать.",
-    swap_title: "Поменять языки"
+    swap_title: "Поменять языки",
+    negotiation_tool: "💬 Генератор фраз для торга",
+    nego_asking_price: "Запрашиваемая цена",
+    nego_target_price: "Ваша целевая цена",
+    nego_walkaway_price: "Ваша минимальная цена",
+    nego_generate: "Создать фразы ✨",
+    nego_tone_friendly: "Дружелюбный",
+    nego_tone_savvy: "Опытный",
+    nego_tone_walkaway: "Уход"
   },
   pl: {
     nav_home: "Strona główna",
@@ -558,7 +662,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Ostatnia aktualizacja: 14 lutego 2026",
     page_contact_title: "Kontakt",
     page_contact_subtitle: "Pytania, opinie lub sugestie tłumaczeń? Chętnie wysłuchamy.",
-    swap_title: "Zamień języki"
+    swap_title: "Zamień języki",
+    negotiation_tool: "💬 Generator negocjacji",
+    nego_asking_price: "Cena wywoławcza",
+    nego_target_price: "Twoja cena docelowa",
+    nego_walkaway_price: "Twoja cena minimalna",
+    nego_generate: "Generuj frazy ✨",
+    nego_tone_friendly: "Przyjazny",
+    nego_tone_savvy: "Sprytny",
+    nego_tone_walkaway: "Odejście"
   },
   uk: {
     nav_home: "Головна",
@@ -598,7 +710,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Останнє оновлення: 14 лютого 2026",
     page_contact_title: "Зв'яжіться з нами",
     page_contact_subtitle: "Запитання, відгуки чи пропозиції перекладу? Ми раді вас вислухати.",
-    swap_title: "Поміняти мови"
+    swap_title: "Поміняти мови",
+    negotiation_tool: "💬 Генератор фраз для торгу",
+    nego_asking_price: "Запитувана ціна",
+    nego_target_price: "Ваша цільова ціна",
+    nego_walkaway_price: "Ваша мінімальна ціна",
+    nego_generate: "Створити фрази ✨",
+    nego_tone_friendly: "Дружній",
+    nego_tone_savvy: "Досвідчений",
+    nego_tone_walkaway: "Відхід"
   },
   sw: {
     nav_home: "Nyumbani",
@@ -638,7 +758,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Imesasishwa mwisho: Februari 14, 2026",
     page_contact_title: "Wasiliana Nasi",
     page_contact_subtitle: "Maswali, maoni au mapendekezo ya tafsiri? Tungependa kusikia kutoka kwako.",
-    swap_title: "Badilisha lugha"
+    swap_title: "Badilisha lugha",
+    negotiation_tool: "💬 Kizazi cha Mazungumzo",
+    nego_asking_price: "Bei inayoombwa",
+    nego_target_price: "Bei yako lengwa",
+    nego_walkaway_price: "Bei yako ya chini",
+    nego_generate: "Tengeneza sentensi ✨",
+    nego_tone_friendly: "Kirafiki",
+    nego_tone_savvy: "Mjuzi",
+    nego_tone_walkaway: "Kuondoka"
   },
   ha: {
     nav_home: "Gida",
@@ -678,7 +806,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "An sabunta karshe: Fabrairu 14, 2026",
     page_contact_title: "Tuntuɓe Mu",
     page_contact_subtitle: "Tambayoyi, ra'ayoyi ko shawarwarin fassara? Muna son jin daga gare ka.",
-    swap_title: "Sauya harsuna"
+    swap_title: "Sauya harsuna",
+    negotiation_tool: "💬 Mai Ƙirƙirar Cinikayya",
+    nego_asking_price: "Farashin da ake nema",
+    nego_target_price: "Farashin ka",
+    nego_walkaway_price: "Ƙaramin farashi",
+    nego_generate: "Ƙirƙiri jimloli ✨",
+    nego_tone_friendly: "Mai kyau",
+    nego_tone_savvy: "Gwani",
+    nego_tone_walkaway: "Tafiya"
   },
   am: {
     nav_home: "መነሻ",
@@ -718,7 +854,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "የመጨረሻ ዝማኔ: ፌብሩዋሪ 14, 2026",
     page_contact_title: "አግኙን",
     page_contact_subtitle: "ጥያቄዎች፣ አስተያየቶች ወይም የትርጉም ጥቆማዎች? ከእርስዎ መስማት እንወዳለን።",
-    swap_title: "ቋንቋዎችን ቀያይር"
+    swap_title: "ቋንቋዎችን ቀያይር",
+    negotiation_tool: "💬 የድርድር ሐረግ ማመንጫ",
+    nego_asking_price: "የተጠየቀ ዋጋ",
+    nego_target_price: "የእርስዎ ዒላማ ዋጋ",
+    nego_walkaway_price: "ዝቅተኛ ዋጋ",
+    nego_generate: "ሐረጎችን ፍጠር ✨",
+    nego_tone_friendly: "ወዳጃዊ",
+    nego_tone_savvy: "ብልህ",
+    nego_tone_walkaway: "መሄድ"
   },
   ht: {
     nav_home: "Akèy",
@@ -758,7 +902,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Dènye mizajou: 14 fevriye 2026",
     page_contact_title: "Kontakte Nou",
     page_contact_subtitle: "Kesyon, fidbak oswa sijesyon tradiksyon? Nou ta renmen tande ou.",
-    swap_title: "Chanje lang"
+    swap_title: "Chanje lang",
+    negotiation_tool: "💬 Jeneratè Negosyasyon",
+    nego_asking_price: "Pri yo mande",
+    nego_target_price: "Pri ou vize",
+    nego_walkaway_price: "Pi ba pri ou",
+    nego_generate: "Jenere fraz yo ✨",
+    nego_tone_friendly: "Zanmi",
+    nego_tone_savvy: "Entèlijan",
+    nego_tone_walkaway: "Ale"
   },
   th: {
     nav_home: "หน้าแรก",
@@ -798,7 +950,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "อัปเดตล่าสุด: 14 กุมภาพันธ์ 2026",
     page_contact_title: "ติดต่อเรา",
     page_contact_subtitle: "มีคำถาม ข้อเสนอแนะ หรือคำแนะนำการแปล? เรายินดีรับฟังครับ/ค่ะ",
-    swap_title: "สลับภาษา"
+    swap_title: "สลับภาษา",
+    negotiation_tool: "💬 ตัวสร้างประโยคต่อรอง",
+    nego_asking_price: "ราคาที่ขอ",
+    nego_target_price: "ราคาเป้าหมาย",
+    nego_walkaway_price: "ราคาต่ำสุด",
+    nego_generate: "สร้างประโยค ✨",
+    nego_tone_friendly: "เป็นมิตร",
+    nego_tone_savvy: "ชาญฉลาด",
+    nego_tone_walkaway: "เดินจากไป"
   },
   tr: {
     nav_home: "Ana Sayfa",
@@ -838,7 +998,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Son güncelleme: 14 Şubat 2026",
     page_contact_title: "Bize Ulaşın",
     page_contact_subtitle: "Soru, geri bildirim veya çeviri önerisi mi var? Seni duymak isteriz.",
-    swap_title: "Dilleri değiştir"
+    swap_title: "Dilleri değiştir",
+    negotiation_tool: "💬 Pazarlık Üreteci",
+    nego_asking_price: "İstenen fiyat",
+    nego_target_price: "Hedef fiyatınız",
+    nego_walkaway_price: "En düşük fiyatınız",
+    nego_generate: "Cümleler oluştur ✨",
+    nego_tone_friendly: "Dostça",
+    nego_tone_savvy: "Akıllıca",
+    nego_tone_walkaway: "Çekilme"
   },
   id: {
     nav_home: "Beranda",
@@ -878,7 +1046,15 @@ const UI_STRINGS = {
     page_terms_subtitle: "Terakhir diperbarui: 14 Februari 2026",
     page_contact_title: "Hubungi Kami",
     page_contact_subtitle: "Ada pertanyaan, masukan, atau saran terjemahan? Kami senang mendengar dari kamu.",
-    swap_title: "Tukar bahasa"
+    swap_title: "Tukar bahasa",
+    negotiation_tool: "💬 Generator Negosiasi",
+    nego_asking_price: "Harga yang diminta",
+    nego_target_price: "Harga target Anda",
+    nego_walkaway_price: "Harga terendah Anda",
+    nego_generate: "Buat frasa ✨",
+    nego_tone_friendly: "Ramah",
+    nego_tone_savvy: "Cerdas",
+    nego_tone_walkaway: "Pergi"
   }
 };
 
