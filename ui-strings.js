@@ -2,7 +2,7 @@
 const UI_STRINGS = {
   en: {
     nav_home: "Home",
-    nav_guide: "Guide",
+    nav_guide: "City Guides",
     nav_about: "About",
     nav_privacy: "Privacy",
     nav_terms: "Terms",
@@ -42,7 +42,7 @@ const UI_STRINGS = {
   },
   es: {
     nav_home: "Inicio",
-    nav_guide: "Guía",
+    nav_guide: "Guías de Ciudades",
     nav_about: "Acerca de",
     nav_privacy: "Privacidad",
     nav_terms: "Términos",
@@ -82,7 +82,7 @@ const UI_STRINGS = {
   },
   zh: {
     nav_home: "首页",
-    nav_guide: "指南",
+    nav_guide: "城市指南",
     nav_about: "关于",
     nav_privacy: "隐私",
     nav_terms: "条款",
@@ -122,7 +122,7 @@ const UI_STRINGS = {
   },
   ar: {
     nav_home: "الرئيسية",
-    nav_guide: "الدليل",
+    nav_guide: "أدلة المدن",
     nav_about: "من نحن",
     nav_privacy: "الخصوصية",
     nav_terms: "الشروط",
@@ -162,7 +162,7 @@ const UI_STRINGS = {
   },
   hi: {
     nav_home: "होम",
-    nav_guide: "गाइड",
+    nav_guide: "शहर गाइड",
     nav_about: "हमारे बारे में",
     nav_privacy: "गोपनीयता",
     nav_terms: "शर्तें",
@@ -202,7 +202,7 @@ const UI_STRINGS = {
   },
   pt: {
     nav_home: "Início",
-    nav_guide: "Guia",
+    nav_guide: "Guias de Cidades",
     nav_about: "Sobre",
     nav_privacy: "Privacidade",
     nav_terms: "Termos",
@@ -242,7 +242,7 @@ const UI_STRINGS = {
   },
   fr: {
     nav_home: "Accueil",
-    nav_guide: "Guide",
+    nav_guide: "City Guides",
     nav_about: "À propos",
     nav_privacy: "Confidentialité",
     nav_terms: "Conditions",
@@ -282,7 +282,7 @@ const UI_STRINGS = {
   },
   de: {
     nav_home: "Startseite",
-    nav_guide: "Ratgeber",
+    nav_guide: "Stadtführer",
     nav_about: "Über uns",
     nav_privacy: "Datenschutz",
     nav_terms: "AGB",
@@ -322,7 +322,7 @@ const UI_STRINGS = {
   },
   ja: {
     nav_home: "ホーム",
-    nav_guide: "ガイド",
+    nav_guide: "都市ガイド",
     nav_about: "概要",
     nav_privacy: "プライバシー",
     nav_terms: "利用規約",
@@ -362,7 +362,7 @@ const UI_STRINGS = {
   },
   ko: {
     nav_home: "홈",
-    nav_guide: "가이드",
+    nav_guide: "도시 가이드",
     nav_about: "소개",
     nav_privacy: "개인정보",
     nav_terms: "이용약관",
@@ -402,7 +402,7 @@ const UI_STRINGS = {
   },
   vi: {
     nav_home: "Trang chủ",
-    nav_guide: "Hướng dẫn",
+    nav_guide: "Hướng dẫn Thành phố",
     nav_about: "Giới thiệu",
     nav_privacy: "Quyền riêng tư",
     nav_terms: "Điều khoản",
@@ -442,7 +442,7 @@ const UI_STRINGS = {
   },
   tl: {
     nav_home: "Home",
-    nav_guide: "Gabay",
+    nav_guide: "Mga Gabay sa Lungsod",
     nav_about: "Tungkol",
     nav_privacy: "Privacy",
     nav_terms: "Tuntunin",
@@ -482,7 +482,7 @@ const UI_STRINGS = {
   },
   ru: {
     nav_home: "Главная",
-    nav_guide: "Руководство",
+    nav_guide: "Гиды по городам",
     nav_about: "О нас",
     nav_privacy: "Конфиденциальность",
     nav_terms: "Условия",
@@ -522,7 +522,7 @@ const UI_STRINGS = {
   },
   pl: {
     nav_home: "Strona główna",
-    nav_guide: "Poradnik",
+    nav_guide: "Przewodniki miejskie",
     nav_about: "O nas",
     nav_privacy: "Prywatność",
     nav_terms: "Regulamin",
@@ -562,7 +562,7 @@ const UI_STRINGS = {
   },
   uk: {
     nav_home: "Головна",
-    nav_guide: "Посібник",
+    nav_guide: "Міські гіди",
     nav_about: "Про нас",
     nav_privacy: "Конфіденційність",
     nav_terms: "Умови",
@@ -602,7 +602,7 @@ const UI_STRINGS = {
   },
   sw: {
     nav_home: "Nyumbani",
-    nav_guide: "Mwongozo",
+    nav_guide: "Miongozo ya Miji",
     nav_about: "Kuhusu",
     nav_privacy: "Faragha",
     nav_terms: "Masharti",
@@ -642,7 +642,7 @@ const UI_STRINGS = {
   },
   ha: {
     nav_home: "Gida",
-    nav_guide: "Jagora",
+    nav_guide: "Jagororin Birane",
     nav_about: "Game da mu",
     nav_privacy: "Sirri",
     nav_terms: "Sharudda",
@@ -682,7 +682,7 @@ const UI_STRINGS = {
   },
   am: {
     nav_home: "መነሻ",
-    nav_guide: "መመሪያ",
+    nav_guide: "የከተማ መመሪያዎች",
     nav_about: "ስለ እኛ",
     nav_privacy: "ግላዊነት",
     nav_terms: "ውሎች",
@@ -722,7 +722,7 @@ const UI_STRINGS = {
   },
   ht: {
     nav_home: "Akèy",
-    nav_guide: "Gid",
+    nav_guide: "Gid Vil",
     nav_about: "Konsènan",
     nav_privacy: "Konfidansyalite",
     nav_terms: "Kondisyon",
@@ -762,7 +762,7 @@ const UI_STRINGS = {
   },
   th: {
     nav_home: "หน้าแรก",
-    nav_guide: "คู่มือ",
+    nav_guide: "คู่มือเมือง",
     nav_about: "เกี่ยวกับ",
     nav_privacy: "ความเป็นส่วนตัว",
     nav_terms: "ข้อกำหนด",
@@ -802,7 +802,7 @@ const UI_STRINGS = {
   },
   tr: {
     nav_home: "Ana Sayfa",
-    nav_guide: "Rehber",
+    nav_guide: "Şehir Rehberleri",
     nav_about: "Hakkında",
     nav_privacy: "Gizlilik",
     nav_terms: "Şartlar",
@@ -842,7 +842,7 @@ const UI_STRINGS = {
   },
   id: {
     nav_home: "Beranda",
-    nav_guide: "Panduan",
+    nav_guide: "Panduan Kota",
     nav_about: "Tentang",
     nav_privacy: "Privasi",
     nav_terms: "Ketentuan",
