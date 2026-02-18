@@ -17,16 +17,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Haggly — Negotiate in Any Language</title>
 <meta name="description" content="Free marketplace negotiation translator. Bargain on Facebook Marketplace, Craigslist, and more in any language. Instant phrase translation for buyers and sellers.">
+<meta property="og:title" content="Haggly — Negotiate in Any Language">
+<meta property="og:description" content="Free marketplace negotiation translator. Bargain on Facebook Marketplace, Craigslist, and more in any language. 22 languages, instant copy-paste phrases.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haggly.io/">
+<meta property="og:image" content="https://haggly.io/icon-512.svg">
+<meta property="og:site_name" content="Haggly">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Haggly — Negotiate in Any Language">
+<meta name="twitter:description" content="Free marketplace negotiation translator. 22 languages, instant copy-paste.">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#5865F2">
+<meta name="theme-color" content="#E0622E">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632867015737384" crossorigin="anonymous"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --primary: #5865F2;
-    --primary-dark: #4752C4;
+    --primary: #E0622E;
+    --primary-dark: #C4531F;
     --bg: #FAFAFA;
     --card: #FFFFFF;
     --text: #1a1a1a;
@@ -416,6 +425,24 @@
     nav .brand { width: 100%; text-align: center; }
   }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Haggly",
+  "url": "https://haggly.io",
+  "description": "Free marketplace negotiation translator. Bargain on Facebook Marketplace, Craigslist, and more in 22 languages.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": ["en","es","zh","ar","hi","pt","fr","de","ja","ko","vi","tl","ru","pl","uk","sw","ha","am","ht","th","tr","id"]
+}
+</script>
+<link rel="canonical" href="https://haggly.io/">
 </head>
 <body>
 
@@ -460,6 +487,9 @@
         <option value="ha">🇳🇬 Hausa</option>
         <option value="am">🇪🇹 አማርኛ</option>
         <option value="ht">🇭🇹 Kreyòl Ayisyen</option>
+        <option value="th">🇹🇭 ไทย</option>
+        <option value="tr">🇹🇷 Türkçe</option>
+        <option value="id">🇮🇩 Bahasa Indonesia</option>
       </select>
     </div>
 
@@ -487,6 +517,9 @@
         <option value="ha">🇳🇬 Hausa</option>
         <option value="am">🇪🇹 አማርኛ</option>
         <option value="ht">🇭🇹 Kreyòl Ayisyen</option>
+        <option value="th">🇹🇭 ไทย</option>
+        <option value="tr">🇹🇷 Türkçe</option>
+        <option value="id">🇮🇩 Bahasa Indonesia</option>
       </select>
     </div>
   </div>
@@ -521,11 +554,23 @@
   <!-- Phrases -->
   <div id="phrases"></div>
 
+  <!-- Ad Slot: After Phrases -->
+  <div style="text-align:center; margin: 24px 0; min-height: 90px;">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6632867015737384" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
   <!-- Custom Phrase -->
   <div class="custom-input">
     <textarea id="customPhrase" data-i18n="custom_placeholder" placeholder="Type your own phrase to translate..."></textarea>
     <button class="translate-btn" onclick="translateCustom()" data-i18n="btn_translate">Translate →</button>
     <div class="custom-result" id="customResult" onclick="copyText(this.textContent)"></div>
+  </div>
+
+  <!-- Ad Slot: Before Guide CTA -->
+  <div style="text-align:center; margin: 24px 0; min-height: 90px;">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6632867015737384" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
   <!-- Guide CTA -->
@@ -664,7 +709,7 @@ function getTranslation(phrase) {
     return TRANSLATIONS[from][to][phrase];
   }
 
-  return `[${to.toUpperCase()}] ${phrase}`;
+  return phrase;
 }
 
 function escapeHtml(str) {
