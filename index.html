@@ -550,23 +550,11 @@
   <!-- Phrases -->
   <div id="phrases"></div>
 
-  <!-- Ad Slot: After Phrases -->
-  <div style="text-align:center; margin: 24px 0; min-height: 90px;">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6632867015737384" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
-
   <!-- Custom Phrase -->
   <div class="custom-input">
     <textarea id="customPhrase" data-i18n="custom_placeholder" placeholder="Type your own phrase to translate..."></textarea>
     <button class="translate-btn" onclick="translateCustom()" data-i18n="btn_translate">Translate →</button>
-    <div class="custom-result" id="customResult" onclick="copyText(this.textContent)"></div>
-  </div>
-
-  <!-- Ad Slot: Before Guide CTA -->
-  <div style="text-align:center; margin: 24px 0; min-height: 90px;">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6632867015737384" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <div class="custom-result" id="customResult"></div>
   </div>
 
   <!-- Guide CTA -->
@@ -727,11 +715,11 @@ function renderPhrases() {
       const translated = getTranslation(phrase);
       const escapedTranslated = escapeHtml(translated);
       html += `
-        <div class="phrase-card" onclick="copyText('${translated.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">
+        <div class="phrase-card" role="button" tabindex="0" data-copy="${escapeHtml(translated)}" data-lang="${toLang}">
           <div class="phrase-original">${escapeHtml(phrase)}</div>
           <div class="phrase-translated-row">
             <span class="phrase-translated">${escapedTranslated}</span>
-            <button class="tts-btn" onclick="event.stopPropagation(); speakText('${translated.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}', '${toLang}')" title="Listen">🔊</button>
+            <button class="tts-btn" data-speak="${escapeHtml(translated)}" data-lang="${toLang}" title="Listen">🔊</button>
           </div>
         </div>`;
     }
@@ -768,8 +756,8 @@ async function translateCustom() {
     if (!res.ok) throw new Error('Translation failed');
     const data = await res.json();
     const translated = data[0].map(s => s[0]).join('');
-    result.innerHTML = `<span class="phrase-translated" style="cursor:pointer" onclick="copyText('${translated.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">${escapeHtml(translated)}</span>` +
-      `<button class="tts-btn" onclick="event.stopPropagation(); speakText('${translated.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}', '${tl}')" title="Listen">🔊</button>`;
+    result.innerHTML = `<span class="phrase-translated" style="cursor:pointer" data-copy="${escapeHtml(translated)}">${escapeHtml(translated)}</span>` +
+      `<button class="tts-btn" data-speak="${escapeHtml(translated)}" data-lang="${tl}" title="Listen">🔊</button>`;
   } catch (e) {
     result.innerHTML = '❌ Translation error. Please try again.';
   }
@@ -783,6 +771,36 @@ function speakText(text, lang) {
     speechSynthesis.speak(u);
   }
 }
+
+// Event delegation for phrase cards and TTS buttons
+document.addEventListener('click', function(e) {
+  // TTS button click
+  const ttsBtn = e.target.closest('[data-speak]');
+  if (ttsBtn) {
+    e.stopPropagation();
+    speakText(ttsBtn.dataset.speak, ttsBtn.dataset.lang);
+    return;
+  }
+  // Copy button click (nego cards)
+  const copyBtn = e.target.closest('[data-copy-btn]');
+  if (copyBtn) {
+    copyText(copyBtn.dataset.copyBtn);
+    return;
+  }
+  // Phrase card click
+  const card = e.target.closest('[data-copy]');
+  if (card) {
+    copyText(card.dataset.copy);
+    return;
+  }
+});
+// Keyboard support for phrase cards
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const card = e.target.closest('.phrase-card[data-copy]');
+    if (card) { e.preventDefault(); copyText(card.dataset.copy); }
+  }
+});
 
 // Listen for language changes
 document.getElementById('fromLang').addEventListener('change', renderPhrases);
@@ -855,15 +873,14 @@ async function generateNegoPhrases() {
       const toneLabel = t(r.label, r.labelFallback);
       const safeTranslated = escapeHtml(r.translated);
       const safeOriginal = escapeHtml(r.text);
-      const jsTranslated = r.translated.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       html += `
         <div class="nego-card ${r.css}">
           <div class="nego-card-header">${r.emoji} ${escapeHtml(toneLabel)}</div>
           <div class="phrase-original">${safeOriginal}</div>
           <div class="nego-translated">${safeTranslated}</div>
           <div class="nego-card-actions">
-            <button class="nego-action-btn" onclick="copyText('${jsTranslated}')" title="Copy">📋</button>
-            <button class="nego-action-btn" onclick="speakText('${jsTranslated}', '${tl}')" title="Listen">🔊</button>
+            <button class="nego-action-btn" data-copy-btn="${safeTranslated}" title="Copy">📋</button>
+            <button class="nego-action-btn" data-speak="${safeTranslated}" data-lang="${tl}" title="Listen">🔊</button>
           </div>
         </div>`;
     }
