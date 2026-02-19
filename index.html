@@ -13,6 +13,13 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-adsense-account" content="ca-pub-6632867015737384">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://pagead2.googlesyndication.com">
+<link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+<link rel="preconnect" href="https://www.google-analytics.com">
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
 <title>Haggly — Negotiate in Any Language</title>
 <meta name="description" content="Free marketplace negotiation translator. Bargain on Facebook Marketplace, Craigslist, and more in any language. Instant phrase translation for buyers and sellers.">
 <link rel="canonical" href="https://haggly.io/">
@@ -29,6 +36,55 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
 <meta name="twitter:title" content="Haggly — Negotiate in Any Language">
 <meta name="twitter:description" content="Free marketplace negotiation translator. Bargain on Facebook Marketplace, Craigslist, and more in any language. Instant phrase translation for buyers and sellers.">
 <meta name="twitter:image" content="https://haggly.io/social-card.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Haggly",
+  "url": "https://haggly.io/",
+  "logo": "https://haggly.io/icon.svg"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Haggly",
+  "url": "https://haggly.io/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Haggly free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Haggly is free to use for translating negotiation phrases."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which marketplaces does Haggly support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Haggly is designed for common local marketplaces such as Facebook Marketplace and Craigslist, plus in-person market negotiation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Haggly store my custom phrases?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Custom translations run in your browser and are not saved by Haggly."
+      }
+    }
+  ]
+}
+</script>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#FF6B35">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632867015737384" crossorigin="anonymous"></script>
@@ -359,6 +415,19 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
   }
   .nego-action-btn:hover { background: #EEF0FE; }
 
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .faq-item h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .faq-item p {
+    color: var(--muted);
+  }
+
   @media (max-width: 600px) {
     nav { justify-content: center; }
     nav .brand { width: 100%; text-align: center; }
@@ -482,6 +551,24 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
   <div class="nego-section" style="text-align:center">
     <a href="/phrases.html" style="color:var(--primary); font-weight:700; font-size:20px; text-decoration:none;">💬 Browse 50+ Ready-Made Phrases →</a>
     <p style="color:var(--muted); font-size:15px; margin-top:8px;">Pre-translated negotiation phrases for buying and selling</p>
+  </div>
+
+  <div class="nego-section faq-section">
+    <h2>FAQ</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>Is Haggly free to use?</h3>
+        <p>Yes. Haggly is free to use for translating negotiation phrases.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Which marketplaces does Haggly support?</h3>
+        <p>Haggly is designed for common local marketplaces such as Facebook Marketplace and Craigslist, plus in-person market negotiation.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does Haggly store my custom phrases?</h3>
+        <p>No. Custom translations run in your browser and are not saved by Haggly.</p>
+      </div>
+    </div>
   </div>
 
   <div class="footer">
