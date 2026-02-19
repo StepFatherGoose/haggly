@@ -46,7 +46,14 @@ const UI_STRINGS = {
     nego_generate: "Generate Phrases ✨",
     nego_tone_friendly: "Friendly",
     nego_tone_savvy: "Savvy",
-    nego_tone_walkaway: "Walk-Away"
+    nego_tone_walkaway: "Walk-Away",
+    nav_phrases: "Phrases",
+    browse_phrases_cta: "Browse All Phrases →",
+    browse_phrases_sub: "Ready-made buyer and seller phrases in any language — tap, copy, paste",
+    phrases_page_title: "Haggling Phrases",
+    phrases_page_subtitle: "Browse, copy, and use negotiation phrases in any language.",
+    generator_cta: "Try the Negotiation Generator →",
+    generator_cta_sub: "Enter prices and get custom negotiation scripts in any language"
   },
   es: {
     nav_home: "Inicio",
