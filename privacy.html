@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+// Force HTTPS in production while allowing local development.
+if (location.protocol === "http:" && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+  location.replace("https://" + location.host + location.pathname + location.search + location.hash);
+}
+</script>
 <!-- Google tag (gtag.js) -->
+<script src="/consent.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17960372503"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -9,21 +16,29 @@
   gtag('js', new Date());
   gtag('config', 'AW-17960372503');
 </script>
-<script>
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="Privacy Policy — Haggly">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://haggly.io/privacy.html">
-<meta name="twitter:card" content="summary">
 <title>Privacy Policy — Haggly</title>
 <meta name="description" content="Haggly's privacy policy. Learn how we handle data, cookies, and advertising on our free marketplace negotiation translator.">
+<link rel="canonical" href="https://haggly.io/privacy.html">
+<meta property="og:site_name" content="Haggly">
+<meta property="og:title" content="Privacy Policy — Haggly">
+<meta property="og:description" content="Haggly's privacy policy. Learn how we handle data, cookies, and advertising on our free marketplace negotiation translator.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haggly.io/privacy.html">
+<meta property="og:image" content="https://haggly.io/social-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy Policy — Haggly">
+<meta name="twitter:description" content="Haggly's privacy policy. Learn how we handle data, cookies, and advertising on our free marketplace negotiation translator.">
+<meta name="twitter:image" content="https://haggly.io/social-card.svg">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632867015737384" crossorigin="anonymous"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root { --orange: #E0622E; --orange-dark: #C4531F; --bg: #FAFAFA; --card: #FFFFFF; --text: #1a1a1a; --muted: #666; --border: #e0e0e0; }
+  :root { --orange: #FF6B35; --orange-dark: #e55a25; --bg: #FAFAFA; --card: #FFFFFF; --text: #1a1a1a; --muted: #666; --border: #e0e0e0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
   nav { background: var(--orange); padding: 14px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
   nav a { color: white; text-decoration: none; font-weight: 600; font-size: 15px; padding: 6px 12px; border-radius: 8px; transition: background 0.2s; }
@@ -45,21 +60,23 @@
   .footer-links a { margin: 0 10px; }
   @media (max-width: 600px) { .content-card { padding: 20px; } nav { justify-content: center; } nav .brand { margin-right: 0; width: 100%; text-align: center; } }
 </style>
-<link rel="canonical" href="https://haggly.io/privacy.html">
 </head>
 <body>
 
 <nav>
   <a href="/" class="brand">🤝 Haggly</a>
   <a href="/" data-i18n="nav_home">Home</a>
+  <a href="/phrases.html" data-i18n="nav_phrases">Popular Phrases</a>
   <a href="/guide.html" data-i18n="nav_guide">City Guides</a>
   <a href="/about.html" data-i18n="nav_about">About</a>
+  <a href="/privacy.html" data-i18n="nav_privacy">Privacy</a>
+  <a href="/terms.html" data-i18n="nav_terms">Terms</a>
   <a href="/contact.html" data-i18n="nav_contact">Contact</a>
 </nav>
 
 <div class="header">
   <h1 data-i18n="page_privacy_title">Privacy Policy</h1>
-  <p data-i18n="page_privacy_subtitle">Last updated: February 14, 2026</p>
+  <p data-i18n="page_privacy_subtitle">Last updated: February 19, 2026</p>
 </div>
 
 <div class="container">
@@ -69,8 +86,8 @@
     <p>Haggly ("we," "our," or "us") operates the website haggly.io. This Privacy Policy explains how we collect, use, and protect information when you use our service. We are committed to keeping your experience private and transparent.</p>
 
     <h2>Information We Collect</h2>
-    <p><strong>We do not require user accounts.</strong> You can use Haggly without signing up, logging in, or providing any personal information. We do not collect names, email addresses, phone numbers, or any personally identifiable information through our translator tool.</p>
-    <p>The phrases you translate using Haggly's preset phrase feature are processed entirely in your browser. No translation data is sent to our servers.</p>
+    <p><strong>We do not require user accounts.</strong> You can use Haggly without signing up, logging in, or providing any personal information. We do not collect names, email addresses, phone numbers, or any personally identifiable information through the core phrase tool.</p>
+    <p>Preset phrase translations are processed in your browser from static translation data. If you use custom translation or generated negotiation translation features, the text you enter may be sent directly from your browser to third-party translation services to return translated output.</p>
 
     <h2>Automatically Collected Information</h2>
     <p>Like most websites, our hosting provider (GitHub Pages) may automatically collect certain technical information when you visit haggly.io, including:</p>
@@ -84,15 +101,15 @@
     </ul>
     <p>This information is used for analytics and to ensure the website functions properly. It is not used to identify individual users.</p>
 
-    <h2>Cookies</h2>
-    <p>Haggly itself does not set any first-party cookies. However, our advertising partner (Google AdSense) and hosting provider may set cookies on your device. These cookies are used to:</p>
+    <h2>Cookies and Local Storage</h2>
+    <p>Haggly may store limited preference data in your browser (for example, language and consent preferences) using local storage. Our advertising partner (Google AdSense) and analytics providers may also set cookies or similar identifiers on your device. These technologies are used to:</p>
     <ul>
       <li>Serve relevant advertisements</li>
       <li>Measure advertising performance</li>
       <li>Prevent the same ads from being shown repeatedly</li>
       <li>Understand how users interact with ad content</li>
     </ul>
-    <p>You can manage cookie preferences through your browser settings. Most browsers allow you to block or delete cookies. Please note that blocking cookies may affect the functionality of some website features.</p>
+    <p>You can manage cookie preferences through browser settings and the consent controls on our site. Blocking cookies or storage may affect some features.</p>
 
     <h2>Google AdSense</h2>
     <p>We use Google AdSense to display advertisements on haggly.io. Google AdSense uses cookies and web beacons to serve ads based on your prior visits to our website and other websites on the internet. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to haggly.io and/or other sites on the internet.</p>
@@ -129,7 +146,6 @@
   </div>
 </div>
 
-<script src="translations.js"></script>
 <script src="ui-strings.js"></script>
 <script src="localize.js"></script>
 </body>

@@ -3,25 +3,19 @@ const CACHE_NAME = 'haggly-v4';
 const ASSETS = [
   '/',
   '/index.html',
+  '/phrases.html',
   '/guide.html',
   '/about.html',
   '/privacy.html',
   '/terms.html',
   '/contact.html',
-  '/404.html',
   '/manifest.json',
-  '/translations.js',
   '/ui-strings.js',
   '/localize.js',
-  '/icon-192.svg',
-  '/icon-512.svg',
-  '/guides/bangkok-haggling.html',
-  '/guides/marrakech-haggling.html',
-  '/guides/istanbul-haggling.html',
-  '/guides/mexico-city-haggling.html',
-  '/guides/bali-haggling.html',
-  '/guides/haiti-haggling.html',
-  '/guides/facebook-marketplace.html'
+  '/consent.js',
+  '/icon.svg',
+  '/icon-maskable.svg',
+  '/social-card.svg'
 ];
 
 self.addEventListener('install', e => {

@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+// Force HTTPS in production while allowing local development.
+if (location.protocol === "http:" && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+  location.replace("https://" + location.host + location.pathname + location.search + location.hash);
+}
+</script>
 <!-- Google tag (gtag.js) -->
+<script src="/consent.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17960372503"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -9,21 +16,29 @@
   gtag('js', new Date());
   gtag('config', 'AW-17960372503');
 </script>
-<script>
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="Terms of Service — Haggly">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://haggly.io/terms.html">
-<meta name="twitter:card" content="summary">
 <title>Terms of Service — Haggly</title>
 <meta name="description" content="Terms of service for Haggly, the free marketplace negotiation phrase translator. Read our terms before using the site.">
+<link rel="canonical" href="https://haggly.io/terms.html">
+<meta property="og:site_name" content="Haggly">
+<meta property="og:title" content="Terms of Service — Haggly">
+<meta property="og:description" content="Terms of service for Haggly, the free marketplace negotiation phrase translator. Read our terms before using the site.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haggly.io/terms.html">
+<meta property="og:image" content="https://haggly.io/social-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Terms of Service — Haggly">
+<meta name="twitter:description" content="Terms of service for Haggly, the free marketplace negotiation phrase translator. Read our terms before using the site.">
+<meta name="twitter:image" content="https://haggly.io/social-card.svg">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632867015737384" crossorigin="anonymous"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root { --orange: #E0622E; --orange-dark: #C4531F; --bg: #FAFAFA; --card: #FFFFFF; --text: #1a1a1a; --muted: #666; --border: #e0e0e0; }
+  :root { --orange: #FF6B35; --orange-dark: #e55a25; --bg: #FAFAFA; --card: #FFFFFF; --text: #1a1a1a; --muted: #666; --border: #e0e0e0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
   nav { background: var(--orange); padding: 14px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
   nav a { color: white; text-decoration: none; font-weight: 600; font-size: 15px; padding: 6px 12px; border-radius: 8px; transition: background 0.2s; }
@@ -45,21 +60,23 @@
   .footer-links a { margin: 0 10px; }
   @media (max-width: 600px) { .content-card { padding: 20px; } nav { justify-content: center; } nav .brand { margin-right: 0; width: 100%; text-align: center; } }
 </style>
-<link rel="canonical" href="https://haggly.io/terms.html">
 </head>
 <body>
 
 <nav>
   <a href="/" class="brand">🤝 Haggly</a>
   <a href="/" data-i18n="nav_home">Home</a>
+  <a href="/phrases.html" data-i18n="nav_phrases">Popular Phrases</a>
   <a href="/guide.html" data-i18n="nav_guide">City Guides</a>
   <a href="/about.html" data-i18n="nav_about">About</a>
+  <a href="/privacy.html" data-i18n="nav_privacy">Privacy</a>
+  <a href="/terms.html" data-i18n="nav_terms">Terms</a>
   <a href="/contact.html" data-i18n="nav_contact">Contact</a>
 </nav>
 
 <div class="header">
   <h1 data-i18n="page_terms_title">Terms of Service</h1>
-  <p data-i18n="page_terms_subtitle">Last updated: February 14, 2026</p>
+  <p data-i18n="page_terms_subtitle">Last updated: February 19, 2026</p>
 </div>
 
 <div class="container">
@@ -125,7 +142,6 @@
   </div>
 </div>
 
-<script src="translations.js"></script>
 <script src="ui-strings.js"></script>
 <script src="localize.js"></script>
 </body>

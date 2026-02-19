@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+// Force HTTPS in production while allowing local development.
+if (location.protocol === "http:" && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+  location.replace("https://" + location.host + location.pathname + location.search + location.hash);
+}
+</script>
 <!-- Google tag (gtag.js) -->
+<script src="/consent.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17960372503"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -9,20 +16,25 @@
   gtag('js', new Date());
   gtag('config', 'AW-17960372503');
 </script>
-<script>
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="How to Haggle in Mexico City — Market Guide & Spanish Phrases">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://haggly.io/guides/mexico-city-haggling.html">
-<meta property="og:site_name" content="Haggly">
-<meta property="og:image" content="https://haggly.io/og-image.png">
-<meta name="twitter:card" content="summary">
 <title>How to Haggle in Mexico City Markets: The Complete Guide (2026) — Haggly</title>
 <meta name="description" content="Master bargaining at Tepito, La Lagunilla, and Mexico City's street markets. Essential Spanish haggling phrases, fair prices, and tips for tourists.">
 <meta name="keywords" content="mexico city haggling, tepito market bargaining, spanish bargaining phrases, mexico market negotiation, la lagunilla guide">
 <link rel="canonical" href="https://haggly.io/guides/mexico-city-haggling.html">
+<meta property="og:site_name" content="Haggly">
+<meta property="og:title" content="How to Haggle in Mexico City Markets: The Complete Guide (2026) — Haggly">
+<meta property="og:description" content="Master bargaining at Tepito, La Lagunilla, and Mexico City's street markets. Essential Spanish haggling phrases, fair prices, and tips for tourists.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://haggly.io/guides/mexico-city-haggling.html">
+<meta property="og:image" content="https://haggly.io/social-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Haggle in Mexico City Markets: The Complete Guide (2026) — Haggly">
+<meta name="twitter:description" content="Master bargaining at Tepito, La Lagunilla, and Mexico City's street markets. Essential Spanish haggling phrases, fair prices, and tips for tourists.">
+<meta name="twitter:image" content="https://haggly.io/social-card.svg">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632867015737384" crossorigin="anonymous"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
 <script type="application/ld+json">
@@ -42,7 +54,7 @@
 </script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root { --primary: #E0622E; --primary-dark: #C4531F; --bg: #FAFAFA; --card: #FFFFFF; --text: #1a1a1a; --muted: #666; --border: #e0e0e0; }
+  :root { --primary: #5865F2; --primary-dark: #4752C4; --bg: #FAFAFA; --card: #FFFFFF; --text: #1a1a1a; --muted: #666; --border: #e0e0e0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
   .header { background: var(--primary); color: white; text-align: center; padding: 30px 20px; }
   .header a { color: white; text-decoration: none; font-size: 28px; font-weight: 800; }
@@ -81,6 +93,7 @@
 </div>
 <nav>
   <a href="/">Home</a>
+  <a href="/phrases.html">Popular Phrases</a>
   <a href="/guides/bangkok-haggling.html">Bangkok</a>
   <a href="/guides/marrakech-haggling.html">Marrakech</a>
   <a href="/guides/istanbul-haggling.html">Istanbul</a>
@@ -96,8 +109,6 @@
 
   <p>The biggest advantage you can have? Speaking even basic Spanish. Mexico City vendors are warm and patient with learners, and a few phrases in Spanish will get you way further than pointing and showing fingers.</p>
 
-  <div class="ad-slot">
-  </div>
 
   <h2>How Haggling Works in Mexico City</h2>
 
@@ -197,8 +208,6 @@
   <strong>Haggling level:</strong> Low — these are local markets<br>
   <strong>Tip:</strong> Tianguis are where real CDMX life happens. Prices are already fair. Don't haggle on produce or prepared food — it's already incredibly cheap.</p>
 
-  <div class="ad-slot">
-  </div>
 
   <h2>What You Should Actually Pay (2026 Price Guide)</h2>
 
