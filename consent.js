@@ -2,6 +2,8 @@
   var STORAGE_KEY = 'haggly-consent-v1';
   var VALUE_GRANTED = 'granted';
   var VALUE_DENIED = 'denied';
+  var listeners = [];
+  var currentValue = null;
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
@@ -14,6 +16,7 @@
       ad_user_data: granted ? 'granted' : 'denied',
       ad_personalization: granted ? 'granted' : 'denied'
     });
+    notify(value);
   }
 
   function persist(value) {
@@ -106,6 +109,24 @@
     document.body.appendChild(btn);
   }
 
+  function notify(value) {
+    currentValue = value;
+    listeners.slice().forEach(function(cb) {
+      try { cb(value); } catch (e) {}
+    });
+    try {
+      document.dispatchEvent(new CustomEvent('haggly-consent-updated', { detail: { value: value } }));
+    } catch (e) {}
+  }
+
+  function onChange(cb) {
+    if (typeof cb !== 'function') return;
+    listeners.push(cb);
+    if (currentValue) {
+      try { cb(currentValue); } catch (e) {}
+    }
+  }
+
   // Default denied until user makes a choice.
   gtag('consent', 'default', {
     ad_storage: 'denied',
@@ -121,6 +142,7 @@
     if (stored === VALUE_GRANTED || stored === VALUE_DENIED) {
       applyConsent(stored);
     } else {
+      applyConsent(VALUE_DENIED);
       showBanner();
     }
   }
@@ -135,6 +157,7 @@
     get: getStored,
     grant: function() { persist(VALUE_GRANTED); },
     deny: function() { persist(VALUE_DENIED); },
+    onChange: onChange,
     reset: function() {
       try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
       gtag('consent', 'default', {
