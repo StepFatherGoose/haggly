@@ -248,6 +248,58 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
     transition: opacity 0.2s;
   }
   .tts-btn:hover { opacity: 1; background: #EEF0FE; }
+  .handoff-btn {
+    background: #EEF0FE;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--primary);
+  }
+  .handoff-btn:hover { background: #E3E7FF; }
+
+  .recent-section {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    content-visibility: auto;
+    contain-intrinsic-size: 300px;
+  }
+  .recent-section h2 {
+    font-size: 16px;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+  .recent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .recent-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .recent-text {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .recent-meta {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .recent-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+  }
 
   /* Nav */
   nav { background: var(--primary); padding: 14px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
@@ -267,6 +319,10 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
   .footer a { color: var(--primary); text-decoration: none; }
   .footer-links { margin-bottom: 12px; }
   .footer-links a { margin: 0 10px; }
+  #phrases {
+    content-visibility: auto;
+    contain-intrinsic-size: 1800px;
+  }
 
   @media (max-width: 600px) {
     nav { justify-content: center; }
@@ -363,6 +419,11 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
   <div class="role-row">
     <button class="role-btn active" data-role="buyer" data-i18n="btn_buying">🛒 I'm Buying</button>
     <button class="role-btn" data-role="seller" data-i18n="btn_selling">💰 I'm Selling</button>
+  </div>
+
+  <div class="recent-section" id="recentPhrasesSection" hidden>
+    <h2>🕘 Recent Phrases</h2>
+    <div class="recent-list" id="recentPhrasesList"></div>
   </div>
 
   <!-- Phrases -->
@@ -470,6 +531,176 @@ const CATEGORY_I18N = {
 };
 
 let currentRole = 'buyer';
+const FROM_LANG_STORAGE_KEY = 'haggly-from-lang';
+const RECENT_PHRASES_STORAGE_KEY = 'haggly-recent-phrases-v1';
+const MAX_RECENT_PHRASES = 5;
+const PAGE_ID = 'phrases';
+let userChangedToLang = false;
+
+function getSupportedLang(code) {
+  const normalized = (code || '').toLowerCase().split('-')[0];
+  return document.querySelector(`#fromLang option[value="${normalized}"]`) ? normalized : null;
+}
+
+function getPreferredLang() {
+  if (window.hagglyI18n && typeof window.hagglyI18n.getUILang === 'function') {
+    const uiLang = getSupportedLang(window.hagglyI18n.getUILang());
+    if (uiLang) return uiLang;
+  }
+  return getSupportedLang(navigator.language || '') || 'en';
+}
+
+function initializeLanguageSelectors() {
+  const from = document.getElementById('fromLang');
+  const to = document.getElementById('toLang');
+  if (!from || !to) return;
+
+  const savedFrom = getSupportedLang(localStorage.getItem(FROM_LANG_STORAGE_KEY));
+  const preferred = savedFrom || getPreferredLang();
+
+  from.value = preferred;
+  to.value = preferred;
+  userChangedToLang = false;
+}
+
+function handleFromLangChange() {
+  const from = document.getElementById('fromLang');
+  const to = document.getElementById('toLang');
+  localStorage.setItem(FROM_LANG_STORAGE_KEY, from.value);
+  if (!userChangedToLang && to) {
+    to.value = from.value;
+  }
+  trackEvent('language_changed', { context: 'from_selector' });
+  renderPhrases();
+}
+
+function handleToLangChange() {
+  userChangedToLang = true;
+  trackEvent('language_changed', { context: 'to_selector' });
+  renderPhrases();
+}
+
+function getBaseEventParams(extraParams) {
+  const from = document.getElementById('fromLang');
+  const to = document.getElementById('toLang');
+  return Object.assign(
+    {
+      page: PAGE_ID,
+      role: currentRole,
+      from_lang: from ? from.value : null,
+      to_lang: to ? to.value : null
+    },
+    extraParams || {}
+  );
+}
+
+function loadRecentPhrases() {
+  try {
+    const raw = localStorage.getItem(RECENT_PHRASES_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveRecentPhrases(items) {
+  localStorage.setItem(RECENT_PHRASES_STORAGE_KEY, JSON.stringify(items.slice(0, MAX_RECENT_PHRASES)));
+}
+
+function renderRecentPhrases() {
+  const section = document.getElementById('recentPhrasesSection');
+  const listEl = document.getElementById('recentPhrasesList');
+  if (!section || !listEl) return;
+
+  const items = loadRecentPhrases();
+  listEl.replaceChildren();
+  section.hidden = items.length === 0;
+  if (items.length === 0) return;
+
+  const fragment = document.createDocumentFragment();
+  for (const item of items) {
+    const card = document.createElement('div');
+    card.className = 'recent-item';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.dataset.copy = item.text;
+    card.dataset.context = 'recent_phrase';
+
+    const text = document.createElement('div');
+    text.className = 'recent-text';
+    text.textContent = item.text;
+
+    const meta = document.createElement('div');
+    meta.className = 'recent-meta';
+    meta.textContent = `${(item.from_lang || '').toUpperCase()} → ${(item.to_lang || '').toUpperCase()} • ${item.source || 'saved'}`;
+
+    const actions = document.createElement('div');
+    actions.className = 'recent-actions';
+
+    const shareBtn = document.createElement('button');
+    shareBtn.type = 'button';
+    shareBtn.className = 'handoff-btn';
+    shareBtn.textContent = 'Share';
+    shareBtn.dataset.share = item.text;
+    shareBtn.dataset.shareContext = 'recent_phrase';
+
+    const smsBtn = document.createElement('button');
+    smsBtn.type = 'button';
+    smsBtn.className = 'handoff-btn';
+    smsBtn.textContent = 'SMS';
+    smsBtn.dataset.sms = item.text;
+    smsBtn.dataset.shareContext = 'recent_phrase';
+
+    const waBtn = document.createElement('button');
+    waBtn.type = 'button';
+    waBtn.className = 'handoff-btn';
+    waBtn.textContent = 'WA';
+    waBtn.dataset.whatsapp = item.text;
+    waBtn.dataset.shareContext = 'recent_phrase';
+
+    actions.appendChild(shareBtn);
+    actions.appendChild(smsBtn);
+    actions.appendChild(waBtn);
+    card.appendChild(text);
+    card.appendChild(meta);
+    card.appendChild(actions);
+    fragment.appendChild(card);
+  }
+  listEl.appendChild(fragment);
+}
+
+function addRecentPhrase(text, source, extra) {
+  if (!text) return;
+  const trimmed = text.trim();
+  if (!trimmed) return;
+  const details = getBaseEventParams(extra);
+  const items = loadRecentPhrases().filter((item) => !(item.text === trimmed && item.to_lang === details.to_lang));
+  items.unshift({
+    text: trimmed,
+    source: source || 'unknown',
+    page: details.page,
+    role: details.role,
+    from_lang: details.from_lang,
+    to_lang: details.to_lang,
+    ts: Date.now()
+  });
+  saveRecentPhrases(items);
+  renderRecentPhrases();
+}
+
+function openSMS(text, extra) {
+  const body = encodeURIComponent(text);
+  const link = `sms:?&body=${body}`;
+  window.location.href = link;
+  trackEvent('handoff_sms_click', getBaseEventParams(Object.assign({ context: 'sms' }, extra || {})));
+}
+
+function openWhatsApp(text, extra) {
+  const link = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(link, '_blank', 'noopener,noreferrer');
+  trackEvent('handoff_whatsapp_click', getBaseEventParams(Object.assign({ context: 'whatsapp' }, extra || {})));
+}
 
 function setRole(role) {
   currentRole = role;
@@ -484,6 +715,9 @@ function swapLangs() {
   const tmp = from.value;
   from.value = to.value;
   to.value = tmp;
+  userChangedToLang = true;
+  localStorage.setItem(FROM_LANG_STORAGE_KEY, from.value);
+  trackEvent('language_changed', { context: 'swap' });
   renderPhrases();
 }
 
@@ -507,6 +741,7 @@ function renderPhrases() {
   const toLang = document.getElementById('toLang').value;
   const t = window.hagglyI18n ? window.hagglyI18n.t : function(k) { return k; };
   container.replaceChildren();
+  const fragment = document.createDocumentFragment();
 
   for (const [category, items] of Object.entries(phrases)) {
     const i18nKey = CATEGORY_I18N[category] || category;
@@ -515,7 +750,7 @@ function renderPhrases() {
     categoryTitle.className = 'category-title';
     categoryTitle.setAttribute('data-i18n', i18nKey);
     categoryTitle.textContent = localizedCat;
-    container.appendChild(categoryTitle);
+    fragment.appendChild(categoryTitle);
 
     for (const phrase of items) {
       const translated = getTranslation(phrase);
@@ -524,6 +759,7 @@ function renderPhrases() {
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
       card.dataset.copy = translated;
+      card.dataset.context = 'phrase_card';
 
       const original = document.createElement('div');
       original.className = 'phrase-original';
@@ -552,18 +788,41 @@ function renderPhrases() {
       shareBtn.title = window.hagglyI18n ? window.hagglyI18n.t('btn_share', 'Share') : 'Share';
       shareBtn.textContent = '↗';
 
+      const smsBtn = document.createElement('button');
+      smsBtn.className = 'handoff-btn';
+      smsBtn.type = 'button';
+      smsBtn.dataset.sms = translated;
+      smsBtn.dataset.shareContext = 'phrase_card';
+      smsBtn.textContent = 'SMS';
+
+      const waBtn = document.createElement('button');
+      waBtn.className = 'handoff-btn';
+      waBtn.type = 'button';
+      waBtn.dataset.whatsapp = translated;
+      waBtn.dataset.shareContext = 'phrase_card';
+      waBtn.textContent = 'WA';
+
       translatedRow.appendChild(translatedText);
       translatedRow.appendChild(speakBtn);
       translatedRow.appendChild(shareBtn);
+      translatedRow.appendChild(smsBtn);
+      translatedRow.appendChild(waBtn);
       card.appendChild(original);
       card.appendChild(translatedRow);
-      container.appendChild(card);
+      fragment.appendChild(card);
     }
   }
+  container.appendChild(fragment);
 }
 
-function copyText(text) {
+function copyText(text, context) {
   navigator.clipboard.writeText(text).then(() => {
+    const details = getBaseEventParams({ context: context || 'copy' });
+    trackEvent('copy_phrase', details);
+    if ((context || '').indexOf('recent_phrase') === 0) {
+      trackEvent('recent_phrase_used', { context: context });
+    }
+    addRecentPhrase(text, 'copy', details);
     showToast(window.hagglyI18n ? window.hagglyI18n.t('toast_copied') : '✅ Copied! Paste it in your chat');
   });
 }
@@ -571,7 +830,7 @@ function copyText(text) {
 function trackEvent(eventName, params) {
   try {
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(Object.assign({ event: eventName }, params || {}));
+    window.dataLayer.push(Object.assign({ event: eventName }, getBaseEventParams(params)));
   } catch (e) {}
 }
 
@@ -584,19 +843,23 @@ function showToast(message) {
 }
 
 async function shareText(text, context, extraParams) {
-  const details = Object.assign({ context: context }, extraParams || {});
+  const details = getBaseEventParams(Object.assign({ context: context }, extraParams || {}));
   const t = window.hagglyI18n ? window.hagglyI18n.t : function(k, fb) { return fb || k; };
   if (navigator.share) {
     try {
       trackEvent('share_opened', details);
       await navigator.share({ text: text });
       trackEvent('share_success', details);
+      if (context === 'recent_phrase') {
+        trackEvent('recent_phrase_shared', { context: context });
+      }
+      addRecentPhrase(text, 'share', details);
       showToast(t('toast_shared', '✅ Shared'));
       return;
     } catch (e) {}
   }
   trackEvent('share_fallback_copy', Object.assign({ reason: 'unsupported_or_error' }, details));
-  copyText(text);
+  copyText(text, `${context || 'unknown'}_fallback`);
 }
 
 function speakText(text, lang) {
@@ -605,6 +868,7 @@ function speakText(text, lang) {
     u.lang = lang;
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
+    trackEvent('tts_played', { context: 'speak_action' });
   }
 }
 
@@ -618,7 +882,23 @@ document.querySelectorAll('.role-btn[data-role]').forEach((btn) => {
 });
 
 document.addEventListener('click', (event) => {
-  const shareBtn = event.target.closest('.tts-btn[data-share]');
+  const smsTarget = event.target.closest('[data-sms]');
+  if (smsTarget) {
+    event.stopPropagation();
+    openSMS(smsTarget.dataset.sms, { context: smsTarget.dataset.shareContext || 'unknown' });
+    addRecentPhrase(smsTarget.dataset.sms, 'sms', { context: smsTarget.dataset.shareContext || 'unknown' });
+    return;
+  }
+
+  const waTarget = event.target.closest('[data-whatsapp]');
+  if (waTarget) {
+    event.stopPropagation();
+    openWhatsApp(waTarget.dataset.whatsapp, { context: waTarget.dataset.shareContext || 'unknown' });
+    addRecentPhrase(waTarget.dataset.whatsapp, 'whatsapp', { context: waTarget.dataset.shareContext || 'unknown' });
+    return;
+  }
+
+  const shareBtn = event.target.closest('[data-share]');
   if (shareBtn) {
     event.stopPropagation();
     const fromLang = document.getElementById('fromLang').value;
@@ -638,9 +918,9 @@ document.addEventListener('click', (event) => {
     return;
   }
 
-  const phraseCard = event.target.closest('.phrase-card[data-copy]');
-  if (phraseCard) {
-    copyText(phraseCard.dataset.copy);
+  const copyTarget = event.target.closest('[data-copy]');
+  if (copyTarget) {
+    copyText(copyTarget.dataset.copy, copyTarget.dataset.context || 'phrase_card_copy');
   }
 });
 
@@ -648,18 +928,28 @@ document.addEventListener('keydown', (event) => {
   if (event.key !== 'Enter' && event.key !== ' ') return;
 
   const phraseCard = event.target.closest('.phrase-card[data-copy]');
-  if (!phraseCard) return;
+  if (phraseCard) {
+    event.preventDefault();
+    copyText(phraseCard.dataset.copy, phraseCard.dataset.context || 'phrase_card_keyboard_copy');
+    return;
+  }
+
+  const recentItem = event.target.closest('.recent-item[data-copy]');
+  if (!recentItem) return;
 
   event.preventDefault();
-  copyText(phraseCard.dataset.copy);
+  copyText(recentItem.dataset.copy, recentItem.dataset.context || 'recent_phrase_keyboard');
 });
 
 // Listen for language changes
-document.getElementById('fromLang').addEventListener('change', renderPhrases);
-document.getElementById('toLang').addEventListener('change', renderPhrases);
+document.getElementById('fromLang').addEventListener('change', handleFromLangChange);
+document.getElementById('toLang').addEventListener('change', handleToLangChange);
 
 // Re-render when UI language changes (for category headers)
-document.addEventListener('haggly-lang-change', renderPhrases);
+document.addEventListener('haggly-lang-change', () => {
+  trackEvent('language_changed', { context: 'ui_lang_picker' });
+  renderPhrases();
+});
 
 </script>
 
@@ -667,6 +957,8 @@ document.addEventListener('haggly-lang-change', renderPhrases);
 <script src="ui-strings.js"></script>
 <script src="localize.js"></script>
 <script>
+initializeLanguageSelectors();
+renderRecentPhrases();
 renderPhrases(); // Render after translation dictionaries are loaded
 </script>
 

@@ -53,6 +53,7 @@ const UI_STRINGS = {
   },
   es: {
     nav_home: "Inicio",
+    nav_phrases: "Frases populares",
     nav_guide: "Guías de Ciudades",
     nav_about: "Acerca de",
     nav_privacy: "Privacidad",
@@ -101,6 +102,7 @@ const UI_STRINGS = {
   },
   zh: {
     nav_home: "首页",
+    nav_phrases: "常用短语",
     nav_guide: "城市指南",
     nav_about: "关于",
     nav_privacy: "隐私",
@@ -149,6 +151,7 @@ const UI_STRINGS = {
   },
   ar: {
     nav_home: "الرئيسية",
+    nav_phrases: "عبارات شائعة",
     nav_guide: "أدلة المدن",
     nav_about: "من نحن",
     nav_privacy: "الخصوصية",
@@ -197,6 +200,7 @@ const UI_STRINGS = {
   },
   hi: {
     nav_home: "होम",
+    nav_phrases: "लोकप्रिय वाक्यांश",
     nav_guide: "शहर गाइड",
     nav_about: "हमारे बारे में",
     nav_privacy: "गोपनीयता",
@@ -245,6 +249,7 @@ const UI_STRINGS = {
   },
   pt: {
     nav_home: "Início",
+    nav_phrases: "Frases populares",
     nav_guide: "Guias de Cidades",
     nav_about: "Sobre",
     nav_privacy: "Privacidade",
@@ -293,6 +298,7 @@ const UI_STRINGS = {
   },
   fr: {
     nav_home: "Accueil",
+    nav_phrases: "Phrases populaires",
     nav_guide: "City Guides",
     nav_about: "À propos",
     nav_privacy: "Confidentialité",
@@ -341,6 +347,7 @@ const UI_STRINGS = {
   },
   de: {
     nav_home: "Startseite",
+    nav_phrases: "Beliebte Phrasen",
     nav_guide: "Stadtführer",
     nav_about: "Über uns",
     nav_privacy: "Datenschutz",
@@ -389,6 +396,7 @@ const UI_STRINGS = {
   },
   ja: {
     nav_home: "ホーム",
+    nav_phrases: "人気フレーズ",
     nav_guide: "都市ガイド",
     nav_about: "概要",
     nav_privacy: "プライバシー",
@@ -437,6 +445,7 @@ const UI_STRINGS = {
   },
   ko: {
     nav_home: "홈",
+    nav_phrases: "인기 문구",
     nav_guide: "도시 가이드",
     nav_about: "소개",
     nav_privacy: "개인정보",
@@ -485,6 +494,7 @@ const UI_STRINGS = {
   },
   vi: {
     nav_home: "Trang chủ",
+    nav_phrases: "Cụm từ phổ biến",
     nav_guide: "Hướng dẫn Thành phố",
     nav_about: "Giới thiệu",
     nav_privacy: "Quyền riêng tư",
@@ -533,6 +543,7 @@ const UI_STRINGS = {
   },
   tl: {
     nav_home: "Home",
+    nav_phrases: "Sikat na parirala",
     nav_guide: "Mga Gabay sa Lungsod",
     nav_about: "Tungkol",
     nav_privacy: "Privacy",
@@ -581,6 +592,7 @@ const UI_STRINGS = {
   },
   ru: {
     nav_home: "Главная",
+    nav_phrases: "Популярные фразы",
     nav_guide: "Гиды по городам",
     nav_about: "О нас",
     nav_privacy: "Конфиденциальность",
@@ -629,6 +641,7 @@ const UI_STRINGS = {
   },
   pl: {
     nav_home: "Strona główna",
+    nav_phrases: "Popularne frazy",
     nav_guide: "Przewodniki miejskie",
     nav_about: "O nas",
     nav_privacy: "Prywatność",
@@ -677,6 +690,7 @@ const UI_STRINGS = {
   },
   uk: {
     nav_home: "Головна",
+    nav_phrases: "Популярні фрази",
     nav_guide: "Міські гіди",
     nav_about: "Про нас",
     nav_privacy: "Конфіденційність",
@@ -725,6 +739,7 @@ const UI_STRINGS = {
   },
   sw: {
     nav_home: "Nyumbani",
+    nav_phrases: "Misemo maarufu",
     nav_guide: "Miongozo ya Miji",
     nav_about: "Kuhusu",
     nav_privacy: "Faragha",
@@ -773,6 +788,7 @@ const UI_STRINGS = {
   },
   ha: {
     nav_home: "Gida",
+    nav_phrases: "Jimloli masu shahara",
     nav_guide: "Jagororin Birane",
     nav_about: "Game da mu",
     nav_privacy: "Sirri",
@@ -821,6 +837,7 @@ const UI_STRINGS = {
   },
   am: {
     nav_home: "መነሻ",
+    nav_phrases: "ታዋቂ ሐረጎች",
     nav_guide: "የከተማ መመሪያዎች",
     nav_about: "ስለ እኛ",
     nav_privacy: "ግላዊነት",
@@ -869,6 +886,7 @@ const UI_STRINGS = {
   },
   ht: {
     nav_home: "Akèy",
+    nav_phrases: "Fraz popilè",
     nav_guide: "Gid Vil",
     nav_about: "Konsènan",
     nav_privacy: "Konfidansyalite",
@@ -917,6 +935,7 @@ const UI_STRINGS = {
   },
   th: {
     nav_home: "หน้าแรก",
+    nav_phrases: "วลียอดนิยม",
     nav_guide: "คู่มือเมือง",
     nav_about: "เกี่ยวกับ",
     nav_privacy: "ความเป็นส่วนตัว",
@@ -965,6 +984,7 @@ const UI_STRINGS = {
   },
   tr: {
     nav_home: "Ana Sayfa",
+    nav_phrases: "Popüler ifadeler",
     nav_guide: "Şehir Rehberleri",
     nav_about: "Hakkında",
     nav_privacy: "Gizlilik",
@@ -1013,6 +1033,7 @@ const UI_STRINGS = {
   },
   id: {
     nav_home: "Beranda",
+    nav_phrases: "Frasa populer",
     nav_guide: "Panduan Kota",
     nav_about: "Tentang",
     nav_privacy: "Privasi",

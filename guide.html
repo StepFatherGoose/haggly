@@ -87,6 +87,8 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
+    content-visibility: auto;
+    contain-intrinsic-size: 900px;
   }
   .guide-card {
     background: var(--card);
@@ -98,6 +100,8 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
     transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
+    content-visibility: auto;
+    contain-intrinsic-size: 260px;
   }
   .guide-card:hover {
     transform: translateY(-3px);
