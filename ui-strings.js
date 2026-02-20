@@ -2,6 +2,7 @@
 const UI_STRINGS = {
   en: {
     nav_home: "Home",
+    nav_phrases: "Popular Phrases",
     nav_guide: "City Guides",
     nav_about: "About",
     nav_privacy: "Privacy",
