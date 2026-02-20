@@ -621,15 +621,15 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
     <h2 data-i18n="negotiation_tool">💬 Negotiation Generator</h2>
     <div class="nego-inputs">
       <div class="nego-field">
-        <label data-i18n="nego_asking_price">Asking Price</label>
+        <label id="negoAskingPriceLabel" data-i18n="nego_asking_price">Asking Price</label>
         <input type="number" id="negoAskingPrice" value="100" placeholder="100" min="0" step="any">
       </div>
       <div class="nego-field">
-        <label data-i18n="nego_target_price">Your Target Price</label>
+        <label id="negoTargetPriceLabel" data-i18n="nego_target_price">Your Target Price</label>
         <input type="number" id="negoTargetPrice" value="75" placeholder="75" min="0" step="any">
       </div>
       <div class="nego-field">
-        <label data-i18n="nego_walkaway_price">Your Walk-Away Price</label>
+        <label id="negoWalkawayPriceLabel" data-i18n="nego_walkaway_price">Your Walk-Away Price</label>
         <input type="number" id="negoWalkawayPrice" value="85" placeholder="85" min="0" step="any">
       </div>
     </div>
@@ -1010,6 +1010,46 @@ function setRole(role) {
   currentRole = role;
   document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-role="${role}"]`).classList.add('active');
+  updateNegoInputLabelKeys(role);
+}
+
+function updateNegoInputLabelKeys(role) {
+  const isSeller = role === 'seller';
+  const t = window.hagglyI18n && typeof window.hagglyI18n.t === 'function'
+    ? window.hagglyI18n.t
+    : function(key, fallback) { return fallback || key; };
+  const mappings = [
+    {
+      id: 'negoAskingPriceLabel',
+      buyerKey: 'nego_asking_price',
+      buyerFallback: 'Asking Price',
+      sellerKey: 'nego_asking_price_seller',
+      sellerFallback: 'Your Asking Price'
+    },
+    {
+      id: 'negoTargetPriceLabel',
+      buyerKey: 'nego_target_price',
+      buyerFallback: 'Your Target Price',
+      sellerKey: 'nego_target_price_seller',
+      sellerFallback: 'Your Target Sale Price'
+    },
+    {
+      id: 'negoWalkawayPriceLabel',
+      buyerKey: 'nego_walkaway_price',
+      buyerFallback: 'Your Walk-Away Price',
+      sellerKey: 'nego_walkaway_price_seller',
+      sellerFallback: 'Your Lowest Acceptable Price'
+    }
+  ];
+
+  for (const mapping of mappings) {
+    const label = document.getElementById(mapping.id);
+    if (!label) continue;
+    const key = isSeller ? mapping.sellerKey : mapping.buyerKey;
+    const fallback = isSeller ? mapping.sellerFallback : mapping.buyerFallback;
+    label.setAttribute('data-i18n', key);
+    label.textContent = t(key, fallback);
+  }
 }
 
 function swapLangs() {
@@ -1332,6 +1372,8 @@ document.addEventListener('haggly-lang-change', () => {
 document.querySelectorAll('.role-btn[data-role]').forEach((btn) => {
   btn.addEventListener('click', () => setRole(btn.dataset.role));
 });
+
+updateNegoInputLabelKeys(currentRole);
 
 const generateBtn = document.querySelector('.nego-generate-btn');
 if (generateBtn) {
