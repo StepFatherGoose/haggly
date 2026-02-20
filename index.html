@@ -414,6 +414,28 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
     color: var(--muted);
     text-align: center;
   }
+  .currency-mode {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .currency-mode-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text);
+    background: #fff;
+    cursor: pointer;
+  }
+  .currency-mode-option input {
+    accent-color: var(--primary);
+  }
   .nego-generate-btn {
     background: var(--primary);
     color: white;
@@ -611,6 +633,16 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
         <input type="number" id="negoWalkawayPrice" value="85" placeholder="85" min="0" step="any">
       </div>
     </div>
+    <div class="currency-mode" id="currencyModeGroup">
+      <label class="currency-mode-option">
+        <input type="radio" name="currencyMode" id="currencyModeLanguage" value="language" checked>
+        Language currency
+      </label>
+      <label class="currency-mode-option">
+        <input type="radio" name="currencyMode" id="currencyModeLocal" value="local">
+        Local currency
+      </label>
+    </div>
     <div class="currency-hint" id="currencyHint">Defaults align to about $100 USD in local currency.</div>
     <button class="nego-generate-btn" type="button" data-i18n="nego_generate">Generate Phrases ✨</button>
     <div class="nego-results" id="negoResults"></div>
@@ -664,10 +696,14 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
 let currentRole = 'buyer';
 const FROM_LANG_STORAGE_KEY = 'haggly-from-lang';
 const RECENT_PHRASES_STORAGE_KEY = 'haggly-recent-phrases-v1';
+const CURRENCY_MODE_STORAGE_KEY = 'haggly-currency-mode';
+const CURRENCY_CODE_STORAGE_KEY = 'haggly-currency-code';
 const MAX_RECENT_PHRASES = 5;
 const PAGE_ID = 'home';
 let userChangedToLang = false;
 let hasManualPriceInput = false;
+let currencyMode = 'language';
+let localCurrencyCode = 'USD';
 
 const USD_DEFAULTS = { asking: 100, target: 75, walkaway: 85 };
 const LANG_CURRENCY = {
@@ -682,9 +718,38 @@ const CURRENCY_PER_USD = {
   RUB: 88.027629, PLN: 3.747402, UAH: 41.556944, KES: 129.171177, NGN: 1520.333567,
   ETB: 130.713301, HTG: 130.32974, THB: 33.537272, TRY: 36.485353, IDR: 16370.17084
 };
+const REGION_CURRENCY = {
+  US: 'USD', MX: 'MXN', CN: 'CNY', SA: 'SAR', IN: 'INR', BR: 'BRL', FR: 'EUR', DE: 'EUR',
+  JP: 'JPY', KR: 'KRW', VN: 'VND', PH: 'PHP', RU: 'RUB', PL: 'PLN', UA: 'UAH', KE: 'KES',
+  NG: 'NGN', ET: 'ETB', HT: 'HTG', TH: 'THB', TR: 'TRY', ID: 'IDR', GB: 'GBP', CA: 'CAD',
+  AU: 'AUD', NZ: 'NZD', CH: 'CHF', SE: 'SEK', NO: 'NOK', DK: 'DKK', AE: 'AED'
+};
 
 function getCurrencyForLanguage(lang) {
   return LANG_CURRENCY[lang] || 'USD';
+}
+
+function detectLocalCurrency() {
+  try {
+    const locale = Intl.DateTimeFormat().resolvedOptions().locale || navigator.language || '';
+    const region = locale.includes('-') ? locale.split('-').pop().toUpperCase() : '';
+    const candidate = REGION_CURRENCY[region] || 'USD';
+    return CURRENCY_PER_USD[candidate] ? candidate : 'USD';
+  } catch (e) {
+    return 'USD';
+  }
+}
+
+function loadCurrencyPreferences() {
+  const savedMode = localStorage.getItem(CURRENCY_MODE_STORAGE_KEY);
+  currencyMode = savedMode === 'local' ? 'local' : 'language';
+  const savedCode = localStorage.getItem(CURRENCY_CODE_STORAGE_KEY);
+  localCurrencyCode = (savedCode && CURRENCY_PER_USD[savedCode]) ? savedCode : detectLocalCurrency();
+}
+
+function saveCurrencyPreferences() {
+  localStorage.setItem(CURRENCY_MODE_STORAGE_KEY, currencyMode);
+  localStorage.setItem(CURRENCY_CODE_STORAGE_KEY, localCurrencyCode);
 }
 
 function roundPrice(value, currency) {
@@ -708,8 +773,7 @@ function formatMoney(value, currency) {
   }
 }
 
-function getLocalizedDefaultsForLanguage(lang) {
-  const currency = getCurrencyForLanguage(lang);
+function getLocalizedDefaultsForCurrency(currency) {
   const rate = CURRENCY_PER_USD[currency] || 1;
   const asking = roundPrice(USD_DEFAULTS.asking * rate, currency);
   const target = roundPrice(USD_DEFAULTS.target * rate, currency);
@@ -720,23 +784,55 @@ function getLocalizedDefaultsForLanguage(lang) {
 function updateCurrencyHint(defaults) {
   const hint = document.getElementById('currencyHint');
   if (!hint) return;
-  hint.textContent = `Defaults: ${formatMoney(defaults.asking, defaults.currency)} / ${formatMoney(defaults.target, defaults.currency)} / ${formatMoney(defaults.walkaway, defaults.currency)} (about $100 / $75 / $85 USD).`;
+  const modeLabel = currencyMode === 'local' ? 'Local mode' : 'Language mode';
+  hint.textContent = `${modeLabel}: ${formatMoney(defaults.asking, defaults.currency)} / ${formatMoney(defaults.target, defaults.currency)} / ${formatMoney(defaults.walkaway, defaults.currency)} (about $100 / $75 / $85 USD).`;
+}
+
+function syncCurrencyModeUI() {
+  const languageRadio = document.getElementById('currencyModeLanguage');
+  const localRadio = document.getElementById('currencyModeLocal');
+  if (languageRadio) languageRadio.checked = currencyMode === 'language';
+  if (localRadio) localRadio.checked = currencyMode === 'local';
+}
+
+function getEffectiveCurrencyCode() {
+  if (currencyMode === 'local') return localCurrencyCode;
+  const to = document.getElementById('toLang');
+  return getCurrencyForLanguage(to ? to.value : 'en');
 }
 
 function applyNegotiationDefaults(force) {
-  const to = document.getElementById('toLang');
   const askingInput = document.getElementById('negoAskingPrice');
   const targetInput = document.getElementById('negoTargetPrice');
   const walkawayInput = document.getElementById('negoWalkawayPrice');
-  if (!to || !askingInput || !targetInput || !walkawayInput) return;
+  if (!askingInput || !targetInput || !walkawayInput) return;
 
-  const defaults = getLocalizedDefaultsForLanguage(to.value);
+  const defaults = getLocalizedDefaultsForCurrency(getEffectiveCurrencyCode());
   updateCurrencyHint(defaults);
+  syncCurrencyModeUI();
 
   if (!force && hasManualPriceInput) return;
   askingInput.value = defaults.asking;
   targetInput.value = defaults.target;
   walkawayInput.value = defaults.walkaway;
+}
+
+function setCurrencyMode(mode, options) {
+  const nextMode = mode === 'local' ? 'local' : 'language';
+  const force = options && options.forceDefaults;
+  const fromUser = options && options.fromUser;
+  currencyMode = nextMode;
+  if (currencyMode === 'local' && !localCurrencyCode) {
+    localCurrencyCode = detectLocalCurrency();
+  }
+  saveCurrencyPreferences();
+  if (force) {
+    hasManualPriceInput = false;
+  }
+  applyNegotiationDefaults(Boolean(force));
+  if (fromUser) {
+    trackEvent('currency_mode_changed', { context: currencyMode });
+  }
 }
 
 function getSupportedLang(code) {
@@ -757,13 +853,15 @@ function initializeLanguageSelectors() {
   const to = document.getElementById('toLang');
   if (!from || !to) return;
 
+  loadCurrencyPreferences();
+
   const savedFrom = getSupportedLang(localStorage.getItem(FROM_LANG_STORAGE_KEY));
   const preferred = savedFrom || getPreferredLang();
 
   from.value = preferred;
   to.value = preferred;
   userChangedToLang = false;
-  applyNegotiationDefaults(true);
+  setCurrencyMode(currencyMode, { forceDefaults: true, fromUser: false });
 }
 
 function handleFromLangChange() {
@@ -786,12 +884,15 @@ function handleToLangChange() {
 function getBaseEventParams(extraParams) {
   const from = document.getElementById('fromLang');
   const to = document.getElementById('toLang');
+  const activeCurrency = getEffectiveCurrencyCode();
   return Object.assign(
     {
       page: PAGE_ID,
       role: currentRole,
       from_lang: from ? from.value : null,
-      to_lang: to ? to.value : null
+      to_lang: to ? to.value : null,
+      currency_mode: currencyMode,
+      currency_code: activeCurrency
     },
     extraParams || {}
   );
@@ -1206,6 +1307,22 @@ if (fromLangSelect) {
 const toLangSelect = document.getElementById('toLang');
 if (toLangSelect) {
   toLangSelect.addEventListener('change', handleToLangChange);
+}
+
+const currencyModeLanguage = document.getElementById('currencyModeLanguage');
+if (currencyModeLanguage) {
+  currencyModeLanguage.addEventListener('change', () => {
+    if (!currencyModeLanguage.checked) return;
+    setCurrencyMode('language', { forceDefaults: true, fromUser: true });
+  });
+}
+
+const currencyModeLocal = document.getElementById('currencyModeLocal');
+if (currencyModeLocal) {
+  currencyModeLocal.addEventListener('change', () => {
+    if (!currencyModeLocal.checked) return;
+    setCurrencyMode('local', { forceDefaults: true, fromUser: true });
+  });
 }
 
 document.addEventListener('haggly-lang-change', () => {
