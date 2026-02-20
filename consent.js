@@ -56,15 +56,35 @@
       'padding:14px'
     ].join(';');
 
-    wrap.innerHTML = '' +
-      '<p style="margin:0 0 10px 0;font:500 14px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;">' +
-      'Haggly uses cookies for analytics and ads. Choose whether to allow ad and analytics storage.' +
-      '</p>' +
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
-      '<button id="haggly-consent-accept" type="button" style="background:#22c55e;color:#06220f;border:none;border-radius:8px;padding:8px 12px;font:600 13px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;cursor:pointer;">Accept</button>' +
-      '<button id="haggly-consent-decline" type="button" style="background:#e5e7eb;color:#111;border:none;border-radius:8px;padding:8px 12px;font:600 13px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;cursor:pointer;">Decline</button>' +
-      '<a href="/privacy.html" style="color:#93c5fd;font:500 13px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;align-self:center;">Privacy policy</a>' +
-      '</div>';
+    var message = document.createElement('p');
+    message.style.cssText = 'margin:0 0 10px 0;font:500 14px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;';
+    message.textContent = 'Haggly uses cookies for analytics and ads. Choose whether to allow ad and analytics storage.';
+
+    var controls = document.createElement('div');
+    controls.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;';
+
+    var acceptButton = document.createElement('button');
+    acceptButton.id = 'haggly-consent-accept';
+    acceptButton.type = 'button';
+    acceptButton.style.cssText = 'background:#22c55e;color:#06220f;border:none;border-radius:8px;padding:8px 12px;font:600 13px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;cursor:pointer;';
+    acceptButton.textContent = 'Accept';
+
+    var declineButton = document.createElement('button');
+    declineButton.id = 'haggly-consent-decline';
+    declineButton.type = 'button';
+    declineButton.style.cssText = 'background:#e5e7eb;color:#111;border:none;border-radius:8px;padding:8px 12px;font:600 13px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;cursor:pointer;';
+    declineButton.textContent = 'Decline';
+
+    var privacyLink = document.createElement('a');
+    privacyLink.href = '/privacy.html';
+    privacyLink.style.cssText = 'color:#93c5fd;font:500 13px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;align-self:center;';
+    privacyLink.textContent = 'Privacy policy';
+
+    controls.appendChild(acceptButton);
+    controls.appendChild(declineButton);
+    controls.appendChild(privacyLink);
+    wrap.appendChild(message);
+    wrap.appendChild(controls);
 
     return wrap;
   }
