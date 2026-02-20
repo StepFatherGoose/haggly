@@ -33,20 +33,20 @@ for f in index.html phrases.html; do
 done
 pass "Both selectors include th/tr/id on index and phrases pages"
 
-# 4) Phrases page loads translation deps before inline app script
+# 4) Phrases page must render only after translation deps are loaded
 line_tr=$(rg -n "<script src=\"translations.js\"" phrases.html | cut -d: -f1)
 line_ui=$(rg -n "<script src=\"ui-strings.js\"" phrases.html | cut -d: -f1)
 line_loc=$(rg -n "<script src=\"localize.js\"" phrases.html | cut -d: -f1)
-line_inline=$(rg -n "^const PHRASES = \\{" phrases.html | cut -d: -f1)
+line_render=$(rg -n "renderPhrases\\(\\);" phrases.html | tail -n1 | cut -d: -f1)
 
-if [[ -z "$line_tr" || -z "$line_ui" || -z "$line_loc" || -z "$line_inline" ]]; then
-  fail "Could not detect script load order in phrases.html"
+if [[ -z "$line_tr" || -z "$line_ui" || -z "$line_loc" || -z "$line_render" ]]; then
+  fail "Could not detect phrases script/render ordering"
 fi
 
-if [[ "$line_tr" -lt "$line_inline" && "$line_ui" -lt "$line_inline" && "$line_loc" -lt "$line_inline" ]]; then
-  pass "phrases.html script load order is correct"
+if [[ "$line_render" -gt "$line_tr" && "$line_render" -gt "$line_ui" && "$line_render" -gt "$line_loc" ]]; then
+  pass "phrases.html renders after translation dependencies load"
 else
-  fail "phrases.html loads dependency scripts after inline app script"
+  fail "phrases.html renders before translation dependencies are loaded"
 fi
 
 # 5) Custom result container should not copy via wrapper click
@@ -57,7 +57,10 @@ else
 fi
 
 # 6) Keyboard accessibility: phrase cards support keyboard activation
-if rg -n "class=\"phrase-card\"[^\n]*role=\"button\"[^\n]*tabindex=\"0\"[^\n]*onkeydown=\"copyOnKey\(" phrases.html >/dev/null; then
+if rg -n "class=\"phrase-card\"[^\n]*role=\"button\"[^\n]*tabindex=\"0\"[^\n]*data-copy=" phrases.html >/dev/null && \
+   rg -n "document.addEventListener\\('keydown'" phrases.html >/dev/null && \
+   rg -n "event.key !== 'Enter' && event.key !== ' '" phrases.html >/dev/null && \
+   rg -n "closest\\('\\.phrase-card\\[data-copy\\]'" phrases.html >/dev/null; then
   pass "phrase cards expose keyboard activation hooks"
 else
   fail "phrase cards missing keyboard activation hooks"
