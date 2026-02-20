@@ -611,9 +611,7 @@ function swapLangs() {
 
 function copyText(text) {
   navigator.clipboard.writeText(text).then(() => {
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
+    showToast(window.hagglyI18n ? window.hagglyI18n.t('toast_copied') : '✅ Copied! Paste it in your chat');
   });
 }
 
@@ -622,6 +620,30 @@ function trackEvent(eventName, params) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: eventName }, params || {}));
   } catch (e) {}
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+async function shareText(text, context, extraParams) {
+  const details = Object.assign({ context: context }, extraParams || {});
+  const t = window.hagglyI18n ? window.hagglyI18n.t : function(k, fb) { return fb || k; };
+  if (navigator.share) {
+    try {
+      trackEvent('share_opened', details);
+      await navigator.share({ text: text });
+      trackEvent('share_success', details);
+      showToast(t('toast_shared', '✅ Shared'));
+      return;
+    } catch (e) {}
+  }
+  trackEvent('share_fallback_copy', Object.assign({ reason: 'unsupported_or_error' }, details));
+  copyText(text);
 }
 
 async function translateCustom() {
@@ -657,8 +679,17 @@ async function translateCustom() {
     speakBtn.title = 'Listen';
     speakBtn.textContent = '🔊';
 
+    const shareBtn = document.createElement('button');
+    shareBtn.className = 'tts-btn';
+    shareBtn.type = 'button';
+    shareBtn.dataset.share = translated;
+    shareBtn.dataset.shareContext = 'custom_translation';
+    shareBtn.title = window.hagglyI18n ? window.hagglyI18n.t('btn_share', 'Share') : 'Share';
+    shareBtn.textContent = '↗';
+
     result.appendChild(textNode);
     result.appendChild(speakBtn);
+    result.appendChild(shareBtn);
     trackEvent('custom_translate_success', { from_lang: sl, to_lang: tl });
   } catch (e) {
     result.replaceChildren();
@@ -769,8 +800,17 @@ async function generateNegoPhrases() {
       speakBtn.title = 'Listen';
       speakBtn.textContent = '🔊';
 
+      const shareBtn = document.createElement('button');
+      shareBtn.className = 'nego-action-btn';
+      shareBtn.type = 'button';
+      shareBtn.dataset.share = r.translated;
+      shareBtn.dataset.shareContext = 'negotiation_card';
+      shareBtn.title = window.hagglyI18n ? window.hagglyI18n.t('btn_share', 'Share') : 'Share';
+      shareBtn.textContent = '↗';
+
       actions.appendChild(copyBtn);
       actions.appendChild(speakBtn);
+      actions.appendChild(shareBtn);
       card.appendChild(header);
       card.appendChild(original);
       card.appendChild(translated);
@@ -832,6 +872,19 @@ if (customPhraseInput) {
 }
 
 document.addEventListener('click', (event) => {
+  const shareTarget = event.target.closest('[data-share]');
+  if (shareTarget) {
+    event.stopPropagation();
+    const fromLang = document.getElementById('fromLang').value;
+    const toLang = document.getElementById('toLang').value;
+    shareText(
+      shareTarget.dataset.share,
+      shareTarget.dataset.shareContext || 'unknown',
+      { role: currentRole, from_lang: fromLang, to_lang: toLang }
+    );
+    return;
+  }
+
   const speakBtn = event.target.closest('[data-speak]');
   if (speakBtn) {
     event.stopPropagation();
