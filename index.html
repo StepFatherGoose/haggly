@@ -841,11 +841,10 @@ function getSupportedLang(code) {
 }
 
 function getPreferredLang() {
-  if (window.hagglyI18n && typeof window.hagglyI18n.getUILang === 'function') {
-    const uiLang = getSupportedLang(window.hagglyI18n.getUILang());
-    if (uiLang) return uiLang;
-  }
-  return getSupportedLang(navigator.language || '') || 'en';
+  const browserPrimary = Array.isArray(navigator.languages) && navigator.languages.length
+    ? navigator.languages[0]
+    : navigator.language || '';
+  return getSupportedLang(browserPrimary) || 'en';
 }
 
 function initializeLanguageSelectors() {
