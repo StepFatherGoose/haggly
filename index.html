@@ -617,6 +617,13 @@ function copyText(text) {
   });
 }
 
+function trackEvent(eventName, params) {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: eventName }, params || {}));
+  } catch (e) {}
+}
+
 async function translateCustom() {
   const text = document.getElementById('customPhrase').value.trim();
   if (!text) return;
@@ -627,6 +634,7 @@ async function translateCustom() {
   result.replaceChildren();
   result.textContent = '⏳ Translating...';
   try {
+    trackEvent('custom_translate_started', { from_lang: sl, to_lang: tl });
     const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(sl)}&tl=${encodeURIComponent(tl)}&dt=t&q=${encodeURIComponent(text)}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error('Translation failed');
@@ -651,9 +659,11 @@ async function translateCustom() {
 
     result.appendChild(textNode);
     result.appendChild(speakBtn);
+    trackEvent('custom_translate_success', { from_lang: sl, to_lang: tl });
   } catch (e) {
     result.replaceChildren();
     result.textContent = '❌ Translation error. Please try again.';
+    trackEvent('custom_translate_error', { from_lang: sl, to_lang: tl });
   }
 }
 
@@ -704,10 +714,12 @@ async function generateNegoPhrases() {
   if (!asking || !target || !walkaway) { alert('Please fill in all three prices.'); return; }
 
   const tl = document.getElementById('toLang').value;
+  const from = document.getElementById('fromLang').value;
   const templates = getNegoTemplates(currentRole, asking, target, walkaway);
   const container = document.getElementById('negoResults');
   const btn = document.querySelector('.nego-generate-btn');
   const t = window.hagglyI18n ? window.hagglyI18n.t : function(k, fb) { return fb || k; };
+  trackEvent('start_negotiation', { role: currentRole, from_lang: from, to_lang: tl });
 
   btn.disabled = true;
   btn.textContent = '⏳...';
@@ -765,12 +777,14 @@ async function generateNegoPhrases() {
       card.appendChild(actions);
       container.appendChild(card);
     }
+    trackEvent('negotiation_generated', { role: currentRole, from_lang: from, to_lang: tl, phrase_count: results.length });
   } catch(e) {
     container.replaceChildren();
     const err = document.createElement('p');
     err.style.color = 'red';
     err.textContent = '❌ Error generating phrases. Try again.';
     container.appendChild(err);
+    trackEvent('negotiation_generate_error', { role: currentRole, from_lang: from, to_lang: tl });
   } finally {
     btn.disabled = false;
     btn.textContent = t('nego_generate', 'Generate Phrases ✨');
