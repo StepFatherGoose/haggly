@@ -57,7 +57,10 @@ else
 fi
 
 # 6) Keyboard accessibility: phrase cards support keyboard activation
-if rg -n "class=\"phrase-card\"[^\n]*role=\"button\"[^\n]*tabindex=\"0\"[^\n]*data-copy=" phrases.html >/dev/null && \
+if rg -n "card\\.className = 'phrase-card'" phrases.html >/dev/null && \
+   rg -n "card\\.setAttribute\\('role', 'button'\\)" phrases.html >/dev/null && \
+   rg -n "card\\.setAttribute\\('tabindex', '0'\\)" phrases.html >/dev/null && \
+   rg -n "card\\.dataset\\.copy = translated" phrases.html >/dev/null && \
    rg -n "document.addEventListener\\('keydown'" phrases.html >/dev/null && \
    rg -n "event.key !== 'Enter' && event.key !== ' '" phrases.html >/dev/null && \
    rg -n "closest\\('\\.phrase-card\\[data-copy\\]'" phrases.html >/dev/null; then

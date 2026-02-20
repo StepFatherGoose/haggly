@@ -13,7 +13,7 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://translate.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="google-adsense-account" content="ca-pub-6632867015737384">
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -501,38 +501,56 @@ function getTranslation(phrase) {
   return `[${to.toUpperCase()}] ${phrase}`;
 }
 
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
 function renderPhrases() {
   const container = document.getElementById('phrases');
   const phrases = PHRASES[currentRole];
   const toLang = document.getElementById('toLang').value;
-  const escapedToLang = escapeHtml(toLang);
   const t = window.hagglyI18n ? window.hagglyI18n.t : function(k) { return k; };
-  let html = '';
+  container.replaceChildren();
 
   for (const [category, items] of Object.entries(phrases)) {
     const i18nKey = CATEGORY_I18N[category] || category;
     const localizedCat = t(i18nKey);
-    html += `<div class="category-title" data-i18n="${i18nKey}">${escapeHtml(localizedCat)}</div>`;
+    const categoryTitle = document.createElement('div');
+    categoryTitle.className = 'category-title';
+    categoryTitle.setAttribute('data-i18n', i18nKey);
+    categoryTitle.textContent = localizedCat;
+    container.appendChild(categoryTitle);
+
     for (const phrase of items) {
       const translated = getTranslation(phrase);
-      const escapedTranslated = escapeHtml(translated);
-      const escapedForAttr = escapeHtml(translated);
-      html += `
-        <div class="phrase-card" role="button" tabindex="0" data-copy="${escapedForAttr}">
-          <div class="phrase-original">${escapeHtml(phrase)}</div>
-          <div class="phrase-translated-row">
-            <span class="phrase-translated">${escapedTranslated}</span>
-            <button class="tts-btn" type="button" data-speak="${escapedForAttr}" data-lang="${escapedToLang}" title="Listen">🔊</button>
-          </div>
-        </div>`;
+      const card = document.createElement('div');
+      card.className = 'phrase-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.dataset.copy = translated;
+
+      const original = document.createElement('div');
+      original.className = 'phrase-original';
+      original.textContent = phrase;
+
+      const translatedRow = document.createElement('div');
+      translatedRow.className = 'phrase-translated-row';
+
+      const translatedText = document.createElement('span');
+      translatedText.className = 'phrase-translated';
+      translatedText.textContent = translated;
+
+      const speakBtn = document.createElement('button');
+      speakBtn.className = 'tts-btn';
+      speakBtn.type = 'button';
+      speakBtn.dataset.speak = translated;
+      speakBtn.dataset.lang = toLang;
+      speakBtn.title = 'Listen';
+      speakBtn.textContent = '🔊';
+
+      translatedRow.appendChild(translatedText);
+      translatedRow.appendChild(speakBtn);
+      card.appendChild(original);
+      card.appendChild(translatedRow);
+      container.appendChild(card);
     }
   }
-
-  container.innerHTML = html;
 }
 
 function copyText(text) {

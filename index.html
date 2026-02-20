@@ -13,7 +13,7 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://translate.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="google-adsense-account" content="ca-pub-6632867015737384">
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -609,10 +609,6 @@ function swapLangs() {
   to.value = tmp;
 }
 
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
 function copyText(text) {
   navigator.clipboard.writeText(text).then(() => {
     const toast = document.getElementById('toast');
@@ -628,19 +624,36 @@ async function translateCustom() {
   const sl = document.getElementById('fromLang').value;
   const tl = document.getElementById('toLang').value;
   result.style.display = 'block';
-  result.innerHTML = '⏳ Translating...';
+  result.replaceChildren();
+  result.textContent = '⏳ Translating...';
   try {
     const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(sl)}&tl=${encodeURIComponent(tl)}&dt=t&q=${encodeURIComponent(text)}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error('Translation failed');
     const data = await res.json();
     const translated = data[0].map(s => s[0]).join('');
-    const escapedTranslated = escapeHtml(translated);
-    const escapedLang = escapeHtml(tl);
-    result.innerHTML = `<span class="phrase-translated custom-copy-target" style="cursor:pointer" role="button" tabindex="0" data-copy="${escapedTranslated}">${escapedTranslated}</span>` +
-      `<button class="tts-btn" type="button" data-speak="${escapedTranslated}" data-lang="${escapedLang}" title="Listen">🔊</button>`;
+    result.replaceChildren();
+    const textNode = document.createElement('span');
+    textNode.className = 'phrase-translated custom-copy-target';
+    textNode.style.cursor = 'pointer';
+    textNode.setAttribute('role', 'button');
+    textNode.setAttribute('tabindex', '0');
+    textNode.dataset.copy = translated;
+    textNode.textContent = translated;
+
+    const speakBtn = document.createElement('button');
+    speakBtn.className = 'tts-btn';
+    speakBtn.type = 'button';
+    speakBtn.dataset.speak = translated;
+    speakBtn.dataset.lang = tl;
+    speakBtn.title = 'Listen';
+    speakBtn.textContent = '🔊';
+
+    result.appendChild(textNode);
+    result.appendChild(speakBtn);
   } catch (e) {
-    result.innerHTML = '❌ Translation error. Please try again.';
+    result.replaceChildren();
+    result.textContent = '❌ Translation error. Please try again.';
   }
 }
 
@@ -698,7 +711,7 @@ async function generateNegoPhrases() {
 
   btn.disabled = true;
   btn.textContent = '⏳...';
-  container.innerHTML = '';
+  container.replaceChildren();
 
   try {
     const results = await Promise.all(templates.map(async (tmpl) => {
@@ -709,26 +722,55 @@ async function generateNegoPhrases() {
       return { ...tmpl, translated };
     }));
 
-    let html = '';
     for (const r of results) {
       const toneLabel = t(r.label, r.labelFallback);
-      const safeTranslated = escapeHtml(r.translated);
-      const safeOriginal = escapeHtml(r.text);
-      const safeLang = escapeHtml(tl);
-      html += `
-        <div class="nego-card ${r.css}">
-          <div class="nego-card-header">${r.emoji} ${escapeHtml(toneLabel)}</div>
-          <div class="phrase-original">${safeOriginal}</div>
-          <div class="nego-translated">${safeTranslated}</div>
-          <div class="nego-card-actions">
-            <button class="nego-action-btn" type="button" data-copy="${safeTranslated}" title="Copy">📋</button>
-            <button class="nego-action-btn" type="button" data-speak="${safeTranslated}" data-lang="${safeLang}" title="Listen">🔊</button>
-          </div>
-        </div>`;
+      const card = document.createElement('div');
+      card.className = `nego-card ${r.css}`;
+
+      const header = document.createElement('div');
+      header.className = 'nego-card-header';
+      header.textContent = `${r.emoji} ${toneLabel}`;
+
+      const original = document.createElement('div');
+      original.className = 'phrase-original';
+      original.textContent = r.text;
+
+      const translated = document.createElement('div');
+      translated.className = 'nego-translated';
+      translated.textContent = r.translated;
+
+      const actions = document.createElement('div');
+      actions.className = 'nego-card-actions';
+
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'nego-action-btn';
+      copyBtn.type = 'button';
+      copyBtn.dataset.copy = r.translated;
+      copyBtn.title = 'Copy';
+      copyBtn.textContent = '📋';
+
+      const speakBtn = document.createElement('button');
+      speakBtn.className = 'nego-action-btn';
+      speakBtn.type = 'button';
+      speakBtn.dataset.speak = r.translated;
+      speakBtn.dataset.lang = tl;
+      speakBtn.title = 'Listen';
+      speakBtn.textContent = '🔊';
+
+      actions.appendChild(copyBtn);
+      actions.appendChild(speakBtn);
+      card.appendChild(header);
+      card.appendChild(original);
+      card.appendChild(translated);
+      card.appendChild(actions);
+      container.appendChild(card);
     }
-    container.innerHTML = html;
   } catch(e) {
-    container.innerHTML = '<p style="color:red">❌ Error generating phrases. Try again.</p>';
+    container.replaceChildren();
+    const err = document.createElement('p');
+    err.style.color = 'red';
+    err.textContent = '❌ Error generating phrases. Try again.';
+    container.appendChild(err);
   } finally {
     btn.disabled = false;
     btn.textContent = t('nego_generate', 'Generate Phrases ✨');
