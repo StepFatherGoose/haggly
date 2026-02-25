@@ -13,7 +13,7 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://translate.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://translate.googleapis.com https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="google-adsense-account" content="ca-pub-6632867015737384">
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -40,7 +40,7 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
 <meta name="twitter:image" content="https://haggly.io/social-card.svg">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#5865F2">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632867015737384" crossorigin="anonymous"></script>
+<script src="/ads-loader.js"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -259,6 +259,24 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
     color: var(--primary);
   }
   .handoff-btn:hover { background: #E3E7FF; }
+  .pro-locked-control {
+    opacity: 0.45;
+    cursor: not-allowed !important;
+  }
+  .pro-locked-control:hover {
+    background: inherit;
+  }
+  .pro-lock-note {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #F7F8FF;
+    color: #50566f;
+    font-size: 13px;
+    border: 1px dashed #c9cde5;
+    text-align: center;
+  }
+  .pro-lock-note a { color: var(--primary); font-weight: 700; text-decoration: none; }
 
   .recent-section {
     background: var(--card);
@@ -422,7 +440,7 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
   </div>
 
   <div class="recent-section" id="recentPhrasesSection" hidden>
-    <h2>🕘 Recent Phrases</h2>
+    <h2 data-i18n="recent_phrases_heading">🕘 Recent Phrases</h2>
     <div class="recent-list" id="recentPhrasesList"></div>
   </div>
 
@@ -441,6 +459,10 @@ if (location.protocol === "http:" && location.hostname !== "localhost" && locati
 </div>
 
 <div class="copied-toast" id="toast" data-i18n="toast_copied">✅ Copied! Paste it in your chat</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/auth-client.js"></script>
+<script src="/pro-gating.js"></script>
 
 <script>
 // Phrase database — all translations
@@ -532,10 +554,42 @@ const CATEGORY_I18N = {
 
 let currentRole = 'buyer';
 const FROM_LANG_STORAGE_KEY = 'haggly-from-lang';
-const RECENT_PHRASES_STORAGE_KEY = 'haggly-recent-phrases-v1';
+const RECENT_PHRASES_STORAGE_KEY = 'haggly-recent-phrases-pro-v2';
 const MAX_RECENT_PHRASES = 5;
 const PAGE_ID = 'phrases';
 let userChangedToLang = false;
+
+function getProState() {
+  if (window.hagglyPro && typeof window.hagglyPro.getState === 'function') {
+    return window.hagglyPro.getState();
+  }
+  return { is_pro: false, features: {} };
+}
+
+function canUseFeature(feature) {
+  const state = getProState();
+  if (state && state.features && typeof state.features[feature] === 'boolean') {
+    return state.features[feature];
+  }
+  return !!state.is_pro;
+}
+
+function lockIfNeeded(button, feature, message) {
+  if (!button || canUseFeature(feature)) return;
+  if (window.hagglyPro && typeof window.hagglyPro.markLocked === 'function') {
+    window.hagglyPro.markLocked(button, feature, message);
+  } else {
+    button.disabled = true;
+    button.classList.add('pro-locked-control');
+  }
+}
+
+function uiT(key, fallback) {
+  if (window.hagglyI18n && typeof window.hagglyI18n.t === 'function') {
+    return window.hagglyI18n.t(key, fallback);
+  }
+  return fallback || key;
+}
 
 function getSupportedLang(code) {
   const normalized = (code || '').toLowerCase().split('-')[0];
@@ -612,6 +666,19 @@ function renderRecentPhrases() {
   const listEl = document.getElementById('recentPhrasesList');
   if (!section || !listEl) return;
 
+  if (!canUseFeature('recent_phrases')) {
+    listEl.replaceChildren();
+    section.hidden = false;
+    if (window.hagglyPro && typeof window.hagglyPro.renderProOnlyPlaceholder === 'function') {
+      window.hagglyPro.renderProOnlyPlaceholder(
+        listEl,
+        uiT('pro_recent_phrases_feature', 'Recent Phrases is a Pro feature.'),
+        uiT('pro_unlock_cta', 'Unlock Pro')
+      );
+    }
+    return;
+  }
+
   const items = loadRecentPhrases();
   listEl.replaceChildren();
   section.hidden = items.length === 0;
@@ -658,6 +725,10 @@ function renderRecentPhrases() {
     waBtn.dataset.whatsapp = item.text;
     waBtn.dataset.shareContext = 'recent_phrase';
 
+    lockIfNeeded(shareBtn, 'premium_actions', uiT('pro_feature_share', 'Share is a Pro feature'));
+    lockIfNeeded(smsBtn, 'premium_actions', uiT('pro_feature_sms', 'SMS is a Pro feature'));
+    lockIfNeeded(waBtn, 'premium_actions', uiT('pro_feature_wa', 'WA is a Pro feature'));
+
     actions.appendChild(shareBtn);
     actions.appendChild(smsBtn);
     actions.appendChild(waBtn);
@@ -670,6 +741,7 @@ function renderRecentPhrases() {
 }
 
 function addRecentPhrase(text, source, extra) {
+  if (!canUseFeature('recent_phrases')) return;
   if (!text) return;
   const trimmed = text.trim();
   if (!trimmed) return;
@@ -800,6 +872,11 @@ function renderPhrases() {
       waBtn.dataset.whatsapp = translated;
       waBtn.dataset.shareContext = 'phrase_card';
       waBtn.textContent = 'WA';
+
+      lockIfNeeded(speakBtn, 'premium_actions', uiT('pro_feature_listen', 'Listen is a Pro feature'));
+      lockIfNeeded(shareBtn, 'premium_actions', uiT('pro_feature_share', 'Share is a Pro feature'));
+      lockIfNeeded(smsBtn, 'premium_actions', uiT('pro_feature_sms', 'SMS is a Pro feature'));
+      lockIfNeeded(waBtn, 'premium_actions', uiT('pro_feature_wa', 'WA is a Pro feature'));
 
       translatedRow.appendChild(translatedText);
       translatedRow.appendChild(speakBtn);
@@ -950,6 +1027,11 @@ document.addEventListener('haggly-lang-change', () => {
   renderPhrases();
 });
 
+document.addEventListener('haggly-pro-updated', () => {
+  renderRecentPhrases();
+  renderPhrases();
+});
+
 </script>
 
 <script src="translations.js"></script>
@@ -959,6 +1041,12 @@ document.addEventListener('haggly-lang-change', () => {
 initializeLanguageSelectors();
 renderRecentPhrases();
 renderPhrases(); // Render after translation dictionaries are loaded
+if (window.hagglyPro && typeof window.hagglyPro.initPage === 'function') {
+  window.hagglyPro.initPage({ decorateNav: true, refresh: true }).then(() => {
+    renderRecentPhrases();
+    renderPhrases();
+  }).catch(() => {});
+}
 </script>
 
 </body>

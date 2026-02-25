@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+<title>Account — Haggly</title>
+<meta name="description" content="View your Haggly account, subscription status, and billing details for Haggly Pro.">
+<link rel="canonical" href="https://haggly.io/account.html">
+<meta property="og:site_name" content="Haggly">
+<meta property="og:title" content="Account — Haggly">
+<meta property="og:description" content="View your Haggly account, subscription status, and billing details for Haggly Pro.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haggly.io/account.html">
+<meta property="og:image" content="https://haggly.io/social-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Account — Haggly">
+<meta name="twitter:description" content="View your Haggly account, subscription status, and billing details for Haggly Pro.">
+<meta name="twitter:image" content="https://haggly.io/social-card.svg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
+<script src="/consent.js"></script>
+<script src="/ads-loader.js"></script>
+<style>
+  :root { --primary:#5865F2; --bg:#fafafa; --card:#fff; --text:#1a1a1a; --muted:#666; --border:#e0e0e0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); }
+  nav { background:var(--primary); padding:14px 20px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  nav a { color:#fff; text-decoration:none; font-weight:600; padding:6px 12px; border-radius:8px; }
+  nav a:hover { background:rgba(255,255,255,.16); }
+  nav .brand { font-size:20px; font-weight:800; }
+  .wrap { max-width:720px; margin:24px auto; padding:0 16px; }
+  .card { background:var(--card); border-radius:16px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); margin-bottom:16px; }
+  h1, h2 { margin:0 0 10px; }
+  .muted { color:var(--muted); }
+  .row { display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-top:1px solid #f0f0f0; }
+  .row:first-of-type { border-top:none; }
+  .value { font-weight:700; }
+  .badge { display:inline-block; padding:4px 10px; border-radius:999px; font-weight:700; font-size:13px; }
+  .badge.free { background:#eee; color:#555; }
+  .badge.pro { background:#eefbef; color:#1d6b3f; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  button, .btn { background:var(--primary); color:#fff; border:none; border-radius:12px; padding:12px 14px; font:inherit; font-weight:700; cursor:pointer; text-decoration:none; }
+  button.secondary, .btn.secondary { background:#eef0fe; color:var(--primary); }
+  button:disabled { opacity:.6; cursor:not-allowed; }
+  .msg { margin-top:12px; padding:12px; border-radius:10px; display:none; }
+  .msg.show { display:block; }
+  .msg.err { background:#fff1f1; color:#9f2222; }
+  .msg.ok { background:#eefbef; color:#1d6b3f; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="brand">🤝 Haggly</a>
+  <a href="/">Home</a>
+  <a href="/phrases.html">Popular Phrases</a>
+  <a href="/pro.html">Go Pro</a>
+</nav>
+<div class="wrap">
+  <div class="card">
+    <h1>Your Account</h1>
+    <p class="muted">Sign in to view your subscription and manage billing.</p>
+    <div id="statusMsg" class="msg" role="status" aria-live="polite"></div>
+    <div id="loginPrompt" hidden>
+      <p class="muted">You are not signed in.</p>
+      <a class="btn" href="/login.html">Log In</a>
+    </div>
+    <div id="accountDetails" hidden>
+      <div class="row"><span>Email</span><span id="acctEmail" class="value">-</span></div>
+      <div class="row"><span>Plan</span><span id="acctPlan" class="badge free">Free</span></div>
+      <div class="row"><span>Status</span><span id="acctStatus" class="value">-</span></div>
+      <div class="row"><span>Current Period Ends</span><span id="acctPeriodEnd" class="value">-</span></div>
+      <div class="row"><span>Cancel at Period End</span><span id="acctCancelAtPeriodEnd" class="value">No</span></div>
+      <div class="actions">
+        <button id="subscribeBtn" type="button">Start Pro ($3/mo)</button>
+        <button id="portalBtn" type="button" class="secondary">Manage Billing</button>
+        <button id="logoutBtn" type="button" class="secondary">Log Out</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/auth-client.js"></script>
+<script src="/pro-gating.js"></script>
+<script>
+(function() {
+  var statusMsg = document.getElementById('statusMsg');
+  var loginPrompt = document.getElementById('loginPrompt');
+  var accountDetails = document.getElementById('accountDetails');
+  var acctEmail = document.getElementById('acctEmail');
+  var acctPlan = document.getElementById('acctPlan');
+  var acctStatus = document.getElementById('acctStatus');
+  var acctPeriodEnd = document.getElementById('acctPeriodEnd');
+  var acctCancel = document.getElementById('acctCancelAtPeriodEnd');
+  var subscribeBtn = document.getElementById('subscribeBtn');
+  var portalBtn = document.getElementById('portalBtn');
+  var logoutBtn = document.getElementById('logoutBtn');
+
+  function show(type, text) {
+    statusMsg.className = 'msg show ' + type;
+    statusMsg.textContent = text;
+  }
+
+  function clearMsg() {
+    statusMsg.className = 'msg';
+    statusMsg.textContent = '';
+  }
+
+  function setBusy(btn, busy, label) {
+    if (!btn) return;
+    if (!btn.dataset.defaultLabel) btn.dataset.defaultLabel = label || btn.textContent;
+    btn.disabled = busy;
+    btn.textContent = busy ? 'Please wait...' : (btn.dataset.defaultLabel || btn.textContent);
+  }
+
+  function fmtDate(value) {
+    if (!value) return '-';
+    try { return new Date(value).toLocaleString(); } catch (_) { return value; }
+  }
+
+  function renderSignedOut() {
+    loginPrompt.hidden = false;
+    accountDetails.hidden = true;
+  }
+
+  function renderStatus(data) {
+    loginPrompt.hidden = true;
+    accountDetails.hidden = false;
+    acctEmail.textContent = (data.user && data.user.email) || '-';
+    var isPro = Boolean(data.is_pro);
+    acctPlan.textContent = isPro ? 'Haggly Pro' : 'Free';
+    acctPlan.className = 'badge ' + (isPro ? 'pro' : 'free');
+    acctStatus.textContent = data.subscription_status || (isPro ? 'active' : 'none');
+    acctPeriodEnd.textContent = fmtDate(data.current_period_end);
+    acctCancel.textContent = data.cancel_at_period_end ? 'Yes' : 'No';
+    subscribeBtn.hidden = isPro;
+    portalBtn.hidden = !isPro;
+  }
+
+  async function refresh() {
+    clearMsg();
+    var authState = window.hagglyAuth.getState();
+    if (!authState.user) {
+      renderSignedOut();
+      return;
+    }
+    try {
+      var data = await window.hagglyPro.refresh(true);
+      renderStatus(data);
+    } catch (err) {
+      show('err', err.message || 'Failed to load account status');
+    }
+  }
+
+  subscribeBtn.addEventListener('click', async function() {
+    clearMsg();
+    setBusy(subscribeBtn, true);
+    try {
+      var data = await window.hagglyAuth.callAuthedJson('/api/stripe/create-checkout-session', { method: 'POST', body: '{}' });
+      window.location.href = data.checkout_url;
+    } catch (err) {
+      show('err', err.message || 'Checkout failed');
+      setBusy(subscribeBtn, false);
+    }
+  });
+
+  portalBtn.addEventListener('click', async function() {
+    clearMsg();
+    setBusy(portalBtn, true);
+    try {
+      var data = await window.hagglyAuth.callAuthedJson('/api/stripe/create-portal-session', { method: 'POST', body: '{}' });
+      window.location.href = data.portal_url;
+    } catch (err) {
+      show('err', err.message || 'Portal failed');
+      setBusy(portalBtn, false);
+    }
+  });
+
+  logoutBtn.addEventListener('click', async function() {
+    await window.hagglyAuth.signOut().catch(function(){});
+    window.location.href = '/';
+  });
+
+  document.addEventListener('haggly-auth-ready', function() {
+    window.hagglyPro.initPage({ decorateNav: true, refresh: true, force: true }).then(refresh);
+  });
+  document.addEventListener('haggly-auth-changed', refresh);
+
+  if (location.search.includes('checkout=success')) {
+    show('ok', 'Subscription updated. Refreshing account status...');
+  }
+})();
+</script>
+</body>
+</html>

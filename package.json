@@ -1,0 +1,17 @@
+{
+  "name": "haggly-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Haggly static site with Vercel APIs for Pro auth and billing",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "vercel-build": "echo 'Static build not required'",
+    "check": "./scripts/regression-check.sh"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "stripe": "^18.0.0"
+  }
+}

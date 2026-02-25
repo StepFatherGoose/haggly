@@ -27,12 +27,13 @@ else
   pass "No inline event handler attributes found"
 fi
 
-# 2) Conversion event should only fire on contact form submit.
-conversion_matches="$(rg -n "gtag\\('event', 'conversion'" "${all_html[@]}" || true)"
+# 2) Conversion signal should only fire on contact form submit.
+# Supports legacy inline gtag conversion or GTM dataLayer event naming.
+conversion_matches="$(rg -n "gtag\\('event', 'conversion'|ads_conversion" "${all_html[@]}" || true)"
 if [[ -n "$conversion_matches" ]] && [[ "$(printf "%s\n" "$conversion_matches" | wc -l)" -eq 1 ]] && [[ "$conversion_matches" == contact.html:* ]]; then
-  pass "Conversion event is scoped to contact form only"
+  pass "Conversion signal is scoped to contact form only"
 else
-  fail "Conversion event scope is unexpected"
+  fail "Conversion signal scope is unexpected"
   if [[ -n "$conversion_matches" ]]; then
     printf "%s\n" "$conversion_matches"
   fi

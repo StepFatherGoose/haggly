@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+<title>Haggly Pro — Haggly</title>
+<meta name="description" content="Upgrade to Haggly Pro for premium negotiation tones, custom phrase translation, premium sharing actions, recent phrases, and an ad-free experience.">
+<link rel="canonical" href="https://haggly.io/pro.html">
+<meta property="og:site_name" content="Haggly">
+<meta property="og:title" content="Haggly Pro — Haggly">
+<meta property="og:description" content="Upgrade to Haggly Pro for premium negotiation tones, custom phrase translation, premium sharing actions, recent phrases, and an ad-free experience.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haggly.io/pro.html">
+<meta property="og:image" content="https://haggly.io/social-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Haggly Pro — Haggly">
+<meta name="twitter:description" content="Upgrade to Haggly Pro for premium negotiation tones, custom phrase translation, premium sharing actions, recent phrases, and an ad-free experience.">
+<meta name="twitter:image" content="https://haggly.io/social-card.svg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
+<script src="/consent.js"></script>
+<script src="/ads-loader.js"></script>
+<style>
+  :root { --primary:#5865F2; --bg:#fafafa; --card:#fff; --text:#1a1a1a; --muted:#666; --border:#e0e0e0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:linear-gradient(180deg,#f4f6ff 0%, #fafafa 240px); color:var(--text); }
+  nav { background:var(--primary); padding:14px 20px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  nav a { color:#fff; text-decoration:none; font-weight:600; padding:6px 12px; border-radius:8px; }
+  nav a:hover { background:rgba(255,255,255,.16); }
+  nav .brand { font-size:20px; font-weight:800; }
+  .wrap { max-width:860px; margin:24px auto; padding:0 16px; }
+  .hero, .card { background:#fff; border-radius:18px; box-shadow:0 8px 24px rgba(38,45,94,.08); padding:24px; }
+  .hero h1 { margin:0; font-size:34px; }
+  .hero p { color:var(--muted); font-size:17px; }
+  .price { font-size:38px; font-weight:800; margin:10px 0 4px; }
+  .price small { font-size:15px; color:var(--muted); font-weight:600; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .btn { border:none; border-radius:12px; padding:12px 16px; font:inherit; font-weight:800; cursor:pointer; text-decoration:none; }
+  .btn.primary { background:var(--primary); color:#fff; }
+  .btn.secondary { background:#eef0fe; color:var(--primary); }
+  .grid { margin-top:16px; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+  .card h2 { margin:0 0 8px; font-size:18px; color:var(--primary); }
+  ul { margin:0; padding-left:18px; }
+  li { margin:6px 0; }
+  .note { margin-top:10px; color:var(--muted); font-size:13px; }
+  .msg { margin-top:12px; padding:12px; border-radius:10px; display:none; }
+  .msg.show { display:block; }
+  .msg.err { background:#fff1f1; color:#9f2222; }
+  .msg.ok { background:#eefbef; color:#1d6b3f; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="brand">🤝 Haggly</a>
+  <a href="/">Home</a>
+  <a href="/phrases.html">Popular Phrases</a>
+  <a href="/account.html">Account</a>
+</nav>
+<div class="wrap">
+  <div class="hero">
+    <h1>Haggly Pro</h1>
+    <p>Unlock premium negotiation tones, custom phrase translation, premium sharing actions, recent phrases, and an ad-free experience.</p>
+    <div class="price">$3 <small>/ month (localized in Stripe Checkout)</small></div>
+    <div class="actions">
+      <a id="loginCta" class="btn primary" href="/login.html">Log In to Upgrade</a>
+      <button id="checkoutCta" type="button" class="btn primary" hidden>Start Pro</button>
+      <a class="btn secondary" href="/account.html">Manage Subscription</a>
+    </div>
+    <div id="statusMsg" class="msg" role="status" aria-live="polite"></div>
+    <div class="note">Localized presentment currency and taxes are handled during Stripe Checkout.</div>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2>Negotiation Generator Pro Tones</h2>
+      <ul>
+        <li>Friendly (free)</li>
+        <li>Savvy (Pro)</li>
+        <li>Walk-Away (Pro)</li>
+        <li>Funny (Coming soon)</li>
+        <li>Assertive (Coming soon)</li>
+        <li>Nonchalant (Coming soon)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Premium Controls</h2>
+      <ul>
+        <li>Custom phrase translation (Pro)</li>
+        <li>Listen / Share / SMS / WA actions (Pro)</li>
+        <li>Recent Phrases (Pro)</li>
+        <li>Ad-free across the site (Pro)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Coming Soon Tones</h2>
+      <ul>
+        <li>Diplomatic</li>
+        <li>Charming</li>
+        <li>The Haggler</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/auth-client.js"></script>
+<script src="/pro-gating.js"></script>
+<script>
+(function() {
+  var loginCta = document.getElementById('loginCta');
+  var checkoutCta = document.getElementById('checkoutCta');
+  var statusMsg = document.getElementById('statusMsg');
+
+  function show(type, text) {
+    statusMsg.className = 'msg show ' + type;
+    statusMsg.textContent = text;
+  }
+
+  function updateButtons() {
+    var authState = window.hagglyAuth.getState();
+    var proState = window.hagglyPro.getState();
+    var signedIn = !!authState.user;
+    loginCta.hidden = signedIn;
+    checkoutCta.hidden = !signedIn || !!proState.is_pro;
+    if (proState.is_pro) show('ok', 'Haggly Pro is active on this account.');
+  }
+
+  checkoutCta.addEventListener('click', async function() {
+    checkoutCta.disabled = true;
+    checkoutCta.textContent = 'Opening Checkout...';
+    try {
+      var data = await window.hagglyAuth.callAuthedJson('/api/stripe/create-checkout-session', { method: 'POST', body: '{}' });
+      window.location.href = data.checkout_url;
+    } catch (err) {
+      show('err', err.message || 'Unable to start checkout');
+      checkoutCta.disabled = false;
+      checkoutCta.textContent = 'Start Pro';
+    }
+  });
+
+  document.addEventListener('haggly-auth-ready', updateButtons);
+  document.addEventListener('haggly-auth-changed', function() {
+    window.hagglyPro.refresh(true).then(updateButtons).catch(updateButtons);
+  });
+  document.addEventListener('haggly-pro-updated', updateButtons);
+
+  window.hagglyPro.initPage({ decorateNav: true, refresh: true, force: true }).then(updateButtons).catch(updateButtons);
+})();
+</script>
+</body>
+</html>

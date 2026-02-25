@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+<title>Log In — Haggly</title>
+<meta name="description" content="Sign in to Haggly Pro with a passwordless magic link to manage your subscription and billing.">
+<link rel="canonical" href="https://haggly.io/login.html">
+<meta property="og:site_name" content="Haggly">
+<meta property="og:title" content="Log In — Haggly">
+<meta property="og:description" content="Sign in to Haggly Pro with a passwordless magic link to manage your subscription and billing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haggly.io/login.html">
+<meta property="og:image" content="https://haggly.io/social-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Log In — Haggly">
+<meta name="twitter:description" content="Sign in to Haggly Pro with a passwordless magic link to manage your subscription and billing.">
+<meta name="twitter:image" content="https://haggly.io/social-card.svg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
+<script src="/consent.js"></script>
+<script src="/ads-loader.js"></script>
+<style>
+  :root { --primary:#5865F2; --bg:#fafafa; --card:#fff; --text:#1a1a1a; --muted:#666; --border:#e0e0e0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); }
+  nav { background:var(--primary); padding:14px 20px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  nav a { color:#fff; text-decoration:none; font-weight:600; padding:6px 12px; border-radius:8px; }
+  nav a:hover { background:rgba(255,255,255,.16); }
+  nav .brand { font-size:20px; font-weight:800; }
+  .wrap { max-width:520px; margin:24px auto; padding:0 16px; }
+  .card { background:var(--card); border-radius:16px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  h1 { margin:0 0 10px; font-size:28px; }
+  p { color:var(--muted); }
+  label { display:block; font-weight:700; margin:14px 0 6px; }
+  input[type="email"] { width:100%; padding:14px; border:2px solid var(--border); border-radius:12px; font-size:16px; }
+  button { width:100%; margin-top:12px; background:var(--primary); color:#fff; border:none; border-radius:12px; padding:14px; font-size:16px; font-weight:700; cursor:pointer; }
+  button.secondary { background:#eef0fe; color:var(--primary); }
+  button:disabled { opacity:.6; cursor:not-allowed; }
+  .msg { margin-top:12px; padding:12px; border-radius:10px; display:none; }
+  .msg.show { display:block; }
+  .msg.ok { background:#eefbef; color:#1d6b3f; }
+  .msg.err { background:#fff1f1; color:#9f2222; }
+  .footer-note { font-size:13px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="brand">🤝 Haggly</a>
+  <a href="/">Home</a>
+  <a href="/phrases.html">Popular Phrases</a>
+  <a href="/pro.html">Go Pro</a>
+</nav>
+<div class="wrap">
+  <div class="card">
+    <h1>Log in to Haggly Pro</h1>
+    <p>Use a passwordless magic link. We’ll email a sign-in link and remember this device.</p>
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <input id="email" type="email" inputmode="email" autocomplete="email" required placeholder="you@example.com">
+      <button id="sendBtn" type="submit">Send Magic Link</button>
+    </form>
+    <button id="goAccountBtn" class="secondary" type="button" hidden>Go to Account</button>
+    <div id="statusMsg" class="msg" role="status" aria-live="polite"></div>
+    <div class="footer-note">If your link opens this page, you’ll be signed in automatically.</div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/auth-client.js"></script>
+<script src="/pro-gating.js"></script>
+<script>
+(function() {
+  var form = document.getElementById('loginForm');
+  var emailInput = document.getElementById('email');
+  var statusMsg = document.getElementById('statusMsg');
+  var sendBtn = document.getElementById('sendBtn');
+  var goAccountBtn = document.getElementById('goAccountBtn');
+
+  function show(type, text) {
+    statusMsg.className = 'msg show ' + (type || 'ok');
+    statusMsg.textContent = text;
+  }
+
+  function resetMsg() {
+    statusMsg.className = 'msg';
+    statusMsg.textContent = '';
+  }
+
+  function setBusy(busy) {
+    sendBtn.disabled = busy;
+    sendBtn.textContent = busy ? 'Sending...' : 'Send Magic Link';
+  }
+
+  async function handleSignedIn() {
+    var st = window.hagglyAuth && window.hagglyAuth.getState ? window.hagglyAuth.getState() : null;
+    if (st && st.user) {
+      goAccountBtn.hidden = false;
+      show('ok', 'Signed in. Redirecting to your account...');
+      try { await window.hagglyPro.initPage({ decorateNav: true, refresh: true, force: true }); } catch (_) {}
+      setTimeout(function() { window.location.href = '/account.html'; }, 500);
+    }
+  }
+
+  goAccountBtn.addEventListener('click', function() {
+    window.location.href = '/account.html';
+  });
+
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    resetMsg();
+    var email = (emailInput.value || '').trim();
+    if (!email) return;
+    setBusy(true);
+    try {
+      var cfg = await window.hagglyAuth.getPublicConfig();
+      var redirectTo = (cfg.site_url || window.location.origin) + '/login.html';
+      var result = await window.hagglyAuth.signInWithMagicLink(email, redirectTo);
+      if (result.error) throw result.error;
+      show('ok', 'Magic link sent. Check your email.');
+    } catch (err) {
+      show('err', err.message || 'Could not send magic link');
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  document.addEventListener('haggly-auth-ready', handleSignedIn);
+  document.addEventListener('haggly-auth-changed', handleSignedIn);
+
+  var last = window.hagglyAuth && window.hagglyAuth.getLastEmail ? window.hagglyAuth.getLastEmail() : null;
+  if (last && last.email) emailInput.value = last.email;
+
+  window.hagglyPro.initPage({ decorateNav: true, refresh: true }).catch(function(){});
+})();
+</script>
+</body>
+</html>
