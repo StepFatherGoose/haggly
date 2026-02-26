@@ -3,6 +3,11 @@ const { requireUser } = require('../_lib/auth');
 const { createServiceSupabase } = require('../_lib/supabase');
 const { getStripe } = require('../_lib/stripe');
 
+function publicPortalErrorMessage(err) {
+  if (err && err.statusCode === 401) return 'Sign in required';
+  return 'Billing portal is temporarily unavailable. Please try again shortly.';
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return methodNotAllowed(req, res, ['POST']);
 
@@ -32,6 +37,6 @@ module.exports = async function handler(req, res) {
     json(res, 200, { portal_url: session.url });
   } catch (err) {
     const statusCode = err.statusCode || 500;
-    json(res, statusCode, { error: err.message || 'Failed to create portal session' });
+    json(res, statusCode, { error: publicPortalErrorMessage(err) });
   }
 };

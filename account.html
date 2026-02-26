@@ -97,6 +97,7 @@
   var subscribeBtn = document.getElementById('subscribeBtn');
   var portalBtn = document.getElementById('portalBtn');
   var logoutBtn = document.getElementById('logoutBtn');
+  var proSalesEnabled = true;
 
   function show(type, text) {
     statusMsg.className = 'msg show ' + type;
@@ -135,8 +136,11 @@
     acctStatus.textContent = data.subscription_status || (isPro ? 'active' : 'none');
     acctPeriodEnd.textContent = fmtDate(data.current_period_end);
     acctCancel.textContent = data.cancel_at_period_end ? 'Yes' : 'No';
-    subscribeBtn.hidden = isPro;
+    subscribeBtn.hidden = isPro || !proSalesEnabled;
     portalBtn.hidden = !isPro;
+    if (!proSalesEnabled && !isPro) {
+      show('err', 'Pro subscriptions are temporarily unavailable right now.');
+    }
   }
 
   async function refresh() {
@@ -155,6 +159,10 @@
   }
 
   subscribeBtn.addEventListener('click', async function() {
+    if (!proSalesEnabled) {
+      show('err', 'Pro subscriptions are temporarily unavailable right now.');
+      return;
+    }
     clearMsg();
     setBusy(subscribeBtn, true);
     try {
@@ -187,6 +195,11 @@
     window.hagglyPro.initPage({ decorateNav: true, refresh: true, force: true }).then(refresh);
   });
   document.addEventListener('haggly-auth-changed', refresh);
+
+  window.hagglyAuth.getPublicConfig().then(function(cfg) {
+    proSalesEnabled = !(cfg && cfg.pro_enabled === false);
+    refresh();
+  }).catch(function() {});
 
   if (location.search.includes('checkout=success')) {
     show('ok', 'Subscription updated. Refreshing account status...');

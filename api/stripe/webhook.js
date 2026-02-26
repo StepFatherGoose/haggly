@@ -90,11 +90,12 @@ async function handleEvent(supabase, event) {
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return methodNotAllowed(req, res, ['POST']);
 
+  let event;
   try {
     const stripe = getStripe();
     const rawBody = await readRawBody(req);
     const signature = req.headers['stripe-signature'];
-    const event = stripe.webhooks.constructEvent(rawBody, signature, requireEnv('STRIPE_WEBHOOK_SECRET'));
+    event = stripe.webhooks.constructEvent(rawBody, signature, requireEnv('STRIPE_WEBHOOK_SECRET'));
 
     const supabase = createServiceSupabase();
     if (await hasProcessedEvent(supabase, event.id)) {
@@ -108,8 +109,8 @@ module.exports = async function handler(req, res) {
   } catch (err) {
     try {
       const supabase = createServiceSupabase();
-      if (err && err.event && err.event.id) {
-        await markEventProcessed(supabase, err.event, 'failed');
+      if (event && event.id) {
+        await markEventProcessed(supabase, event, 'failed');
       }
     } catch (_) {}
     const statusCode = err.statusCode || 400;

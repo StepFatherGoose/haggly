@@ -1,7 +1,12 @@
 (function() {
   var CACHE_KEY = 'haggly-pro-entitlement-cache-v1';
   var AD_CLIENT = 'ca-pub-6632867015737384';
+  var AUTH_GRACE_MS = 1200;
   var loaded = false;
+  var domReady = document.readyState !== 'loading';
+  var fallbackTimer = null;
+  var latestProDetail = null;
+  var latestAuthDetail = null;
 
   function readCache() {
     try {
@@ -22,7 +27,7 @@
   }
 
   function loadAdSense() {
-    if (loaded || shouldSuppressAds()) return;
+    if (loaded || shouldSuppressAds() || (latestProDetail && latestProDetail.is_pro)) return;
     loaded = true;
     var script = document.createElement('script');
     script.async = true;
@@ -32,14 +37,60 @@
     document.head.appendChild(script);
   }
 
+  function clearFallbackTimer() {
+    if (!fallbackTimer) return;
+    clearTimeout(fallbackTimer);
+    fallbackTimer = null;
+  }
+
+  function maybeLoadAfterSignals() {
+    if (!domReady) return;
+    if (shouldSuppressAds() || (latestProDetail && latestProDetail.is_pro)) {
+      clearFallbackTimer();
+      return;
+    }
+
+    if (latestAuthDetail && latestAuthDetail.available === false) {
+      clearFallbackTimer();
+      loadAdSense();
+      return;
+    }
+
+    if (latestProDetail && (latestProDetail.signed_in === false || (latestProDetail.signed_in && !latestProDetail.is_pro))) {
+      clearFallbackTimer();
+      loadAdSense();
+      return;
+    }
+
+    if (!fallbackTimer) {
+      fallbackTimer = setTimeout(function() {
+        fallbackTimer = null;
+        loadAdSense();
+      }, AUTH_GRACE_MS);
+    }
+  }
+
+  document.addEventListener('haggly-auth-ready', function(event) {
+    latestAuthDetail = event && event.detail ? event.detail : null;
+    maybeLoadAfterSignals();
+  });
+
+  document.addEventListener('haggly-pro-updated', function(event) {
+    latestProDetail = event && event.detail ? event.detail : null;
+    maybeLoadAfterSignals();
+  });
+
   window.hagglyAds = {
     load: loadAdSense,
     shouldSuppressAds: shouldSuppressAds
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadAdSense, { once: true });
+  if (domReady) {
+    maybeLoadAfterSignals();
   } else {
-    loadAdSense();
+    document.addEventListener('DOMContentLoaded', function() {
+      domReady = true;
+      maybeLoadAfterSignals();
+    }, { once: true });
   }
 })();
