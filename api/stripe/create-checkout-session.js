@@ -43,6 +43,7 @@ module.exports = async function handler(req, res) {
       line_items: [{ price: requireEnv('STRIPE_PRO_PRICE_ID'), quantity: 1 }],
       success_url: `${siteUrl}/account.html?checkout=success`,
       cancel_url: `${siteUrl}/pro.html?checkout=cancelled`,
+      customer_update: { address: 'auto' },
       automatic_tax: { enabled: true },
       metadata: { supabase_user_id: user.id },
       subscription_data: {
